@@ -20,10 +20,11 @@
 
   .wrap { display: flex; flex-direction: column; align-items: center; gap: 20px; }
 
+  /* ── Modal ── */
   .modal {
     background: #fff;
     border-radius: 16px;
-    width: 860px;
+    width: 780px;
     max-width: 100%;
     box-shadow: 0 24px 64px rgba(15,42,56,0.35);
     overflow: hidden;
@@ -31,7 +32,7 @@
     flex-direction: column;
   }
 
-  /* Header */
+  /* ── Header ── */
   .modal-header {
     display: flex; align-items: center; justify-content: space-between;
     padding: 16px 22px; border-bottom: 1px solid #e2ebf3;
@@ -49,86 +50,45 @@
   }
   .close-btn:hover { background: #f1f5f9; }
 
-  /* Body */
+  /* ── Body ── */
   .modal-body { display: flex; flex: 1; min-height: 0; }
 
-  /* Left panel */
+  /* ── Left panel ── */
   .panel-left {
-    width: 192px; min-width: 192px; border-right: 1px solid #e2ebf3;
-    overflow-y: auto; padding: 14px 12px;
-    display: flex; flex-direction: column; gap: 16px;
-  }
-  .panel-left::-webkit-scrollbar { width: 3px; }
-  .panel-left::-webkit-scrollbar-thumb { background: #d3dce8; border-radius: 4px; }
-
-  .section-header {
-    display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;
+    width: 180px; min-width: 180px;
+    border-right: 1px solid #e2ebf3;
+    padding: 16px 12px;
+    display: flex; flex-direction: column;
   }
   .section-label {
     font-size: 10px; font-weight: 600; color: #9aa8bc;
     letter-spacing: 0.08em; text-transform: uppercase;
+    display: block; margin-bottom: 8px;
   }
-  .edit-link {
-    font-size: 10px; font-weight: 500; color: #9aa8bc;
-    background: none; border: none; cursor: pointer; font-family: inherit;
-    display: flex; align-items: center; gap: 3px; padding: 0; transition: color 0.15s;
-  }
-  .edit-link:hover { color: #20667E; }
-  .divider { height: 1px; background: #e2ebf3; margin: 0 -12px; }
-
-  /* Thumbs */
-  .thumb-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; }
-  .thumb {
-    border-radius: 7px; overflow: hidden; cursor: pointer;
-    border: 2px solid transparent; position: relative; transition: border-color 0.12s;
-  }
-  .thumb.active { border-color: #20667E; }
-  .thumb-img { aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; }
-  .thumb-name {
-    padding: 2px 4px; background: #fff; font-size: 7.5px; font-weight: 500; color: #9aa8bc;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
-  }
-  .thumb-check {
-    position: absolute; top: 3px; right: 3px; background: #20667E;
-    border-radius: 50%; width: 11px; height: 11px;
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  /* BG options */
   .bg-btn {
-    display: flex; align-items: center; gap: 7px; padding: 6px 8px; border-radius: 8px;
-    cursor: pointer; border: 1.5px solid transparent; background: transparent;
+    display: flex; align-items: center; gap: 7px;
+    padding: 6px 8px; border-radius: 8px; cursor: pointer;
+    border: 1.5px solid transparent; background: transparent;
     font-family: inherit; width: 100%; text-align: left;
-    transition: border-color 0.12s, background 0.12s;
+    margin-bottom: 3px; transition: border-color 0.12s, background 0.12s;
   }
   .bg-btn.active { border-color: #20667E; background: #f3f9fc; }
   .bg-btn.active .bg-label { color: #20667E; font-weight: 600; }
   .bg-swatch { width: 22px; height: 15px; border-radius: 3px; flex-shrink: 0; }
   .bg-label { font-size: 11px; font-weight: 500; color: #334155; }
 
-  /* Right panel */
+  /* ── Right panel ── */
   .panel-right {
     flex: 1; padding: 16px 18px;
     display: flex; flex-direction: column; gap: 10px; min-width: 0;
   }
 
-  /* Nav */
-  .img-nav { display: flex; align-items: center; justify-content: space-between; }
-  .img-nav-left { display: flex; align-items: center; gap: 6px; }
-  .nav-btn {
-    width: 26px; height: 26px; border-radius: 7px; border: 1px solid #e2ebf3;
-    background: #f8f9fb; cursor: pointer; display: flex; align-items: center;
-    justify-content: center; transition: background 0.15s;
-  }
-  .nav-btn:hover { background: #e2ebf3; }
-  .nav-filename { font-size: 12px; font-weight: 600; color: #334155; }
-  .nav-count { font-size: 11px; color: #9aa8bc; }
-
   /* Split preview */
   .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   .preview-col { display: flex; flex-direction: column; gap: 5px; }
   .preview-col-label {
-    font-size: 10px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.06em; text-transform: uppercase;
   }
   .preview-col-label.before { color: #9aa8bc; }
   .preview-col-label.after  { color: #20667E; }
@@ -145,38 +105,45 @@
 
   /* Regen */
   .regen-box {
-    background: #f8f9fb; border-radius: 10px; padding: 10px 13px; border: 1px solid #e2ebf3;
+    background: #f8f9fb; border-radius: 10px;
+    padding: 10px 13px; border: 1px solid #e2ebf3;
   }
   .regen-header { display: flex; align-items: center; justify-content: space-between; }
   .regen-title { font-size: 12px; font-weight: 600; color: #334155; }
   .regen-trigger {
-    font-size: 11px; font-weight: 500; color: #20667E; background: none; border: none;
-    cursor: pointer; font-family: inherit; display: flex; align-items: center; gap: 4px;
+    font-size: 11px; font-weight: 500; color: #20667E;
+    background: none; border: none; cursor: pointer;
+    font-family: inherit; display: flex; align-items: center; gap: 4px;
     padding: 0; transition: opacity 0.15s;
   }
   .regen-trigger:hover { opacity: 0.75; }
   .regen-body { display: none; margin-top: 8px; }
   .regen-textarea {
-    width: 100%; border: 1px solid #d3dce8; border-radius: 8px; padding: 8px 10px;
-    font-size: 12px; font-family: inherit; color: #1E293B; background: #fff;
-    resize: none; box-sizing: border-box; outline: none; line-height: 1.5;
+    width: 100%; border: 1px solid #d3dce8; border-radius: 8px;
+    padding: 8px 10px; font-size: 12px; font-family: inherit;
+    color: #1E293B; background: #fff; resize: none;
+    box-sizing: border-box; outline: none; line-height: 1.5;
     transition: border-color 0.15s, box-shadow 0.15s;
   }
-  .regen-textarea:focus { border-color: #20667E; box-shadow: 0 0 0 2px rgba(32,102,126,0.12); }
+  .regen-textarea:focus {
+    border-color: #20667E;
+    box-shadow: 0 0 0 2px rgba(32,102,126,0.12);
+  }
   .regen-apply {
-    margin-top: 6px; width: 100%; background: #20667E; color: #fff; border: none;
-    border-radius: 8px; padding: 8px 0; font-size: 12px; font-weight: 600;
-    cursor: pointer; font-family: inherit; transition: background 0.15s;
+    margin-top: 6px; width: 100%;
+    background: #20667E; color: #fff; border: none;
+    border-radius: 8px; padding: 8px 0;
+    font-size: 12px; font-weight: 600; cursor: pointer;
+    font-family: inherit; transition: background 0.15s;
   }
   .regen-apply:hover { background: #1c586d; }
   .regen-hint { font-size: 11px; color: #9aa8bc; margin: 4px 0 0 0; }
 
-  /* Footer */
+  /* ── Footer ── */
   .modal-footer {
     display: flex; align-items: center; justify-content: space-between;
     padding: 13px 22px; border-top: 1px solid #e2ebf3;
   }
-  .footer-right { display: flex; align-items: center; gap: 8px; }
   .btn {
     padding: 7px 14px; border-radius: 9px; font-size: 12px; font-weight: 500;
     cursor: pointer; font-family: inherit; border: 1px solid #d3dce8;
@@ -184,12 +151,13 @@
     display: flex; align-items: center; gap: 6px; transition: background 0.15s;
   }
   .btn:hover { background: #e2ebf3; }
-  .btn-ghost { background: #fff; }
-  .btn-ghost:hover { background: #f8f9fb; }
-  .btn-primary { background: #20667E; color: #fff; border-color: #20667E; font-weight: 600; }
+  .btn-primary {
+    background: #20667E; color: #fff;
+    border-color: #20667E; font-weight: 600;
+  }
   .btn-primary:hover { background: #1c586d; border-color: #1c586d; }
 
-  /* Zoom overlay */
+  /* ── Zoom overlay ── */
   .zoom-overlay {
     display: none; position: fixed; inset: 0;
     background: rgba(15,42,56,0.93); z-index: 9999;
@@ -200,8 +168,9 @@
     padding: 16px 28px; position: absolute; top: 0; left: 0;
   }
   .zoom-pill {
-    background: rgba(255,255,255,0.1); border-radius: 10px; padding: 4px;
-    display: flex; gap: 3px; backdrop-filter: blur(8px);
+    background: rgba(255,255,255,0.1); border-radius: 10px;
+    padding: 4px; display: flex; gap: 3px;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
   }
   .zoom-pill-btn {
     padding: 6px 20px; border-radius: 7px; border: none;
@@ -211,7 +180,9 @@
     background: #fff; color: #1E293B; font-weight: 600;
     box-shadow: 0 1px 4px rgba(0,0,0,0.15);
   }
-  .zoom-pill-btn.zinactive { background: transparent; color: rgba(255,255,255,0.5); font-weight: 500; }
+  .zoom-pill-btn.zinactive {
+    background: transparent; color: rgba(255,255,255,0.5); font-weight: 500;
+  }
   .zoom-filename { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.65); }
   .zoom-close {
     background: rgba(255,255,255,0.1); border: none; border-radius: 8px;
@@ -279,51 +250,18 @@
 
     <!-- Left panel -->
     <div class="panel-left">
-      <div>
-        <div class="section-header">
-          <span class="section-label">Images (3)</span>
-          <button class="edit-link" id="editBtn">
-            <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-              <path d="M7 1L3 5l4 4" stroke="#9aa8bc" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            Edit
-          </button>
-        </div>
-        <div class="thumb-grid" id="thumbGrid"></div>
-      </div>
-      <div class="divider"></div>
-      <div>
-        <div class="section-header">
-          <span class="section-label">Background</span>
-        </div>
-        <div id="bgList"></div>
-      </div>
+      <span class="section-label">Background</span>
+      <div id="bgList"></div>
     </div>
 
     <!-- Right panel -->
     <div class="panel-right">
 
-      <div class="img-nav">
-        <div class="img-nav-left">
-          <button class="nav-btn" id="prevBtn">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M8 2L4 6l4 4" stroke="#475569" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <span class="nav-filename" id="navLabel">IMG_0042</span>
-          <button class="nav-btn" id="nextBtn">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-              <path d="M4 2l4 4-4 4" stroke="#475569" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-        </div>
-        <span class="nav-count" id="navCount">1 of 3</span>
-      </div>
-
       <div class="preview-grid">
         <div class="preview-col">
           <span class="preview-col-label before">Before</span>
-          <div class="preview-img" id="beforeImg">
+          <div class="preview-img" id="beforeImg"
+               style="background:linear-gradient(135deg,#8dcce2,#1c586d);">
             <svg width="80" height="58" viewBox="0 0 80 58" fill="none">
               <rect x="1" y="1" width="78" height="56" rx="6" fill="rgba(255,255,255,0.15)"/>
               <path d="M1 40l18-13 14 10 12-9 33 21" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-linecap="round"/>
@@ -334,7 +272,8 @@
         </div>
         <div class="preview-col">
           <span class="preview-col-label after">After</span>
-          <div class="preview-img" id="afterImg" style="background:linear-gradient(180deg,#2f92b6 0%,#0d3a52 100%);">
+          <div class="preview-img" id="afterImg"
+               style="background:linear-gradient(180deg,#2f92b6 0%,#0d3a52 100%);">
             <svg width="80" height="58" viewBox="0 0 80 58" fill="none">
               <rect x="1" y="1" width="78" height="56" rx="6" fill="rgba(255,255,255,0.1)"/>
               <path d="M1 40l18-13 14 10 12-9 33 21" stroke="rgba(255,255,255,0.4)" stroke-width="2.2" stroke-linecap="round"/>
@@ -375,10 +314,7 @@
       </svg>
       Reset to original
     </button>
-    <div class="footer-right">
-      <button class="btn btn-ghost">Cancel</button>
-      <button class="btn btn-primary" id="applyBtn">Apply Changes</button>
-    </div>
+    <button class="btn btn-primary" id="applyBtn">Apply Changes</button>
   </div>
 
 </div>
@@ -391,7 +327,7 @@
       <button class="zoom-pill-btn zactive" id="zpBefore">Before</button>
       <button class="zoom-pill-btn zinactive" id="zpAfter">After</button>
     </div>
-    <span class="zoom-filename" id="zoomFilename">IMG_0042</span>
+    <span class="zoom-filename">IMG_0042</span>
     <button class="zoom-close" id="zoomClose">
       <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
         <path d="M2 2l9 9M11 2l-9 9" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/>
@@ -400,13 +336,14 @@
     </button>
   </div>
 
-  <button class="zoom-arrow left" id="zoomPrev">
+  <button class="zoom-arrow left dimmed" id="zoomPrev">
     <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
       <path d="M10 3L6 8l4 5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </button>
 
-  <div class="zoom-img" id="zoomImg">
+  <div class="zoom-img" id="zoomImg"
+       style="background:linear-gradient(135deg,#8dcce2,#1c586d);">
     <svg width="160" height="116" viewBox="0 0 80 58" fill="none">
       <rect x="1" y="1" width="78" height="56" rx="6" fill="rgba(255,255,255,0.15)"/>
       <path d="M1 40l18-13 14 10 12-9 33 21" stroke="rgba(255,255,255,0.55)" stroke-width="2.2" stroke-linecap="round"/>
@@ -431,15 +368,9 @@
   <strong>Boatyard Sales — AI Image Editor</strong> &nbsp;·&nbsp; UI Prototype &nbsp;·&nbsp; May 2026
 </p>
 
-</div><!-- .wrap -->
+</div>
 
 <script>
-/* ── Data ── */
-const IMAGES = [
-  { label: 'IMG_0042', g1: '#8dcce2', g2: '#1c586d' },
-  { label: 'IMG_0043', g1: '#c9bdaf', g2: '#756051' },
-  { label: 'IMG_0044', g1: '#bae0ed', g2: '#277996' },
-];
 const BGS = [
   { id: 0, label: 'Maintain',   swatch: 'background:#fff;border:1px solid #e2ebf3;' },
   { id: 1, label: 'Pure White', swatch: 'background:#f8f9fb;border:1px solid #e2ebf3;' },
@@ -447,35 +378,12 @@ const BGS = [
   { id: 3, label: 'Open Sea',   swatch: 'background:linear-gradient(135deg,#1c586d,#2f92b6);' },
   { id: 4, label: 'Showroom',   swatch: 'background:linear-gradient(135deg,#9aa8bc,#d3dce8);' },
 ];
-const AFTER_BG = 'linear-gradient(180deg,#2f92b6 0%,#0d3a52 100%)';
 
-/* ── State ── */
-let imgIdx    = 0;
-let selBg     = 3;
-let zoomView  = 'before'; // 'before' | 'after'
+const BEFORE_BG = 'linear-gradient(135deg,#8dcce2,#1c586d)';
+const AFTER_BG  = 'linear-gradient(180deg,#2f92b6 0%,#0d3a52 100%)';
 
-/* ── Render helpers ── */
-function renderThumbs() {
-  document.getElementById('thumbGrid').innerHTML = IMAGES.map((img, i) => `
-    <div class="thumb ${i === imgIdx ? 'active' : ''}" data-i="${i}">
-      <div class="thumb-img" style="background:linear-gradient(135deg,${img.g1},${img.g2});">
-        <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
-          <rect x="1" y="1" width="18" height="12" rx="2.5" fill="rgba(255,255,255,0.15)"/>
-          <path d="M1 10l4-3 3 2.5 3-2 8 5" stroke="rgba(255,255,255,0.6)" stroke-width="1.1" stroke-linecap="round"/>
-        </svg>
-      </div>
-      <span class="thumb-name">${img.label}</span>
-      ${i === imgIdx ? `<div class="thumb-check">
-        <svg width="6" height="5" viewBox="0 0 6 5" fill="none">
-          <path d="M1 2.5l1.2 1.2 2.8-2.8" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </div>` : ''}
-    </div>`).join('');
-
-  document.querySelectorAll('.thumb').forEach(el => {
-    el.addEventListener('click', () => setImage(+el.dataset.i));
-  });
-}
+let selBg    = 3;
+let zoomView = 'before';
 
 function renderBgs() {
   document.getElementById('bgList').innerHTML = BGS.map(bg => `
@@ -483,37 +391,14 @@ function renderBgs() {
       <div class="bg-swatch" style="${bg.swatch}"></div>
       <span class="bg-label">${bg.label}</span>
     </button>`).join('');
-
   document.querySelectorAll('.bg-btn').forEach(el => {
-    el.addEventListener('click', () => selectBg(+el.dataset.id));
+    el.addEventListener('click', () => { selBg = +el.dataset.id; renderBgs(); });
   });
 }
 
-function updatePreview() {
-  const img = IMAGES[imgIdx];
-  document.getElementById('beforeImg').style.background = `linear-gradient(135deg,${img.g1},${img.g2})`;
-  document.getElementById('navLabel').textContent  = img.label;
-  document.getElementById('navCount').textContent  = `${imgIdx + 1} of ${IMAGES.length}`;
-  document.getElementById('zoomFilename').textContent = img.label;
-}
-
-/* ── Image navigation ── */
-function setImage(i) {
-  imgIdx = i;
-  updatePreview();
-  renderThumbs();
-  if (document.getElementById('zoomOverlay').style.display === 'flex') refreshZoom();
-}
-function prevImage() { setImage((imgIdx - 1 + IMAGES.length) % IMAGES.length); }
-function nextImage() { setImage((imgIdx + 1) % IMAGES.length); }
-
-function selectBg(id) { selBg = id; renderBgs(); }
-
-/* ── Zoom ── */
 function openZoom(which) {
   zoomView = which;
   document.getElementById('zoomOverlay').style.display = 'flex';
-  document.getElementById('zoomFilename').textContent = IMAGES[imgIdx].label;
   refreshZoom();
 }
 
@@ -527,27 +412,16 @@ function zoomSwitch(which) {
 }
 
 function refreshZoom() {
-  const img      = IMAGES[imgIdx];
   const isBefore = zoomView === 'before';
-
-  document.getElementById('zoomImg').style.background = isBefore
-    ? `linear-gradient(135deg,${img.g1},${img.g2})`
-    : AFTER_BG;
-
-  // Pill buttons
+  document.getElementById('zoomImg').style.background = isBefore ? BEFORE_BG : AFTER_BG;
   document.getElementById('zpBefore').className = 'zoom-pill-btn ' + (isBefore ? 'zactive' : 'zinactive');
   document.getElementById('zpAfter').className  = 'zoom-pill-btn ' + (isBefore ? 'zinactive' : 'zactive');
-
-  // Arrows — dim the direction we can't go
   document.getElementById('zoomPrev').classList.toggle('dimmed',  isBefore);
   document.getElementById('zoomNext').classList.toggle('dimmed', !isBefore);
-
-  // Dots
   document.getElementById('dotBefore').className = 'dot ' + (isBefore ? 'on' : 'off');
   document.getElementById('dotAfter').className  = 'dot ' + (isBefore ? 'off' : 'on');
 }
 
-/* ── Regenerate ── */
 function toggleRegen() {
   const body = document.getElementById('regenBody');
   const hint = document.getElementById('regenHint');
@@ -565,7 +439,6 @@ function applyRegen() {
   setTimeout(() => { btn.textContent = 'Apply & Regenerate'; btn.style.background = '#20667E'; }, 1800);
 }
 
-/* ── Footer actions ── */
 function resetOriginal() {
   const btn = document.getElementById('resetBtn');
   btn.style.background = '#e2ebf3';
@@ -579,43 +452,26 @@ function applyChanges() {
   setTimeout(() => { btn.textContent = 'Apply Changes'; btn.style.background = '#20667E'; }, 2500);
 }
 
-/* ── Edit / go back ── */
-function goBack() {
-  const btn = document.getElementById('editBtn');
-  const orig = btn.innerHTML;
-  btn.textContent = '← Gallery';
-  setTimeout(() => { btn.innerHTML = orig; }, 1200);
-}
-
-/* ── Event listeners ── */
-document.getElementById('prevBtn').addEventListener('click', prevImage);
-document.getElementById('nextBtn').addEventListener('click', nextImage);
-document.getElementById('beforeImg').addEventListener('click', () => openZoom('before'));
-document.getElementById('afterImg').addEventListener('click', () => openZoom('after'));
-document.getElementById('zoomClose').addEventListener('click', closeZoom);
-document.getElementById('zoomPrev').addEventListener('click', () => zoomSwitch('before'));
-document.getElementById('zoomNext').addEventListener('click', () => zoomSwitch('after'));
-document.getElementById('zpBefore').addEventListener('click', () => zoomSwitch('before'));
-document.getElementById('zpAfter').addEventListener('click',  () => zoomSwitch('after'));
+document.getElementById('beforeImg').addEventListener('click',    () => openZoom('before'));
+document.getElementById('afterImg').addEventListener('click',     () => openZoom('after'));
+document.getElementById('zoomClose').addEventListener('click',    closeZoom);
+document.getElementById('zoomPrev').addEventListener('click',     () => zoomSwitch('before'));
+document.getElementById('zoomNext').addEventListener('click',     () => zoomSwitch('after'));
+document.getElementById('zpBefore').addEventListener('click',     () => zoomSwitch('before'));
+document.getElementById('zpAfter').addEventListener('click',      () => zoomSwitch('after'));
 document.getElementById('regenTrigger').addEventListener('click', toggleRegen);
-document.getElementById('regenApply').addEventListener('click', applyRegen);
-document.getElementById('resetBtn').addEventListener('click', resetOriginal);
-document.getElementById('applyBtn').addEventListener('click', applyChanges);
-document.getElementById('editBtn').addEventListener('click', goBack);
+document.getElementById('regenApply').addEventListener('click',   applyRegen);
+document.getElementById('resetBtn').addEventListener('click',     resetOriginal);
+document.getElementById('applyBtn').addEventListener('click',     applyChanges);
 
-// Keyboard shortcuts
 document.addEventListener('keydown', e => {
-  const overlay = document.getElementById('zoomOverlay');
-  if (overlay.style.display !== 'flex') return;
+  if (document.getElementById('zoomOverlay').style.display !== 'flex') return;
   if (e.key === 'ArrowLeft')  zoomSwitch('before');
   if (e.key === 'ArrowRight') zoomSwitch('after');
   if (e.key === 'Escape')     closeZoom();
 });
 
-/* ── Init ── */
-renderThumbs();
 renderBgs();
-updatePreview();
 </script>
 </body>
 </html>
