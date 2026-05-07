@@ -708,9 +708,17 @@
       background: var(--surface-base);
       cursor: pointer;
       transition: border-color 0.12s, background 0.12s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .dropzone:hover {
+    .dropzone:hover, .dropzone-drag {
+      border-color: var(--border-primary-color);
+      background: var(--surface-primary-subtle);
+    }
+
+    .upload-doc-zone.udz-drag {
       border-color: var(--border-primary-color);
       background: var(--surface-primary-subtle);
     }
@@ -1476,11 +1484,12 @@
 
               <!-- Dropzone card -->
               <div class="card">
-                <div class="dropzone">
+                <!-- EMPTY STATE -->
+                <div id="imp-dropzone" class="dropzone" onclick="impSelectFile()" ondragover="event.preventDefault();this.classList.add('dropzone-drag')" ondragleave="this.classList.remove('dropzone-drag')" ondrop="event.preventDefault();this.classList.remove('dropzone-drag');impFileSelected('document.pdf','410')">
                   <div class="dropzone-icon"><i class="ti ti-cloud-upload"></i></div>
                   <div class="dropzone-title">
                     Drag &amp; drop documents here<br>
-                    <span style="font-weight:400;color:var(--text-quaternary)">or <a href="#">click to upload</a> from your computer</span>
+                    <span style="font-weight:400;color:var(--text-quaternary)">or <span style="color:var(--text-info);text-decoration:underline;cursor:pointer">click to upload</span> from your computer</span>
                   </div>
                   <div class="dropzone-formats">
                     <span class="fmt-pill">PDF</span>
@@ -1490,25 +1499,44 @@
                   </div>
                 </div>
 
-                <div class="file-item">
-                  <i class="ti ti-file-text file-ic"></i>
-                  <div>
-                    <div class="file-name">Overview.png</div>
-                    <div class="file-status">Ready to upload</div>
+                <!-- FILE SELECTED STATE (hidden by default) -->
+                <div id="imp-file-selected" style="display:none">
+                  <!-- Mini dropzone (collapsed) -->
+                  <div style="border:1.5px dashed var(--border-secondary);border-radius:8px;padding:14px 20px;background:var(--surface-base);display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;cursor:pointer" onclick="impSelectFile()">
+                    <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-quaternary)">
+                      <i class="ti ti-cloud-upload" style="font-size:16px"></i>
+                      Drop another file or <span style="color:var(--text-info);text-decoration:underline">click to replace</span>
+                    </div>
+                    <div style="display:flex;gap:4px">
+                      <span class="fmt-pill">PDF</span><span class="fmt-pill">JPG</span><span class="fmt-pill">PNG</span>
+                    </div>
                   </div>
-                  <div class="file-size">523 KB</div>
-                  <button class="file-remove"><i class="ti ti-x"></i></button>
+
+                  <!-- File row -->
+                  <div class="file-item" id="imp-file-row">
+                    <div style="width:34px;height:34px;border-radius:6px;background:var(--alpha-red-7);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                      <i class="ti ti-file-type-pdf" style="font-size:16px;color:var(--text-error)"></i>
+                    </div>
+                    <div style="flex:1;min-width:0">
+                      <div class="file-name" id="imp-fname">invoice_marinaBay_apr_2026.pdf</div>
+                      <div style="display:flex;align-items:center;gap:6px;margin-top:2px">
+                        <span style="display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--text-success);font-weight:500"><i class="ti ti-circle-check" style="font-size:11px"></i> Ready to upload</span>
+                        <span style="font-size:10px;color:var(--text-placeholder)" id="imp-fsize">· 523 KB</span>
+                      </div>
+                    </div>
+                    <button class="file-remove" onclick="impClearFile()"><i class="ti ti-x"></i></button>
+                  </div>
                 </div>
 
                 <div class="drop-footer">
                   <div class="drop-footer-info">
-                    <div class="count">1 file ready</div>
+                    <div class="count" id="imp-count" style="color:var(--text-placeholder)">No file selected</div>
                     <div class="notice">Files are scanned for malware and processed by our AI service.</div>
                   </div>
                   <div class="drop-footer-actions">
-                    <span class="drop-footer-size">Total 523 KB</span>
-                    <button class="btn btn-ghost btn-sm">Clear</button>
-                    <button class="btn btn-primary btn-sm" onclick="startProcessing()"><i class="ti ti-send"></i> Start Processing</button>
+                    <span class="drop-footer-size" id="imp-total" style="display:none">Total 523 KB</span>
+                    <button class="btn btn-ghost btn-sm" id="imp-clear" style="display:none" onclick="impClearFile()">Clear</button>
+                    <button class="btn btn-primary btn-sm" id="imp-start" disabled style="opacity:0.4;cursor:not-allowed" onclick="startProcessing()"><i class="ti ti-send"></i> Start Processing</button>
                   </div>
                 </div>
               </div>
@@ -2491,15 +2519,60 @@
               <i class="ti ti-arrow-left"></i> Back
             </button>
           </div>
-          <div class="upload-doc-zone" id="upload-doc-zone" ondragover="event.preventDefault()" ondrop="handleDocDrop(event)">
+
+          <!-- EMPTY STATE -->
+          <div class="upload-doc-zone" id="upload-doc-zone" ondragover="event.preventDefault();this.classList.add('udz-drag')" ondragleave="this.classList.remove('udz-drag')" ondrop="event.preventDefault();this.classList.remove('udz-drag');boatDocSelected('Overview.png','523')">
             <div class="udz-icon"><i class="ti ti-cloud-upload"></i></div>
             <div class="udz-title">Drag &amp; drop a manufacturer order form, spec sheet or build sheet</div>
             <div class="udz-sub">PDF, PNG or JPG · single file</div>
-            <button class="btn btn-ghost btn-sm" style="margin-top:12px" onclick="simulateDocSelect()">Choose file</button>
-            <div id="udz-selected" style="display:none;margin-top:14px;font-size:12px;color:var(--text-secondary)">
-              Selected: <strong id="udz-filename">Overview.png</strong>
+            <button class="btn btn-ghost btn-sm" style="margin-top:14px" onclick="simulateDocSelect()">
+              <i class="ti ti-folder-open"></i> Choose file
+            </button>
+          </div>
+
+          <!-- FILE SELECTED STATE (hidden by default) -->
+          <div id="udz-file-selected" style="display:none">
+            <!-- Collapsed mini dropzone -->
+            <div style="border:1.5px dashed var(--border-secondary);border-radius:8px;padding:12px 18px;background:var(--surface-base);display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;cursor:pointer" onclick="simulateDocSelect()">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-quaternary)">
+                <i class="ti ti-cloud-upload" style="font-size:15px"></i>
+                Drop a different file or <span style="color:var(--text-info);text-decoration:underline">click to replace</span>
+              </div>
+              <div style="display:flex;gap:4px"><span class="fmt-pill">PDF</span><span class="fmt-pill">PNG</span><span class="fmt-pill">JPG</span></div>
+            </div>
+
+            <!-- File preview card -->
+            <div style="border:1px solid var(--border-line);border-radius:8px;background:white;overflow:hidden">
+              <!-- File row -->
+              <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border-line)">
+                <div style="width:38px;height:38px;border-radius:8px;background:var(--surface-primary-subtle);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <i class="ti ti-file-description" style="font-size:18px;color:var(--text-info)"></i>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:var(--text-secondary)" id="udz-filename">Overview.png</div>
+                  <div style="display:flex;align-items:center;gap:8px;margin-top:2px">
+                    <span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;color:var(--text-success);font-weight:500">
+                      <i class="ti ti-circle-check" style="font-size:12px"></i> Ready to extract
+                    </span>
+                    <span style="font-size:11px;color:var(--text-placeholder)" id="udz-filesize">· 523 KB</span>
+                  </div>
+                </div>
+                <button onclick="boatDocClear()" style="background:none;border:none;cursor:pointer;color:var(--text-placeholder);font-size:16px;padding:4px;display:flex;align-items:center">
+                  <i class="ti ti-x"></i>
+                </button>
+              </div>
+
+              <!-- AI info banner -->
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 16px;background:var(--surface-primary-subtle)">
+                <i class="ti ti-wand" style="font-size:14px;color:var(--text-info);margin-top:1px;flex-shrink:0"></i>
+                <div style="font-size:11px;color:var(--text-tertiary);line-height:1.5">
+                  AI will scan <strong id="udz-filename2">Overview.png</strong> and extract make, model, year, stock number, HIN, engine type, and other boat data automatically.
+                  You'll review everything before saving.
+                </div>
+              </div>
             </div>
           </div>
+
           <div style="display:flex;justify-content:flex-end;margin-top:20px">
             <button class="btn btn-primary" id="btn-extract" disabled onclick="showCreateFlow('duplicate-detected')" style="opacity:0.4;cursor:not-allowed">
               Extract &amp; continue <i class="ti ti-arrow-right"></i>
@@ -3135,7 +3208,7 @@
 
   .review-split {
     display: grid;
-    grid-template-columns: 1fr 420px;
+    grid-template-columns: 1fr 1fr;
     gap: 18px;
     margin-bottom: 0;
     height: calc(100vh - 290px);
@@ -3568,6 +3641,9 @@
       page === 'boats'
         ? '<span style="color:var(--text-placeholder)">Home</span> <span class="sep">/</span> <span class="current">Boats</span>'
         : '<span class="current">' + label + '</span>';
+
+    // Reset upload states when navigating away and back
+    if (page === 'import') resetImpDropzone();
   }
 
   /* ─── CREATE FLOW ─── */
@@ -3589,6 +3665,9 @@
     const pageId = pageMap[step];
     if (pageId) document.getElementById(pageId).classList.add('active');
 
+    // Reset boat upload dropzone every time user arrives at upload-doc step
+    if (step === 'upload-doc') resetBoatDropzone();
+
     const breadcrumbs = {
       'method':           'Home / Boats / Create',
       'upload-doc':       'Home / Boats / Create',
@@ -3603,18 +3682,91 @@
   }
 
   /* ─── FILE UPLOAD SIMULATION ─── */
+
+  function resetBoatDropzone() {
+    document.getElementById('upload-doc-zone').style.display = 'flex';
+    document.getElementById('udz-file-selected').style.display = 'none';
+    const btn = document.getElementById('btn-extract');
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.4'; btn.style.cursor = 'not-allowed'; }
+  }
+
+  function resetImpDropzone() {
+    document.getElementById('imp-dropzone').style.display = 'flex';
+    document.getElementById('imp-file-selected').style.display = 'none';
+    document.getElementById('imp-count').textContent = 'No file selected';
+    document.getElementById('imp-count').style.color = 'var(--text-placeholder)';
+    document.getElementById('imp-total').style.display = 'none';
+    document.getElementById('imp-clear').style.display = 'none';
+    const btn = document.getElementById('imp-start');
+    if (btn) { btn.disabled = true; btn.style.opacity = '0.4'; btn.style.cursor = 'not-allowed'; }
+    // Also reset the processing states
+    const upload = document.getElementById('import-state-upload');
+    const done   = document.getElementById('import-state-done');
+    if (upload) upload.style.display = 'block';
+    if (done)   done.style.display = 'none';
+  }
   function simulateDocSelect() {
-    document.getElementById('udz-selected').style.display = 'block';
-    document.getElementById('udz-filename').textContent = 'Overview.png';
+    boatDocSelected('Overview.png', '523');
+  }
+
+  function handleDocDrop(event) {
+    event.preventDefault();
+    boatDocSelected('Overview.png', '523');
+  }
+
+  /* ── Boats upload-doc zone ── */
+  function boatDocSelected(name, sizeKB) {
+    document.getElementById('upload-doc-zone').style.display = 'none';
+    document.getElementById('udz-file-selected').style.display = 'block';
+    document.getElementById('udz-filename').textContent = name;
+    document.getElementById('udz-filename2').textContent = name;
+    document.getElementById('udz-filesize').textContent = '· ' + sizeKB + ' KB';
     const btn = document.getElementById('btn-extract');
     btn.disabled = false;
     btn.style.opacity = '1';
     btn.style.cursor = 'pointer';
   }
 
-  function handleDocDrop(event) {
-    event.preventDefault();
-    simulateDocSelect();
+  function boatDocClear() {
+    document.getElementById('udz-file-selected').style.display = 'none';
+    document.getElementById('upload-doc-zone').style.display = 'flex';
+    const btn = document.getElementById('btn-extract');
+    btn.disabled = true;
+    btn.style.opacity = '0.4';
+    btn.style.cursor = 'not-allowed';
+  }
+
+  /* ── Import Documents dropzone ── */
+  function impSelectFile() {
+    impFileSelected('invoice_marinaBay_apr_2026.pdf', '523');
+  }
+
+  function impFileSelected(name, sizeKB) {
+    document.getElementById('imp-dropzone').style.display = 'none';
+    document.getElementById('imp-file-selected').style.display = 'block';
+    document.getElementById('imp-fname').textContent = name;
+    document.getElementById('imp-fsize').textContent = '· ' + sizeKB + ' KB';
+    document.getElementById('imp-count').textContent = '1 file ready';
+    document.getElementById('imp-count').style.color = 'var(--text-secondary)';
+    document.getElementById('imp-total').style.display = 'inline';
+    document.getElementById('imp-clear').style.display = 'inline-flex';
+    const btn = document.getElementById('imp-start');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+  }
+
+  function impClearFile() {
+    document.getElementById('imp-file-selected').style.display = 'none';
+    document.getElementById('imp-dropzone').style.display = 'flex';
+    document.getElementById('imp-count').textContent = 'No file selected';
+    document.getElementById('imp-count').style.color = 'var(--text-placeholder)';
+    document.getElementById('imp-total').style.display = 'none';
+    document.getElementById('imp-clear').style.display = 'none';
+    const btn = document.getElementById('imp-start');
+    btn.disabled = true;
+    btn.style.opacity = '0.4';
+    btn.style.cursor = 'not-allowed';
   }
 
   /* ─── BOAT SELECTOR ─── */
