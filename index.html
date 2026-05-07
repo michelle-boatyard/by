@@ -3892,16 +3892,20 @@
   .upload-doc-zone {
     border: 1.5px dashed var(--border-secondary);
     border-radius: 8px;
-    padding: 48px 24px;
+    padding: 40px 32px;
     text-align: center;
     background: var(--surface-base);
     cursor: pointer;
     transition: border-color 0.12s, background 0.12s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
   }
 
   .upload-doc-zone:hover { border-color: var(--border-primary-color); background: var(--surface-primary-subtle); }
-  .udz-icon { font-size: 32px; color: var(--text-placeholder); margin-bottom: 12px; }
-  .udz-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
+  .udz-icon { font-size: 32px; color: var(--text-placeholder); margin-bottom: 4px; }
+  .udz-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
   .udz-sub   { font-size: 12px; color: var(--text-placeholder); }
 
   /* Review split layout */
