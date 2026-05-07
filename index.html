@@ -1278,6 +1278,59 @@
     /* doc row hover */
     .doc-row:hover td { background: var(--surface-subtle); }
 
+    /* ─── IMPORT TYPE SELECTOR ─── */
+    .imp-type-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border-line);
+      border-radius: 9px;
+      cursor: pointer;
+      transition: border-color 0.12s, background 0.12s;
+    }
+
+    .imp-type-option:hover {
+      border-color: var(--border-primary-color);
+      background: var(--surface-primary-subtle);
+    }
+
+    .imp-type-option.selected {
+      border-color: var(--surface-primary);
+      background: var(--surface-primary-subtle);
+    }
+
+    .imp-type-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--surface-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 17px;
+      color: var(--text-placeholder);
+      flex-shrink: 0;
+      transition: background 0.12s, color 0.12s;
+    }
+
+    .imp-type-option.selected .imp-type-icon {
+      background: var(--alpha-blue-12);
+      color: var(--text-info);
+    }
+
+    .imp-type-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 1px;
+    }
+
+    .imp-type-desc {
+      font-size: 11px;
+      color: var(--text-placeholder);
+    }
+
     /* ─── IMPORT SUCCESS STATE ─── */
     .import-success-icon {
       width: 56px;
@@ -1501,6 +1554,28 @@
 
               <!-- Dropzone card -->
               <div class="card">
+
+                <!-- DOCUMENT TYPE SELECTOR -->
+                <div style="margin-bottom:16px">
+                  <div style="font-size:11px;font-weight:600;color:var(--text-secondary);margin-bottom:10px">What are you uploading this for? <span style="color:var(--text-error)">*</span></div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                    <div class="imp-type-option" id="imp-type-boat" onclick="selectImpType('boat')">
+                      <div class="imp-type-icon"><i class="ti ti-anchor"></i></div>
+                      <div>
+                        <div class="imp-type-title">Boat</div>
+                        <div class="imp-type-desc">Create or update a boat record</div>
+                      </div>
+                    </div>
+                    <div class="imp-type-option" id="imp-type-quote" onclick="selectImpType('quote')">
+                      <div class="imp-type-icon"><i class="ti ti-receipt"></i></div>
+                      <div>
+                        <div class="imp-type-title">Quote</div>
+                        <div class="imp-type-desc">Create or update a quote</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <!-- EMPTY STATE -->
                 <div id="imp-dropzone" class="dropzone" onclick="impSelectFile()" ondragover="event.preventDefault();this.classList.add('dropzone-drag')" ondragleave="this.classList.remove('dropzone-drag')" ondrop="event.preventDefault();this.classList.remove('dropzone-drag');impFileSelected('document.pdf','410')">
                   <div class="dropzone-icon"><i class="ti ti-cloud-upload"></i></div>
@@ -1641,12 +1716,12 @@
               <span style="color:var(--text-placeholder)">Document</span>
               <strong style="color:var(--text-secondary)">DOC-23450</strong>
               <span style="color:var(--text-placeholder)">·</span>
-              <span style="color:var(--text-placeholder)">1 file queued</span>
+              <span id="imp-done-type-label" style="color:var(--text-placeholder)">1 file queued</span>
             </div>
 
             <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:24px">
               <button class="btn btn-ghost" onclick="resetImport()">Upload more</button>
-              <button class="btn btn-primary" onclick="showPage('reviews')">Go to Review Queue <i class="ti ti-arrow-right"></i></button>
+              <button class="btn btn-primary" onclick="goToReviewFromImport()">Review extracted data <i class="ti ti-arrow-right"></i></button>
             </div>
           </div>
 
@@ -4278,12 +4353,18 @@
   }
 
   function resetImpDropzone() {
+    // Reset type selector
+    document.getElementById('imp-type-boat').classList.remove('selected');
+    document.getElementById('imp-type-quote').classList.remove('selected');
+    window._impType = null;
+    // Reset file state
     document.getElementById('imp-dropzone').style.display = 'flex';
     document.getElementById('imp-file-selected').style.display = 'none';
     document.getElementById('imp-count').textContent = 'No file selected';
     document.getElementById('imp-count').style.color = 'var(--text-placeholder)';
     document.getElementById('imp-total').style.display = 'none';
     document.getElementById('imp-clear').style.display = 'none';
+    window._impFileReady = false;
     const btn = document.getElementById('imp-start');
     if (btn) { btn.disabled = true; btn.style.opacity = '0.4'; btn.style.cursor = 'not-allowed'; }
     // Also reset the processing states
@@ -4292,6 +4373,23 @@
     if (upload) upload.style.display = 'block';
     if (done)   done.style.display = 'none';
   }
+
+  function selectImpType(type) {
+    window._impType = type;
+    document.getElementById('imp-type-boat').classList.toggle('selected', type === 'boat');
+    document.getElementById('imp-type-quote').classList.toggle('selected', type === 'quote');
+    checkImpReady();
+  }
+
+  function checkImpReady() {
+    const ready = window._impType && window._impFileReady;
+    const btn = document.getElementById('imp-start');
+    if (!btn) return;
+    btn.disabled = !ready;
+    btn.style.opacity = ready ? '1' : '0.4';
+    btn.style.cursor = ready ? 'pointer' : 'not-allowed';
+  }
+
   function simulateDocSelect() {
     boatDocSelected('Overview.png', '523');
   }
@@ -4337,10 +4435,8 @@
     document.getElementById('imp-count').style.color = 'var(--text-secondary)';
     document.getElementById('imp-total').style.display = 'inline';
     document.getElementById('imp-clear').style.display = 'inline-flex';
-    const btn = document.getElementById('imp-start');
-    btn.disabled = false;
-    btn.style.opacity = '1';
-    btn.style.cursor = 'pointer';
+    window._impFileReady = true;
+    checkImpReady();
   }
 
   function impClearFile() {
@@ -4350,10 +4446,8 @@
     document.getElementById('imp-count').style.color = 'var(--text-placeholder)';
     document.getElementById('imp-total').style.display = 'none';
     document.getElementById('imp-clear').style.display = 'none';
-    const btn = document.getElementById('imp-start');
-    btn.disabled = true;
-    btn.style.opacity = '0.4';
-    btn.style.cursor = 'not-allowed';
+    window._impFileReady = false;
+    checkImpReady();
   }
 
   /* ─── BOAT SELECTOR ─── */
@@ -4410,13 +4504,25 @@
 
   /* ─── IMPORT FLOW ─── */
   function startProcessing() {
+    const type = window._impType;
     document.getElementById('import-state-upload').style.display = 'none';
     document.getElementById('import-state-done').style.display = 'block';
+    // Store type for "Go to Review Queue" routing
+    window._impProcessedType = type;
   }
 
   function resetImport() {
     document.getElementById('import-state-done').style.display = 'none';
     document.getElementById('import-state-upload').style.display = 'block';
+    resetImpDropzone();
+  }
+
+  function goToReviewFromImport() {
+    if (window._impProcessedType === 'quote') {
+      showQuoteFlow('review');
+    } else {
+      openDoc('review');
+    }
   }
 
   /* ─── NOTIFICATIONS ─── */
