@@ -1103,6 +1103,157 @@
     .boat-select-item.selected .bsi-check { display: block; }
 
     /* UPLOAD DOC MODAL */
+
+    /* ─── DOC DETAIL PAGES ─── */
+    .doc-detail-topbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+
+    .doc-detail-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* ─── PIPELINE BAR ─── */
+    .doc-pipeline-bar {
+      background: white;
+      border: 1px solid var(--border-line);
+      border-radius: 10px;
+      padding: 18px 22px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .doc-pipeline-inner { display: flex; flex-direction: column; gap: 2px; }
+    .dpb-label { font-size: 9px; font-weight: 600; color: var(--text-placeholder); text-transform: uppercase; letter-spacing: .07em; }
+    .dpb-title { font-size: 16px; font-weight: 700; color: var(--text-secondary); }
+    .dpb-sub   { font-size: 11px; color: var(--text-quaternary); }
+
+    .dpb-meta { display: flex; gap: 24px; }
+    .dpb-meta-label { font-size: 10px; color: var(--text-placeholder); font-weight: 500; margin-bottom: 2px; }
+    .dpb-meta-val   { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+
+    .dpb-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      width: fit-content;
+    }
+
+    .dpb-badge-review     { background: var(--alpha-blue-12); color: var(--text-info); }
+    .dpb-badge-processing { background: var(--alpha-blue-12); color: var(--text-info); }
+    .dpb-badge-completed  { background: var(--alpha-green-15); color: var(--text-success); }
+    .dpb-badge-failed     { background: var(--alpha-red-7); color: var(--text-error); }
+
+    /* Progress track */
+    .dpb-steps {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      position: relative;
+      margin-top: 4px;
+    }
+
+    .dpb-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      text-align: center;
+      position: relative;
+    }
+
+    .dpb-step-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      position: relative;
+      z-index: 2;
+      flex-shrink: 0;
+    }
+
+    .dpb-done    { background: #1a8962; color: white; }
+    .dpb-current { background: var(--surface-primary); color: white; box-shadow: 0 0 0 4px rgba(39,121,150,0.15); }
+    .dpb-active  { background: var(--surface-primary); color: white; box-shadow: 0 0 0 4px rgba(39,121,150,0.15); }
+    .dpb-waiting { background: var(--surface-base); color: var(--text-placeholder); border: 2px solid var(--border-line); }
+    .dpb-error   { background: var(--text-error); color: white; }
+
+    .dpb-step-connector {
+      position: absolute;
+      top: 18px;
+      left: calc(50% + 18px);
+      right: calc(-50% + 18px);
+      height: 3px;
+      background: var(--border-line);
+      z-index: 1;
+    }
+
+    .dpb-conn-done   { background: #1a8962; }
+    .dpb-conn-active { background: linear-gradient(to right, #1a8962 64%, var(--border-line) 64%); }
+    .dpb-conn-error  { background: linear-gradient(to right, #1a8962 50%, var(--text-error) 50%); }
+
+    .dpb-step-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); line-height: 1.2; }
+    .dpb-step-sub   { font-size: 10px; color: var(--text-placeholder); line-height: 1.3; }
+
+    .dpb-step-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+
+    .dpb-status-done       { color: var(--text-success); background: var(--alpha-green-15); }
+    .dpb-status-inprogress { color: var(--text-info); background: var(--alpha-blue-12); }
+    .dpb-status-waiting    { color: var(--text-placeholder); background: var(--alpha-gray-10); }
+    .dpb-status-failed     { color: var(--text-error); background: var(--alpha-red-7); }
+
+    .dpb-step-done .dpb-step-label { color: var(--text-secondary); }
+
+    /* Spinner */
+    .dpb-spinner {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border: 2px solid rgba(39,121,150,0.3);
+      border-top-color: var(--text-info);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .dpb-spinner-sm {
+      display: inline-block;
+      width: 9px;
+      height: 9px;
+      border: 1.5px solid rgba(39,121,150,0.3);
+      border-top-color: var(--text-info);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* doc row hover */
+    .doc-row:hover td { background: var(--surface-subtle); }
+
     /* ─── IMPORT SUCCESS STATE ─── */
     .import-success-icon {
       width: 56px;
@@ -1548,8 +1699,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+              <tr class="doc-row" onclick="openDoc('review')" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
                 <td>
                   <div class="cell-primary">DOC-10473</div>
                   <div class="cell-sub">beneteau_oceanis46_spec.pdf</div>
@@ -1565,11 +1716,11 @@
                   </div>
                 </td>
                 <td><div style="font-size:12px">Apr 29, 2026</div><div class="cell-sub">10:02 AM</div></td>
-                                <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
-                <td><button class="btn btn-primary btn-sm">Review</button></td>
+                <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
+                <td onclick="event.stopPropagation()"><button class="btn btn-primary btn-sm" onclick="openDoc('review')">Review</button></td>
               </tr>
-              <tr>
-                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+              <tr class="doc-row" onclick="openDoc('review')" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
                 <td>
                   <div class="cell-primary">DOC-10474</div>
                   <div class="cell-sub">boston_whaler_330_order.pdf</div>
@@ -1585,11 +1736,11 @@
                   </div>
                 </td>
                 <td><div style="font-size:12px">Apr 29, 2026</div><div class="cell-sub">8:42 AM</div></td>
-                                <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
-                <td><button class="btn btn-primary btn-sm">Review</button></td>
+                <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
+                <td onclick="event.stopPropagation()"><button class="btn btn-primary btn-sm" onclick="openDoc('review')">Review</button></td>
               </tr>
-              <tr>
-                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+              <tr class="doc-row" onclick="openDoc('review')" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
                 <td>
                   <div class="cell-primary">DOC-10472</div>
                   <div class="cell-sub">Q1_invoices_northwind.pdf</div>
@@ -1605,11 +1756,11 @@
                   </div>
                 </td>
                 <td><div style="font-size:12px">Apr 28, 2026</div><div class="cell-sub">9:14 AM</div></td>
-                                <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
-                <td><button class="btn btn-primary btn-sm">Review</button></td>
+                <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
+                <td onclick="event.stopPropagation()"><button class="btn btn-primary btn-sm" onclick="openDoc('review')">Review</button></td>
               </tr>
-              <tr>
-                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+              <tr class="doc-row" onclick="openDoc('processing')" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
                 <td>
                   <div class="cell-primary">DOC-10471</div>
                   <div class="cell-sub">vendor_contracts_2026.pdf</div>
@@ -1625,11 +1776,11 @@
                   </div>
                 </td>
                 <td><div style="font-size:12px">Apr 28, 2026</div><div class="cell-sub">8:48 AM</div></td>
-                                <td><span class="tag tag-processing"><i class="ti ti-refresh" style="font-size:10px"></i> Processing · 62%</span></td>
-                <td><button class="btn btn-ghost btn-sm">Track</button></td>
+                <td><span class="tag tag-processing"><i class="ti ti-refresh" style="font-size:10px"></i> Processing · 62%</span></td>
+                <td onclick="event.stopPropagation()"><button class="btn btn-ghost btn-sm" onclick="openDoc('processing')">Track</button></td>
               </tr>
-              <tr>
-                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+              <tr class="doc-row" onclick="openDoc('completed')" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
                 <td>
                   <div class="cell-primary">DOC-10470</div>
                   <div class="cell-sub">april_expense_receipts.pdf</div>
@@ -1645,11 +1796,11 @@
                   </div>
                 </td>
                 <td><div style="font-size:12px">Apr 28, 2026</div><div class="cell-sub">7:55 AM</div></td>
-                                <td><span class="tag tag-completed"><i class="ti ti-circle-check" style="font-size:10px"></i> Completed</span></td>
-                <td><button class="btn btn-ghost btn-sm">Choose action</button></td>
+                <td><span class="tag tag-completed"><i class="ti ti-circle-check" style="font-size:10px"></i> Completed</span></td>
+                <td onclick="event.stopPropagation()"><button class="btn btn-ghost btn-sm" onclick="openDoc('completed')">View</button></td>
               </tr>
-              <tr>
-                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+              <tr class="doc-row" onclick="openDoc('failed')" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
                 <td>
                   <div class="cell-primary">DOC-10469</div>
                   <div class="cell-sub">shipping_manifests_W17.pdf</div>
@@ -1665,11 +1816,11 @@
                   </div>
                 </td>
                 <td><div style="font-size:12px">Apr 27, 2026</div><div class="cell-sub">5:30 PM</div></td>
-                                <td><span class="tag tag-failed"><i class="ti ti-alert-circle" style="font-size:10px"></i> Failed</span></td>
-                <td><button class="btn btn-ghost btn-sm">Retry</button></td>
+                <td><span class="tag tag-failed"><i class="ti ti-alert-circle" style="font-size:10px"></i> Failed</span></td>
+                <td onclick="event.stopPropagation()"><button class="btn btn-ghost btn-sm" onclick="openDoc('failed')">Retry</button></td>
               </tr>
-              <tr>
-                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+              <tr class="doc-row" onclick="openDoc('review')" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
                 <td>
                   <div class="cell-primary">DOC-10468</div>
                   <div class="cell-sub">purchase_orders_batch17.pdf</div>
@@ -1685,11 +1836,422 @@
                   </div>
                 </td>
                 <td><div style="font-size:12px">Apr 27, 2026</div><div class="cell-sub">3:10 PM</div></td>
-                                <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
-                <td><button class="btn btn-primary btn-sm">Review</button></td>
+                <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
+                <td onclick="event.stopPropagation()"><button class="btn btn-primary btn-sm" onclick="openDoc('review')">Review</button></td>
               </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           DOC DETAIL: REVIEW REQUIRED
+      ════════════════════════════════════ -->
+      <div class="page" id="page-doc-review">
+        <div class="doc-detail-topbar">
+          <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-arrow-left"></i> Back to Pending Reviews</button>
+          <div class="doc-detail-meta">
+            <span class="cell-primary" style="font-size:14px">DOC-10473</span>
+            <span style="color:var(--text-placeholder);font-size:12px">·</span>
+            <span style="font-size:12px;color:var(--text-quaternary)">beneteau_oceanis46_spec.pdf</span>
+            <span class="tag tag-review" style="margin-left:4px"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:8px">
+            <button class="btn btn-ghost btn-sm"><i class="ti ti-x"></i> Reject</button>
+            <button class="btn btn-primary btn-sm" onclick="showPage('reviews');showToast('<i class=\'ti ti-circle-check\' style=\'font-size:16px\'></i> Document approved successfully')"><i class="ti ti-check"></i> Approve &amp; save boat</button>
+          </div>
+        </div>
+
+        <!-- Pipeline status bar -->
+        <div class="doc-pipeline-bar">
+          <div class="doc-pipeline-inner">
+            <div class="dpb-label">Pipeline Status</div>
+            <div class="dpb-title">Ready for Review</div>
+            <div class="dpb-sub">All AI steps completed — awaiting your verification</div>
+          </div>
+          <div class="dpb-meta">
+            <div><div class="dpb-meta-label">Started</div><div class="dpb-meta-val">9:14 AM</div></div>
+            <div><div class="dpb-meta-label">Duration</div><div class="dpb-meta-val">1m 42s</div></div>
+          </div>
+          <div class="dpb-badge dpb-badge-review">Ready for Review</div>
+          <div class="dpb-steps">
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">Upload Document</div>
+              <div class="dpb-step-sub">File received and queued</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">AI Routing</div>
+              <div class="dpb-step-sub">Detecting document type</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">Data Extraction</div>
+              <div class="dpb-step-sub">Reading fields with OCR + LLM</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">AI Validation</div>
+              <div class="dpb-step-sub">Cross-checking extracted data</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step">
+              <div class="dpb-step-circle dpb-current"><i class="ti ti-clipboard-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-label">Ready for Review</div>
+              <div class="dpb-step-sub">Awaiting human verification</div>
+              <div class="dpb-step-status dpb-status-waiting"><i class="ti ti-user" style="font-size:10px"></i> Your turn</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Split: doc preview + extracted fields (reuse existing styles) -->
+        <div class="review-split" style="margin-top:16px">
+          <div class="review-doc-panel">
+            <div class="review-doc-header">
+              <i class="ti ti-file-description" style="font-size:14px;color:var(--text-placeholder)"></i>
+              <span style="font-size:13px;font-weight:500;color:var(--text-secondary)">beneteau_oceanis46_spec.pdf</span>
+              <button class="btn btn-ghost btn-sm" style="margin-left:auto;padding:4px 10px;font-size:11px"><i class="ti ti-external-link"></i> Open</button>
+            </div>
+            <div class="review-doc-preview">
+              <div style="background:#f8f9fb;border:1px solid #e2ebf3;border-radius:6px;padding:20px;font-size:11px;color:#475569;line-height:1.6">
+                <div style="font-size:15px;font-weight:700;color:#1e293b;margin-bottom:12px">2022 Beneteau Oceanis 46.1</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em">Make</div><div style="font-weight:500">Beneteau</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em">Model</div><div style="font-weight:500">Oceanis 46.1</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em">Year</div><div style="font-weight:500">2022</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em">Length</div><div style="font-weight:500">46 ft</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em">Hull type</div><div style="font-weight:500">Fiberglass monohull</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em">Engine</div><div style="font-weight:500">Yanmar 57HP diesel</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em">Fuel</div><div style="font-weight:500">Diesel</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em">Cabins</div><div style="font-weight:500">3</div></div>
+                </div>
+                <hr style="border:none;border-top:1px solid #e2ebf3;margin:10px 0">
+                <div style="font-size:11px;font-weight:600;color:#334155;margin-bottom:6px">Specifications</div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:10px">
+                  <div><div style="color:#7b8ba3;font-size:9px">Beam</div><div style="font-weight:500">14.5 ft</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px">Draft</div><div style="font-weight:500">6.2 ft</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px">Displacement</div><div style="font-weight:500">11,200 kg</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px">Water capacity</div><div style="font-weight:500">370 L</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px">Fuel capacity</div><div style="font-weight:500">200 L</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px">Max speed</div><div style="font-weight:500">9.5 kts</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="review-fields-panel">
+            <div class="review-fields-header">
+              <span style="font-size:10px;font-weight:600;color:var(--text-placeholder);text-transform:uppercase;letter-spacing:0.06em">Extracted boat data</span>
+              <span class="ai-prefilled-badge"><i class="ti ti-wand" style="font-size:11px"></i> AI pre-filled</span>
+            </div>
+            <div class="fields-scroll">
+              <div class="fields-section-label">Required information</div>
+              <div class="fields-section-sub">The minimum we need to create this boat.</div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Make <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="Beneteau">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Model <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="Oceanis 46.1">
+                </div>
+              </div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Stock Number <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="BEN-46-22-0091">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Dealership <span class="req">*</span></label></div>
+                  <input type="text" class="form-input" placeholder="Not found in document">
+                </div>
+              </div>
+              <div class="fields-divider"></div>
+              <div class="fields-section-label">Optional</div>
+              <div class="field-row-3">
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Year</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="2022">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Condition</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <select class="form-select"><option>Used</option><option>New</option></select>
+                </div>
+                <div class="field-group">
+                  <label class="form-label">Status</label>
+                  <select class="form-select"><option>Draft</option><option>Pending</option><option>Listed</option></select>
+                </div>
+              </div>
+              <div class="fields-divider"></div>
+              <div class="fields-section-label">Additional details</div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Length (ft)</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="46">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Engine type</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="Yanmar 57HP diesel">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           DOC DETAIL: PROCESSING
+      ════════════════════════════════════ -->
+      <div class="page" id="page-doc-processing">
+        <div class="doc-detail-topbar">
+          <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-arrow-left"></i> Back to Pending Reviews</button>
+          <div class="doc-detail-meta">
+            <span class="cell-primary" style="font-size:14px">DOC-10471</span>
+            <span style="color:var(--text-placeholder);font-size:12px">·</span>
+            <span style="font-size:12px;color:var(--text-quaternary)">vendor_contracts_2026.pdf</span>
+            <span class="tag tag-processing" style="margin-left:4px"><i class="ti ti-refresh" style="font-size:10px"></i> Processing · 62%</span>
+          </div>
+        </div>
+
+        <div class="doc-pipeline-bar">
+          <div class="doc-pipeline-inner">
+            <div class="dpb-label">Pipeline Status</div>
+            <div class="dpb-title">AI Validation</div>
+            <div class="dpb-sub">Cross-checking extracted data</div>
+          </div>
+          <div class="dpb-meta">
+            <div><div class="dpb-meta-label">Started</div><div class="dpb-meta-val">8:48 AM</div></div>
+            <div><div class="dpb-meta-label">ETA</div><div class="dpb-meta-val">~2 min</div></div>
+          </div>
+          <div class="dpb-badge dpb-badge-processing"><span class="dpb-spinner"></span> 62% complete</div>
+          <div class="dpb-steps">
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">Upload Document</div>
+              <div class="dpb-step-sub">File received and queued</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">AI Routing</div>
+              <div class="dpb-step-sub">Detecting document type</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-active"></div>
+              <div class="dpb-step-label">Data Extraction</div>
+              <div class="dpb-step-sub">Reading fields with OCR + LLM</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step">
+              <div class="dpb-step-circle dpb-active"><i class="ti ti-shield-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector"></div>
+              <div class="dpb-step-label">AI Validation</div>
+              <div class="dpb-step-sub">Cross-checking extracted data</div>
+              <div class="dpb-step-status dpb-status-inprogress"><span class="dpb-spinner-sm"></span> In progress · 64%</div>
+            </div>
+            <div class="dpb-step">
+              <div class="dpb-step-circle dpb-waiting"><i class="ti ti-clipboard-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-label">Ready for Review</div>
+              <div class="dpb-step-sub">Awaiting human verification</div>
+              <div class="dpb-step-status dpb-status-waiting"><i class="ti ti-clock" style="font-size:10px"></i> Waiting</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px;text-align:center;padding:48px 32px">
+          <div style="width:52px;height:52px;border-radius:50%;background:var(--alpha-blue-12);color:var(--text-info);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px">
+            <i class="ti ti-settings" style="animation:spin 2s linear infinite"></i>
+          </div>
+          <div style="font-size:16px;font-weight:600;color:var(--text-secondary);margin-bottom:6px">AI is processing this document</div>
+          <div style="font-size:13px;color:var(--text-quaternary);margin-bottom:20px">You'll be notified when it's ready for your review. This usually takes under 2 minutes.</div>
+          <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:var(--surface-base);border:1px solid var(--border-line);border-radius:8px;font-size:12px;color:var(--text-secondary)">
+            <span class="dpb-spinner-sm"></span> Processing · 62% complete
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           DOC DETAIL: COMPLETED
+      ════════════════════════════════════ -->
+      <div class="page" id="page-doc-completed">
+        <div class="doc-detail-topbar">
+          <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-arrow-left"></i> Back to Pending Reviews</button>
+          <div class="doc-detail-meta">
+            <span class="cell-primary" style="font-size:14px">DOC-10470</span>
+            <span style="color:var(--text-placeholder);font-size:12px">·</span>
+            <span style="font-size:12px;color:var(--text-quaternary)">april_expense_receipts.pdf</span>
+            <span class="tag tag-completed" style="margin-left:4px"><i class="ti ti-circle-check" style="font-size:10px"></i> Completed</span>
+          </div>
+        </div>
+
+        <div class="doc-pipeline-bar" style="--dpb-accent:#1a8962;--dpb-accent-bg:rgba(50,195,143,0.08)">
+          <div class="doc-pipeline-inner">
+            <div class="dpb-label">Pipeline Status</div>
+            <div class="dpb-title" style="color:#1a8962">All steps completed</div>
+            <div class="dpb-sub">Document approved and boat saved</div>
+          </div>
+          <div class="dpb-meta">
+            <div><div class="dpb-meta-label">Completed</div><div class="dpb-meta-val">7:55 AM</div></div>
+            <div><div class="dpb-meta-label">Duration</div><div class="dpb-meta-val">1m 18s</div></div>
+          </div>
+          <div class="dpb-badge dpb-badge-completed"><i class="ti ti-circle-check" style="font-size:11px"></i> Completed</div>
+          <div class="dpb-steps">
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">Upload Document</div>
+              <div class="dpb-step-sub">File received and queued</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">AI Routing</div>
+              <div class="dpb-step-sub">Detecting document type</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">Data Extraction</div>
+              <div class="dpb-step-sub">Reading fields with OCR + LLM</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">AI Validation</div>
+              <div class="dpb-step-sub">Cross-checking extracted data</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-label">Ready for Review</div>
+              <div class="dpb-step-sub">Human verified &amp; approved</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px;text-align:center;padding:48px 32px">
+          <div style="width:52px;height:52px;border-radius:50%;background:rgba(50,195,143,0.13);color:#1a8962;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px">
+            <i class="ti ti-circle-check"></i>
+          </div>
+          <div style="font-size:16px;font-weight:600;color:var(--text-secondary);margin-bottom:6px">Document fully processed</div>
+          <div style="font-size:13px;color:var(--text-quaternary);margin-bottom:24px">This document was reviewed and approved. The boat record has been saved.</div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:10px">
+            <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')">Back to queue</button>
+            <button class="btn btn-primary btn-sm" onclick="showPage('boats')"><i class="ti ti-anchor"></i> View boat record</button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           DOC DETAIL: FAILED
+      ════════════════════════════════════ -->
+      <div class="page" id="page-doc-failed">
+        <div class="doc-detail-topbar">
+          <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-arrow-left"></i> Back to Pending Reviews</button>
+          <div class="doc-detail-meta">
+            <span class="cell-primary" style="font-size:14px">DOC-10469</span>
+            <span style="color:var(--text-placeholder);font-size:12px">·</span>
+            <span style="font-size:12px;color:var(--text-quaternary)">shipping_manifests_W17.pdf</span>
+            <span class="tag tag-failed" style="margin-left:4px"><i class="ti ti-alert-circle" style="font-size:10px"></i> Failed</span>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:8px">
+            <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')">Dismiss</button>
+            <button class="btn btn-primary btn-sm" onclick="showPage('import')"><i class="ti ti-upload"></i> Re-upload document</button>
+          </div>
+        </div>
+
+        <div class="doc-pipeline-bar" style="border-color:rgba(232,41,47,0.15);background:rgba(232,41,47,0.03)">
+          <div class="doc-pipeline-inner">
+            <div class="dpb-label">Pipeline Status</div>
+            <div class="dpb-title" style="color:var(--text-error)">Processing failed</div>
+            <div class="dpb-sub">Could not extract data from this document</div>
+          </div>
+          <div class="dpb-meta">
+            <div><div class="dpb-meta-label">Attempted</div><div class="dpb-meta-val">5:30 PM</div></div>
+            <div><div class="dpb-meta-label">Error</div><div class="dpb-meta-val" style="color:var(--text-error)">Parse error</div></div>
+          </div>
+          <div class="dpb-badge dpb-badge-failed"><i class="ti ti-alert-circle" style="font-size:11px"></i> Failed</div>
+          <div class="dpb-steps">
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">Upload Document</div>
+              <div class="dpb-step-sub">File received and queued</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-error"></div>
+              <div class="dpb-step-label">AI Routing</div>
+              <div class="dpb-step-sub">Detecting document type</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step">
+              <div class="dpb-step-circle dpb-error"><i class="ti ti-x" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector"></div>
+              <div class="dpb-step-label">Data Extraction</div>
+              <div class="dpb-step-sub">Reading fields with OCR + LLM</div>
+              <div class="dpb-step-status dpb-status-failed"><i class="ti ti-alert-circle" style="font-size:10px"></i> Failed</div>
+            </div>
+            <div class="dpb-step">
+              <div class="dpb-step-circle dpb-waiting"><i class="ti ti-shield-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector"></div>
+              <div class="dpb-step-label">AI Validation</div>
+              <div class="dpb-step-sub">Cross-checking extracted data</div>
+              <div class="dpb-step-status dpb-status-waiting"><i class="ti ti-minus" style="font-size:10px"></i> Skipped</div>
+            </div>
+            <div class="dpb-step">
+              <div class="dpb-step-circle dpb-waiting"><i class="ti ti-clipboard-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-label">Ready for Review</div>
+              <div class="dpb-step-sub">Awaiting human verification</div>
+              <div class="dpb-step-status dpb-status-waiting"><i class="ti ti-minus" style="font-size:10px"></i> Skipped</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <div style="display:flex;gap:14px;align-items:flex-start;padding:4px 0 16px;border-bottom:1px solid var(--border-line);margin-bottom:16px">
+            <div style="width:40px;height:40px;border-radius:10px;background:var(--alpha-red-7);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--text-error);flex-shrink:0">
+              <i class="ti ti-alert-triangle"></i>
+            </div>
+            <div>
+              <div style="font-size:14px;font-weight:600;color:var(--text-secondary);margin-bottom:4px">Unable to parse document</div>
+              <div style="font-size:12px;color:var(--text-tertiary);line-height:1.5">The AI could not extract structured data from <strong>shipping_manifests_W17.pdf</strong>. This can happen when the document is scanned at low resolution, is password-protected, or uses an unsupported format.</div>
+            </div>
+          </div>
+          <div style="font-size:11px;font-weight:600;color:var(--text-placeholder);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">What you can do</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:12px;background:var(--surface-base);border-radius:8px;border:1px solid var(--border-line)">
+              <div style="width:28px;height:28px;border-radius:6px;background:white;border:1px solid var(--border-line);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text-info);flex-shrink:0"><i class="ti ti-upload"></i></div>
+              <div><div style="font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:2px">Re-upload a clearer version</div><div style="font-size:11px;color:var(--text-placeholder)">Try a higher-resolution scan or export the document as PDF from the source system.</div></div>
+              <button class="btn btn-primary btn-sm" style="margin-left:auto;flex-shrink:0" onclick="showPage('import')">Re-upload</button>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;padding:12px;background:var(--surface-base);border-radius:8px;border:1px solid var(--border-line)">
+              <div style="width:28px;height:28px;border-radius:6px;background:white;border:1px solid var(--border-line);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--text-info);flex-shrink:0"><i class="ti ti-edit"></i></div>
+              <div><div style="font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:2px">Enter manually</div><div style="font-size:11px;color:var(--text-placeholder)">Skip the document and create the boat record by hand.</div></div>
+              <button class="btn btn-ghost btn-sm" style="margin-left:auto;flex-shrink:0" onclick="showCreateFlow('method');showPage('boats')">Create manually</button>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -3084,6 +3646,27 @@
     toast.innerHTML = html;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
+  }
+
+  /* ─── DOC DETAIL NAVIGATION ─── */
+  function openDoc(state) {
+    const map = {
+      'review':     'page-doc-review',
+      'processing': 'page-doc-processing',
+      'completed':  'page-doc-completed',
+      'failed':     'page-doc-failed',
+    };
+    const breadcrumbs = {
+      'review':     'Home <span class="sep">/</span> <span style="cursor:pointer;color:var(--text-placeholder)" onclick="showPage(\'reviews\')">Pending Reviews</span> <span class="sep">/</span> <span class="current">DOC-10473</span>',
+      'processing': 'Home <span class="sep">/</span> <span style="cursor:pointer;color:var(--text-placeholder)" onclick="showPage(\'reviews\')">Pending Reviews</span> <span class="sep">/</span> <span class="current">DOC-10471</span>',
+      'completed':  'Home <span class="sep">/</span> <span style="cursor:pointer;color:var(--text-placeholder)" onclick="showPage(\'reviews\')">Pending Reviews</span> <span class="sep">/</span> <span class="current">DOC-10470</span>',
+      'failed':     'Home <span class="sep">/</span> <span style="cursor:pointer;color:var(--text-placeholder)" onclick="showPage(\'reviews\')">Pending Reviews</span> <span class="sep">/</span> <span class="current">DOC-10469</span>',
+    };
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('nav-reviews').classList.add('active');
+    document.getElementById(map[state]).classList.add('active');
+    document.getElementById('breadcrumb').innerHTML = breadcrumbs[state];
   }
 
   /* ─── IMPORT FLOW ─── */
