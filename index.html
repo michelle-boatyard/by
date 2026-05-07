@@ -502,7 +502,7 @@
       font-size: 12px;
       color: var(--text-tertiary);
       border-bottom: 1px solid var(--border-line);
-      height: 56px;
+      height: 72px;
       vertical-align: middle;
     }
 
@@ -848,6 +848,22 @@
 
     /* ─── BOATS ─── */
     .boat-cell { display: flex; align-items: center; gap: 10px; }
+
+    .boat-thumb {
+      width: 72px;
+      height: 50px;
+      border-radius: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--surface-base);
+    }
+
+    .boat-thumb-empty {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-line);
+    }
 
     .boat-ic {
       width: 30px;
@@ -2289,13 +2305,17 @@
       ════════════════════════════════════ -->
       <div class="page" id="page-boats">
         <div class="page-header-row">
-          <div>
+          <div style="display:flex;align-items:center;gap:12px">
             <h1 class="page-title">Boats</h1>
-            <p class="page-desc">Inventory of boats created from documents or manually.</p>
+            <span style="font-size:12px;font-weight:500;color:var(--text-placeholder)">14/14 results</span>
           </div>
           <div class="page-header-actions">
+            <button class="btn btn-ghost btn-sm" style="position:relative">
+              <i class="ti ti-adjustments-horizontal"></i>
+              <span style="position:absolute;top:-4px;right:-4px;width:16px;height:16px;background:var(--surface-primary);color:white;border-radius:50%;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center">1</span>
+            </button>
             <button class="btn btn-primary btn-sm" onclick="showCreateFlow('method')">
-              <i class="ti ti-plus"></i> Create Boat
+              <i class="ti ti-plus"></i> New unit
             </button>
           </div>
         </div>
@@ -2303,149 +2323,113 @@
         <div class="table-toolbar">
           <div class="search-wrap">
             <i class="ti ti-search si"></i>
-            <input type="text" placeholder="Search by boat name, make, model or ID">
+            <input type="text" placeholder="Search…">
           </div>
-          <select class="fselect" style="width:160px">
-            <option>All statuses</option>
-            <option>Listed</option>
-            <option>Pending</option>
-            <option>Draft</option>
-            <option>Sold</option>
-            <option>Archived</option>
-          </select>
-          <select class="fselect" style="width:140px">
-            <option>All sources</option>
-            <option>Document</option>
-            <option>Manual</option>
-          </select>
         </div>
 
-        <div class="table-wrap">
-          <table>
+        <div class="table-wrap scrollable">
+          <table style="min-width:900px">
             <thead>
               <tr>
-                <th>Boat name</th>
-                <th>Make</th>
-                <th>Model</th>
-                <th>Year</th>
-                <th>Length</th>
+                <th style="width:36px"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></th>
+                <th style="width:80px"></th>
+                <th>Make / Model</th>
+                <th>Stock #</th>
+                <th>Price</th>
                 <th>Status</th>
-                <th>Created from</th>
-                <th>Created date</th>
+                <th>Published to</th>
+                <th>Length</th>
+                <th>Dealership</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td><div class="boat-thumb boat-thumb-empty"><i class="ti ti-photo" style="font-size:18px;color:var(--text-disabled)"></i></div></td>
                 <td>
-                  <div class="boat-cell">
-                    <div class="boat-ic"><i class="ti ti-anchor"></i></div>
-                    <div>
-                      <div class="cell-primary">Sea Breeze</div>
-                      <div class="cell-sub">BT-1042</div>
-                    </div>
-                  </div>
+                  <div class="cell-primary">2023 Marlon NewModel</div>
+                  <div class="cell-sub">Marlon · NewModel</div>
                 </td>
-                <td>Beneteau</td>
-                <td>Oceanis 46.1</td>
-                <td>2022</td>
-                <td>46 ft</td>
-                <td><span class="tag tag-listed">Listed</span></td>
-                <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ti ti-file-text" style="font-size:12px;color:var(--text-placeholder)"></i> Document</span></td>
-                <td style="font-size:12px">Apr 12, 2026</td>
+                <td style="font-size:12px;color:var(--text-secondary)">BOTul2DD7</td>
+                <td style="font-size:12px;color:var(--text-secondary)">$62,773</td>
+                <td><span class="tag tag-draft" style="color:var(--text-tertiary)">In-Stock</span></td>
+                <td><span class="tag tag-archived">Unpublished</span></td>
+                <td style="font-size:12px;color:var(--text-secondary)">18 ft</td>
+                <td style="font-size:12px;color:var(--text-secondary)">Echo Bay Marina</td>
               </tr>
-              <tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td><div class="boat-thumb"><img src="https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?w=120&h=80&fit=crop&auto=format" alt="boat" style="width:100%;height:100%;object-fit:cover;border-radius:5px"></div></td>
                 <td>
-                  <div class="boat-cell">
-                    <div class="boat-ic"><i class="ti ti-anchor"></i></div>
-                    <div>
-                      <div class="cell-primary">Northern Star</div>
-                      <div class="cell-sub">BT-1043</div>
-                    </div>
-                  </div>
+                  <div class="cell-primary">1903 Mercury 162 Osprey</div>
+                  <div class="cell-sub">Mercury · 162 Osprey</div>
                 </td>
-                <td>Boston Whaler</td>
-                <td>330 Outrage</td>
-                <td>2021</td>
-                <td>33 ft</td>
-                <td><span class="tag tag-pending">Pending</span></td>
-                <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ti ti-file-text" style="font-size:12px;color:var(--text-placeholder)"></i> Document</span></td>
-                <td style="font-size:12px">Apr 18, 2026</td>
+                <td style="font-size:12px;color:var(--text-secondary)">BOT918</td>
+                <td style="font-size:12px;color:var(--text-secondary)">$22,124</td>
+                <td><span class="tag tag-pending">Sale Pending</span></td>
+                <td><span class="tag tag-archived">Unpublished</span></td>
+                <td style="font-size:12px;color:var(--text-secondary)">31 ft 2 in</td>
+                <td style="font-size:12px;color:var(--text-secondary)">MarineMax St. Petersburg</td>
               </tr>
-              <tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td><div class="boat-thumb"><img src="https://images.unsplash.com/photo-1605281317010-fe5ffe798166?w=120&h=80&fit=crop&auto=format" alt="boat" style="width:100%;height:100%;object-fit:cover;border-radius:5px"></div></td>
                 <td>
-                  <div class="boat-cell">
-                    <div class="boat-ic"><i class="ti ti-anchor"></i></div>
-                    <div>
-                      <div class="cell-primary">Lady Ann</div>
-                      <div class="cell-sub">BT-1044</div>
-                    </div>
-                  </div>
+                  <div class="cell-primary">2010 Mercury 1775 Adventure Sport</div>
+                  <div class="cell-sub">Mercury · 1775 Adventure Sport</div>
                 </td>
-                <td>Sea Ray</td>
-                <td>Sundancer 320</td>
-                <td>2019</td>
-                <td>32 ft</td>
-                <td><span class="tag tag-listed">Listed</span></td>
-                <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ti ti-pencil" style="font-size:12px;color:var(--text-placeholder)"></i> Manual</span></td>
-                <td style="font-size:12px">Apr 20, 2026</td>
+                <td style="font-size:12px;color:var(--text-secondary)">BOT371</td>
+                <td style="font-size:12px;color:var(--text-secondary)">$27,196</td>
+                <td><span class="tag tag-sold">Sold On-Order</span></td>
+                <td><span class="tag tag-archived">Unpublished</span></td>
+                <td style="font-size:12px;color:var(--text-secondary)">28 ft 7 in</td>
+                <td style="font-size:12px;color:var(--text-secondary)">MarineMax St. Petersburg</td>
               </tr>
-              <tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td><div class="boat-thumb"><img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=120&h=80&fit=crop&auto=format" alt="boat" style="width:100%;height:100%;object-fit:cover;border-radius:5px"></div></td>
                 <td>
-                  <div class="boat-cell">
-                    <div class="boat-ic"><i class="ti ti-anchor"></i></div>
-                    <div>
-                      <div class="cell-primary">Wind Walker</div>
-                      <div class="cell-sub">BT-1045</div>
-                    </div>
-                  </div>
+                  <div class="cell-primary">1924 Alumacraft G23</div>
+                  <div class="cell-sub">Alumacraft · G23</div>
                 </td>
-                <td>Jeanneau</td>
-                <td>Sun Odyssey 410</td>
-                <td>2023</td>
-                <td>41 ft</td>
-                <td><span class="tag tag-draft">Draft</span></td>
-                <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ti ti-file-text" style="font-size:12px;color:var(--text-placeholder)"></i> Document</span></td>
-                <td style="font-size:12px">Apr 24, 2026</td>
+                <td style="font-size:12px;color:var(--text-secondary)">BOT794</td>
+                <td style="font-size:12px;color:var(--text-secondary)">$33,526</td>
+                <td><span class="tag tag-draft" style="color:var(--text-tertiary)">On-Order</span></td>
+                <td><span class="tag tag-archived">Unpublished</span></td>
+                <td style="font-size:12px;color:var(--text-secondary)">38 ft 2 in</td>
+                <td style="font-size:12px;color:var(--text-secondary)">Echo Bay Marina</td>
               </tr>
-              <tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td><div class="boat-thumb"><img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=120&h=80&fit=crop&auto=format" alt="boat" style="width:100%;height:100%;object-fit:cover;border-radius:5px"></div></td>
                 <td>
-                  <div class="boat-cell">
-                    <div class="boat-ic"><i class="ti ti-anchor"></i></div>
-                    <div>
-                      <div class="cell-primary">Coastal King</div>
-                      <div class="cell-sub">BT-1046</div>
-                    </div>
-                  </div>
+                  <div class="cell-primary">2022 Sea Ray Sundancer 320</div>
+                  <div class="cell-sub">Sea Ray · Sundancer 320</div>
                 </td>
-                <td>Grady-White</td>
-                <td>Freedom 285</td>
-                <td>2020</td>
-                <td>28 ft</td>
-                <td><span class="tag tag-sold">Sold</span></td>
-                <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ti ti-pencil" style="font-size:12px;color:var(--text-placeholder)"></i> Manual</span></td>
-                <td style="font-size:12px;color:var(--text-info)">Mar 30, 2026</td>
+                <td style="font-size:12px;color:var(--text-secondary)">SR-32-22-0091</td>
+                <td style="font-size:12px;color:var(--text-secondary)">$118,500</td>
+                <td><span class="tag tag-listed">In-Stock</span></td>
+                <td><span class="tag tag-listed">Published</span></td>
+                <td style="font-size:12px;color:var(--text-secondary)">32 ft</td>
+                <td style="font-size:12px;color:var(--text-secondary)">Boatyard Sales — Miami</td>
               </tr>
-              <tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td><div class="boat-thumb boat-thumb-empty"><i class="ti ti-photo" style="font-size:18px;color:var(--text-disabled)"></i></div></td>
                 <td>
-                  <div class="boat-cell">
-                    <div class="boat-ic"><i class="ti ti-anchor"></i></div>
-                    <div>
-                      <div class="cell-primary">Blue Horizon</div>
-                      <div class="cell-sub">BT-1047</div>
-                    </div>
-                  </div>
+                  <div class="cell-primary">2023 Jeanneau Sun Odyssey 410</div>
+                  <div class="cell-sub">Jeanneau · Sun Odyssey 410</div>
                 </td>
-                <td>Azimut</td>
-                <td>55 Flybridge</td>
-                <td>2018</td>
-                <td>55 ft</td>
-                <td><span class="tag tag-archived">Archived</span></td>
-                <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ti ti-file-text" style="font-size:12px;color:var(--text-placeholder)"></i> Document</span></td>
-                <td style="font-size:12px">Feb 14, 2026</td>
+                <td style="font-size:12px;color:var(--text-secondary)">JN-41-23-0044</td>
+                <td style="font-size:12px;color:var(--text-secondary)">$245,000</td>
+                <td><span class="tag tag-draft" style="color:var(--text-tertiary)">On-Order</span></td>
+                <td><span class="tag tag-archived">Unpublished</span></td>
+                <td style="font-size:12px;color:var(--text-secondary)">41 ft</td>
+                <td style="font-size:12px;color:var(--text-secondary)">MarineMax St. Petersburg</td>
               </tr>
             </tbody>
           </table>
-          <div class="showing-count">Showing 6 of 6 boats</div>
+          <div class="showing-count">Showing 6 of 14 boats</div>
         </div>
       </div>
 
