@@ -2523,35 +2523,82 @@
             <i class="ti ti-anchor" style="font-size:20px;color:var(--text-info)"></i>
             <div>
               <div class="create-flow-title">Create a new boat</div>
-              <div class="create-flow-desc">Pick how you'd like to create this boat.</div>
+              <div class="create-flow-desc">Upload a document and let AI extract the details for you.</div>
             </div>
           </div>
-          <div class="create-method-list">
-            <div class="create-method-item" onclick="showCreateFlow('scratch-wizard')">
-              <div class="cmi-icon"><i class="ti ti-plus"></i></div>
-              <div class="cmi-text">
-                <div class="cmi-title">Create New</div>
-                <div class="cmi-desc">Step-by-step wizard. Best when entering a unit by hand.</div>
+
+          <!-- PRIMARY: Upload dropzone -->
+          <div class="upload-doc-zone" id="boat-method-zone" ondragover="event.preventDefault();this.classList.add('udz-drag')" ondragleave="this.classList.remove('udz-drag')" ondrop="event.preventDefault();this.classList.remove('udz-drag');boatMethodDocSelected('order_form.pdf','312')">
+            <div class="udz-icon"><i class="ti ti-cloud-upload"></i></div>
+            <div class="udz-title">Drag &amp; drop an order form, spec sheet or invoice</div>
+            <div class="udz-sub">PDF, PNG or JPG · single file · up to 25MB</div>
+            <button class="btn btn-primary" style="margin-top:16px" onclick="boatMethodDocSelected('overview.pdf','523')">
+              <i class="ti ti-folder-open"></i> Choose file
+            </button>
+          </div>
+
+          <!-- File selected state -->
+          <div id="boat-method-selected" style="display:none">
+            <div style="border:1.5px dashed var(--border-secondary);border-radius:8px;padding:12px 18px;background:var(--surface-base);display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;cursor:pointer" onclick="boatMethodDocSelected('overview.pdf','523')">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-quaternary)">
+                <i class="ti ti-cloud-upload" style="font-size:15px"></i>
+                Drop a different file or <span style="color:var(--text-info);text-decoration:underline">click to replace</span>
               </div>
-              <i class="ti ti-chevron-right cmi-arrow"></i>
+              <div style="display:flex;gap:4px"><span class="fmt-pill">PDF</span><span class="fmt-pill">PNG</span><span class="fmt-pill">JPG</span></div>
             </div>
-            <div class="create-method-item" onclick="showCreateFlow('upload-doc')">
-              <div class="cmi-icon"><i class="ti ti-file-description"></i></div>
-              <div class="cmi-text">
-                <div class="cmi-title">Upload from document</div>
-                <div class="cmi-desc">Drop an order form, spec sheet, invoice or build sheet. We'll extract boat data with AI and let you review side-by-side.</div>
+            <div style="border:1px solid var(--border-line);border-radius:8px;background:white;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border-line)">
+                <div style="width:38px;height:38px;border-radius:8px;background:var(--surface-primary-subtle);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <i class="ti ti-file-description" style="font-size:18px;color:var(--text-info)"></i>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:var(--text-secondary)" id="boat-method-fname">overview.pdf</div>
+                  <div style="display:flex;align-items:center;gap:8px;margin-top:2px">
+                    <span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;color:var(--text-success);font-weight:500"><i class="ti ti-circle-check" style="font-size:12px"></i> Ready to extract</span>
+                    <span style="font-size:11px;color:var(--text-placeholder)" id="boat-method-fsize">· 523 KB</span>
+                  </div>
+                </div>
+                <button onclick="boatMethodClear()" style="background:none;border:none;cursor:pointer;color:var(--text-placeholder);font-size:16px;padding:4px"><i class="ti ti-x"></i></button>
               </div>
-              <i class="ti ti-chevron-right cmi-arrow"></i>
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 16px;background:var(--surface-primary-subtle)">
+                <i class="ti ti-wand" style="font-size:14px;color:var(--text-info);margin-top:1px;flex-shrink:0"></i>
+                <div style="font-size:11px;color:var(--text-tertiary);line-height:1.5">AI will extract make, model, year, stock number, HIN, engine type, and other boat data automatically. You'll review everything before saving.</div>
+              </div>
             </div>
-            <div class="create-method-item" onclick="showCreateFlow('copy')">
-              <div class="cmi-icon"><i class="ti ti-copy"></i></div>
-              <div class="cmi-text">
-                <div class="cmi-title">Copy From Existing Boat</div>
-                <div class="cmi-desc">Duplicate a boat and tweak only what's different.</div>
-              </div>
-              <i class="ti ti-chevron-right cmi-arrow"></i>
+            <div style="display:flex;justify-content:flex-end;margin-top:16px">
+              <button class="btn btn-primary" onclick="showCreateFlow('duplicate-detected')">
+                Extract &amp; continue <i class="ti ti-arrow-right"></i>
+              </button>
             </div>
           </div>
+
+          <!-- SECONDARY: divider + compact options -->
+          <div id="boat-method-alt" style="margin-top:20px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+              <div style="flex:1;height:1px;background:var(--border-line)"></div>
+              <span style="font-size:11px;color:var(--text-placeholder);font-weight:500;white-space:nowrap">or continue without a document</span>
+              <div style="flex:1;height:1px;background:var(--border-line)"></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div class="create-method-item" style="padding:12px 14px" onclick="showCreateFlow('scratch-wizard')">
+                <div class="cmi-icon" style="width:32px;height:32px;font-size:15px"><i class="ti ti-plus"></i></div>
+                <div class="cmi-text">
+                  <div class="cmi-title" style="font-size:12px">Create manually</div>
+                  <div class="cmi-desc" style="font-size:11px">Enter all details by hand</div>
+                </div>
+                <i class="ti ti-chevron-right cmi-arrow"></i>
+              </div>
+              <div class="create-method-item" style="padding:12px 14px" onclick="showCreateFlow('copy')">
+                <div class="cmi-icon" style="width:32px;height:32px;font-size:15px"><i class="ti ti-copy"></i></div>
+                <div class="cmi-text">
+                  <div class="cmi-title" style="font-size:12px">Copy existing boat</div>
+                  <div class="cmi-desc" style="font-size:11px">Duplicate and tweak</div>
+                </div>
+                <i class="ti ti-chevron-right cmi-arrow"></i>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -3321,35 +3368,82 @@
             <i class="ti ti-receipt" style="font-size:20px;color:var(--text-info)"></i>
             <div>
               <div class="create-flow-title">Create a new quote</div>
-              <div class="create-flow-desc">Pick how you'd like to start this quote.</div>
+              <div class="create-flow-desc">Upload a document and let AI extract the details for you.</div>
             </div>
           </div>
-          <div class="create-method-list">
-            <div class="create-method-item" onclick="showQuoteFlow('scratch')">
-              <div class="cmi-icon"><i class="ti ti-plus"></i></div>
-              <div class="cmi-text">
-                <div class="cmi-title">Create New</div>
-                <div class="cmi-desc">Step-by-step wizard. Enter customer, boat, and pricing details by hand.</div>
+
+          <!-- PRIMARY: Upload dropzone -->
+          <div class="upload-doc-zone" id="quote-method-zone" ondragover="event.preventDefault();this.classList.add('udz-drag')" ondragleave="this.classList.remove('udz-drag')" ondrop="event.preventDefault();this.classList.remove('udz-drag');quoteMethodDocSelected('order_form.pdf','312')">
+            <div class="udz-icon"><i class="ti ti-cloud-upload"></i></div>
+            <div class="udz-title">Drag &amp; drop an order form, spec sheet or invoice</div>
+            <div class="udz-sub">PDF, PNG or JPG · single file · up to 25MB</div>
+            <button class="btn btn-primary" style="margin-top:16px" onclick="quoteMethodDocSelected('order_form.pdf','312')">
+              <i class="ti ti-folder-open"></i> Choose file
+            </button>
+          </div>
+
+          <!-- File selected state -->
+          <div id="quote-method-selected" style="display:none">
+            <div style="border:1.5px dashed var(--border-secondary);border-radius:8px;padding:12px 18px;background:var(--surface-base);display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;cursor:pointer" onclick="quoteMethodDocSelected('order_form.pdf','312')">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-quaternary)">
+                <i class="ti ti-cloud-upload" style="font-size:15px"></i>
+                Drop a different file or <span style="color:var(--text-info);text-decoration:underline">click to replace</span>
               </div>
-              <i class="ti ti-chevron-right cmi-arrow"></i>
+              <div style="display:flex;gap:4px"><span class="fmt-pill">PDF</span><span class="fmt-pill">PNG</span><span class="fmt-pill">JPG</span></div>
             </div>
-            <div class="create-method-item" onclick="showQuoteFlow('upload')">
-              <div class="cmi-icon"><i class="ti ti-file-description"></i></div>
-              <div class="cmi-text">
-                <div class="cmi-title">Upload from document</div>
-                <div class="cmi-desc">Upload an order form, spec sheet or invoice. AI extracts quote data and lets you review side-by-side.</div>
+            <div style="border:1px solid var(--border-line);border-radius:8px;background:white;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border-line)">
+                <div style="width:38px;height:38px;border-radius:8px;background:var(--surface-primary-subtle);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <i class="ti ti-file-description" style="font-size:18px;color:var(--text-info)"></i>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:var(--text-secondary)" id="quote-method-fname">order_form.pdf</div>
+                  <div style="display:flex;align-items:center;gap:8px;margin-top:2px">
+                    <span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;color:var(--text-success);font-weight:500"><i class="ti ti-circle-check" style="font-size:12px"></i> Ready to extract</span>
+                    <span style="font-size:11px;color:var(--text-placeholder)" id="quote-method-fsize">· 312 KB</span>
+                  </div>
+                </div>
+                <button onclick="quoteMethodClear()" style="background:none;border:none;cursor:pointer;color:var(--text-placeholder);font-size:16px;padding:4px"><i class="ti ti-x"></i></button>
               </div>
-              <i class="ti ti-chevron-right cmi-arrow"></i>
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 16px;background:var(--surface-primary-subtle)">
+                <i class="ti ti-wand" style="font-size:14px;color:var(--text-info);margin-top:1px;flex-shrink:0"></i>
+                <div style="font-size:11px;color:var(--text-tertiary);line-height:1.5">AI will extract customer name, contact info, boat details, and pricing automatically. You'll review everything before saving.</div>
+              </div>
             </div>
-            <div class="create-method-item" onclick="showQuoteFlow('duplicate')">
-              <div class="cmi-icon"><i class="ti ti-copy"></i></div>
-              <div class="cmi-text">
-                <div class="cmi-title">Duplicate existing quote</div>
-                <div class="cmi-desc">Copy a previous quote and tweak only what's different.</div>
-              </div>
-              <i class="ti ti-chevron-right cmi-arrow"></i>
+            <div style="display:flex;justify-content:flex-end;margin-top:16px">
+              <button class="btn btn-primary" onclick="showQuoteFlow('review')">
+                Extract &amp; continue <i class="ti ti-arrow-right"></i>
+              </button>
             </div>
           </div>
+
+          <!-- SECONDARY: divider + compact options -->
+          <div style="margin-top:20px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+              <div style="flex:1;height:1px;background:var(--border-line)"></div>
+              <span style="font-size:11px;color:var(--text-placeholder);font-weight:500;white-space:nowrap">or continue without a document</span>
+              <div style="flex:1;height:1px;background:var(--border-line)"></div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+              <div class="create-method-item" style="padding:12px 14px" onclick="showQuoteFlow('scratch')">
+                <div class="cmi-icon" style="width:32px;height:32px;font-size:15px"><i class="ti ti-plus"></i></div>
+                <div class="cmi-text">
+                  <div class="cmi-title" style="font-size:12px">Create manually</div>
+                  <div class="cmi-desc" style="font-size:11px">Enter all details by hand</div>
+                </div>
+                <i class="ti ti-chevron-right cmi-arrow"></i>
+              </div>
+              <div class="create-method-item" style="padding:12px 14px" onclick="showQuoteFlow('duplicate')">
+                <div class="cmi-icon" style="width:32px;height:32px;font-size:15px"><i class="ti ti-copy"></i></div>
+                <div class="cmi-text">
+                  <div class="cmi-title" style="font-size:12px">Duplicate existing quote</div>
+                  <div class="cmi-desc" style="font-size:11px">Copy and tweak</div>
+                </div>
+                <i class="ti ti-chevron-right cmi-arrow"></i>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -4330,6 +4424,14 @@
     // Reset boat upload dropzone every time user arrives at upload-doc step
     if (step === 'upload-doc') resetBoatDropzone();
 
+    // Reset method page inline dropzones
+    if (step === 'method' || step === 'scratch-wizard') {
+      const bz = document.getElementById('boat-method-zone');
+      const bs = document.getElementById('boat-method-selected');
+      if (bz) bz.style.display = 'flex';
+      if (bs) bs.style.display = 'none';
+    }
+
     const breadcrumbs = {
       'method':           'Home / Boats / Create',
       'upload-doc':       'Home / Boats / Create',
@@ -4388,6 +4490,32 @@
     btn.disabled = !ready;
     btn.style.opacity = ready ? '1' : '0.4';
     btn.style.cursor = ready ? 'pointer' : 'not-allowed';
+  }
+
+  /* ── Boats method dropzone ── */
+  function boatMethodDocSelected(name, sizeKB) {
+    document.getElementById('boat-method-zone').style.display = 'none';
+    document.getElementById('boat-method-selected').style.display = 'block';
+    document.getElementById('boat-method-fname').textContent = name;
+    document.getElementById('boat-method-fsize').textContent = '· ' + sizeKB + ' KB';
+  }
+
+  function boatMethodClear() {
+    document.getElementById('boat-method-selected').style.display = 'none';
+    document.getElementById('boat-method-zone').style.display = 'flex';
+  }
+
+  /* ── Quotes method dropzone ── */
+  function quoteMethodDocSelected(name, sizeKB) {
+    document.getElementById('quote-method-zone').style.display = 'none';
+    document.getElementById('quote-method-selected').style.display = 'block';
+    document.getElementById('quote-method-fname').textContent = name;
+    document.getElementById('quote-method-fsize').textContent = '· ' + sizeKB + ' KB';
+  }
+
+  function quoteMethodClear() {
+    document.getElementById('quote-method-selected').style.display = 'none';
+    document.getElementById('quote-method-zone').style.display = 'flex';
   }
 
   function simulateDocSelect() {
@@ -4507,7 +4635,8 @@
     const type = window._impType;
     document.getElementById('import-state-upload').style.display = 'none';
     document.getElementById('import-state-done').style.display = 'block';
-    // Store type for "Go to Review Queue" routing
+    const label = document.getElementById('imp-done-type-label');
+    if (label) label.textContent = '1 file queued · ' + (type === 'quote' ? 'Quote' : 'Boat');
     window._impProcessedType = type;
   }
 
@@ -4616,6 +4745,14 @@
       '<span class="current">New Quote</span>';
 
     if (step === 'upload') resetQuoteDropzone();
+
+    // Reset method page inline dropzone
+    if (step === 'method') {
+      const qz = document.getElementById('quote-method-zone');
+      const qs = document.getElementById('quote-method-selected');
+      if (qz) qz.style.display = 'flex';
+      if (qs) qs.style.display = 'none';
+    }
   }
 
   function resetQuoteDropzone() {
