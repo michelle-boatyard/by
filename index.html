@@ -1334,18 +1334,19 @@
     </div>
 
     <nav class="sidebar-nav">
-      <div class="nav-item active" id="nav-import" onclick="showPage('import')">
-        <i class="ti ti-file-upload nav-icon"></i>
-        Import Documents
-      </div>
-      <div class="nav-item" id="nav-reviews" onclick="showPage('reviews')">
+
+      <div class="nav-item active" id="nav-reviews" onclick="showPage('reviews')">
         <i class="ti ti-clipboard-check nav-icon"></i>
-        Pending Reviews
+        Import Manager
         <span class="nav-badge">4</span>
       </div>
       <div class="nav-item" id="nav-boats" onclick="showPage('boats')">
         <i class="ti ti-anchor nav-icon"></i>
         Boats
+      </div>
+      <div class="nav-item" id="nav-quotes" onclick="showPage('quotes')">
+        <i class="ti ti-receipt nav-icon"></i>
+        Quotes
       </div>
     </nav>
 
@@ -1364,7 +1365,7 @@
     <!-- TOPBAR -->
     <header class="topbar">
       <div class="breadcrumb" id="breadcrumb">
-        <span class="current">Import Documents</span>
+        <span class="current">Import Manager</span>
       </div>
       <div class="topbar-actions">
         <button class="btn btn-ghost btn-icon-sm"><i class="ti ti-help-circle" style="font-size:16px"></i></button>
@@ -1442,7 +1443,7 @@
       <!-- ════════════════════════════════════
            PAGE: IMPORT DOCUMENTS
       ════════════════════════════════════ -->
-      <div class="page active" id="page-import">
+      <div class="page" id="page-import">
         <div class="page-header-row">
           <div>
             <h1 class="page-title">Import Documents</h1>
@@ -1640,15 +1641,14 @@
       <!-- ════════════════════════════════════
            PAGE: PENDING REVIEWS
       ════════════════════════════════════ -->
-      <div class="page" id="page-reviews">
+      <div class="page active" id="page-reviews">
         <div class="page-header-row">
           <div>
-            <h1 class="page-title">Pending Reviews</h1>
+            <h1 class="page-title">Import Manager</h1>
             <p class="page-desc">Documents processed by AI awaiting verification.</p>
           </div>
           <div class="page-header-actions">
-            <button class="btn btn-ghost btn-sm"><i class="ti ti-download"></i> Export</button>
-            <button class="btn btn-primary btn-sm"><i class="ti ti-upload"></i> Upload document</button>
+            <button class="btn btn-primary btn-sm" onclick="showPage('import')"><i class="ti ti-upload"></i> Upload document</button>
           </div>
         </div>
 
@@ -1878,7 +1878,7 @@
       ════════════════════════════════════ -->
       <div class="page" id="page-doc-review">
         <div class="doc-detail-topbar">
-          <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-arrow-left"></i> Back to Pending Reviews</button>
+          <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-arrow-left"></i> Back to Import Manager</button>
           <div class="doc-detail-meta">
             <span class="cell-primary" style="font-size:14px">DOC-10473</span>
             <span style="color:var(--text-placeholder);font-size:12px">·</span>
@@ -1887,7 +1887,7 @@
           </div>
           <div style="margin-left:auto;display:flex;gap:8px">
             <button class="btn btn-ghost btn-sm"><i class="ti ti-x"></i> Reject</button>
-            <button class="btn btn-primary btn-sm" onclick="showPage('reviews');showToast('<i class=\'ti ti-circle-check\' style=\'font-size:16px\'></i> Document approved successfully')"><i class="ti ti-check"></i> Approve &amp; save boat</button>
+            <button class="btn btn-primary btn-sm" onclick="approveDoc()"><i class="ti ti-check"></i> Approve &amp; save boat</button>
           </div>
         </div>
 
@@ -2042,7 +2042,7 @@
       ════════════════════════════════════ -->
       <div class="page" id="page-doc-processing">
         <div class="doc-detail-topbar">
-          <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-arrow-left"></i> Back to Pending Reviews</button>
+          <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-arrow-left"></i> Back to Import Manager</button>
           <div class="doc-detail-meta">
             <span class="cell-primary" style="font-size:14px">DOC-10471</span>
             <span style="color:var(--text-placeholder);font-size:12px">·</span>
@@ -2118,7 +2118,7 @@
       ════════════════════════════════════ -->
       <div class="page" id="page-doc-completed">
         <div class="doc-detail-topbar">
-          <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-arrow-left"></i> Back to Pending Reviews</button>
+          <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-arrow-left"></i> Back to Import Manager</button>
           <div class="doc-detail-meta">
             <span class="cell-primary" style="font-size:14px">DOC-10470</span>
             <span style="color:var(--text-placeholder);font-size:12px">·</span>
@@ -2195,7 +2195,7 @@
       ════════════════════════════════════ -->
       <div class="page" id="page-doc-failed">
         <div class="doc-detail-topbar">
-          <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-arrow-left"></i> Back to Pending Reviews</button>
+          <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-arrow-left"></i> Back to Import Manager</button>
           <div class="doc-detail-meta">
             <span class="cell-primary" style="font-size:14px">DOC-10469</span>
             <span style="color:var(--text-placeholder);font-size:12px">·</span>
@@ -3110,6 +3110,566 @@
         </div>
       </div>
 
+
+      <!-- ════════════════════════════════════
+           PAGE: QUOTES LIST
+      ════════════════════════════════════ -->
+      <div class="page" id="page-quotes">
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">My Quotes</h1>
+            <p class="page-desc">Manage and track all your customer quotes.</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-ghost btn-sm"><i class="ti ti-adjustments-horizontal"></i></button>
+            <button class="btn btn-primary btn-sm" onclick="showQuoteFlow('method')">
+              <i class="ti ti-plus"></i> New Quote
+            </button>
+          </div>
+        </div>
+
+        <div class="table-toolbar">
+          <div class="search-wrap" style="flex:1">
+            <i class="ti ti-search si"></i>
+            <input type="text" placeholder="Search quotes…">
+          </div>
+          <select class="fselect" style="width:160px">
+            <option>All statuses</option>
+            <option>Engaged</option>
+            <option>Quoted</option>
+            <option>Won</option>
+            <option>Lost</option>
+          </select>
+          <select class="fselect" style="width:160px">
+            <option>All reps</option>
+            <option>John Anderson</option>
+            <option>Sarah Kim</option>
+          </select>
+        </div>
+
+        <div class="table-wrap scrollable">
+          <table>
+            <thead>
+              <tr>
+                <th>Quote code</th>
+                <th>Title</th>
+                <th>Contact</th>
+                <th>Status</th>
+                <th>Created by</th>
+                <th>Last interaction</th>
+                <th style="width:40px"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="doc-row" style="cursor:pointer">
+                <td><div class="cell-primary">Q-2024-001</div></td>
+                <td style="font-size:12px;color:var(--text-secondary)">2095 Mercury EXCALIBUR LTD 27</td>
+                <td><div style="font-size:12px">John Anderson</div><div class="cell-sub">john.anderson@email.com</div></td>
+                <td><span class="tag" style="background:rgba(39,121,150,0.12);color:var(--text-info)">Engaged</span></td>
+                <td style="font-size:12px">John Anderson</td>
+                <td style="font-size:12px;color:var(--text-quaternary)">Feb 2, 2024 — 11:02 AM</td>
+                <td><button class="quote-menu-btn" onclick="toggleQuoteMenu(event,this)"><i class="ti ti-dots-vertical"></i></button></td>
+              </tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td><div class="cell-primary">Q-2024-002</div></td>
+                <td style="font-size:12px;color:var(--text-secondary)">2024 Sea Ray Sundancer 320</td>
+                <td><div style="font-size:12px">Arlo Simons</div><div class="cell-sub">arlo.simons@email.com</div></td>
+                <td><span class="tag" style="background:rgba(247,142,30,0.12);color:#8a5200">Quoted</span></td>
+                <td style="font-size:12px">John Anderson</td>
+                <td style="font-size:12px;color:var(--text-quaternary)">Feb 2, 2024 — 11:02 AM</td>
+                <td><button class="quote-menu-btn" onclick="toggleQuoteMenu(event,this)"><i class="ti ti-dots-vertical"></i></button></td>
+              </tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td><div class="cell-primary">Q-2024-003</div></td>
+                <td style="font-size:12px;color:var(--text-secondary)">2022 Tiara Yachts 43 LE</td>
+                <td><div style="font-size:12px">Wilson Fisk</div><div class="cell-sub">w.fisk@enterprise.com</div></td>
+                <td><span class="tag tag-listed">Won</span></td>
+                <td style="font-size:12px">John Anderson</td>
+                <td style="font-size:12px;color:var(--text-quaternary)">Feb 2, 2024 — 11:02 AM</td>
+                <td><button class="quote-menu-btn" onclick="toggleQuoteMenu(event,this)"><i class="ti ti-dots-vertical"></i></button></td>
+              </tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td><div class="cell-primary">Q-2024-004</div></td>
+                <td style="font-size:12px;color:var(--text-secondary)">2023 Formula 350 CBR</td>
+                <td><div style="font-size:12px">Matt Murdock</div><div class="cell-sub">m.murdock@legal.com</div></td>
+                <td><span class="tag" style="background:rgba(247,142,30,0.12);color:#8a5200">Quoted</span></td>
+                <td style="font-size:12px">John Anderson</td>
+                <td style="font-size:12px;color:var(--text-quaternary)">Feb 2, 2024 — 11:02 AM</td>
+                <td><button class="quote-menu-btn" onclick="toggleQuoteMenu(event,this)"><i class="ti ti-dots-vertical"></i></button></td>
+              </tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td><div class="cell-primary">Q-2024-005</div></td>
+                <td style="font-size:12px;color:var(--text-secondary)">2024 Jeanneau NC 37</td>
+                <td><div style="font-size:12px">Karen Page</div><div class="cell-sub">k.page@nyt.com</div></td>
+                <td><span class="tag" style="background:rgba(39,121,150,0.12);color:var(--text-info)">Engaged</span></td>
+                <td style="font-size:12px">John Anderson</td>
+                <td style="font-size:12px;color:var(--text-quaternary)">Feb 2, 2024 — 11:02 AM</td>
+                <td><button class="quote-menu-btn" onclick="toggleQuoteMenu(event,this)"><i class="ti ti-dots-vertical"></i></button></td>
+              </tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td><div class="cell-primary">Q-2024-006</div></td>
+                <td style="font-size:12px;color:var(--text-secondary)">2022 Princess V55</td>
+                <td><div style="font-size:12px">Danny Rand</div><div class="cell-sub">d.rand@rand.co</div></td>
+                <td><span class="tag" style="background:rgba(39,121,150,0.12);color:var(--text-info)">Engaged</span></td>
+                <td style="font-size:12px">John Anderson</td>
+                <td style="font-size:12px;color:var(--text-quaternary)">Feb 2, 2024 — 11:02 AM</td>
+                <td><button class="quote-menu-btn" onclick="toggleQuoteMenu(event,this)"><i class="ti ti-dots-vertical"></i></button></td>
+              </tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td><div class="cell-primary">Q-2024-007</div></td>
+                <td style="font-size:12px;color:var(--text-secondary)">2022 Tiara Yachts 43 LE</td>
+                <td><div style="font-size:12px">Wilson Fisk</div><div class="cell-sub">w.fisk@enterprise.com</div></td>
+                <td><span class="tag tag-failed">Lost</span></td>
+                <td style="font-size:12px">John Anderson</td>
+                <td style="font-size:12px;color:var(--text-quaternary)">Feb 2, 2024 — 11:02 AM</td>
+                <td><button class="quote-menu-btn" onclick="toggleQuoteMenu(event,this)"><i class="ti ti-dots-vertical"></i></button></td>
+              </tr>
+              <tr class="doc-row" style="cursor:pointer">
+                <td><div class="cell-primary">Q-2024-008</div></td>
+                <td style="font-size:12px;color:var(--text-secondary)">2024 Sea Ray Sundancer 320</td>
+                <td><div style="font-size:12px">Danny Rand</div><div class="cell-sub">d.rand@rand.co</div></td>
+                <td><span class="tag tag-listed">Won</span></td>
+                <td style="font-size:12px">John Anderson</td>
+                <td style="font-size:12px;color:var(--text-quaternary)">Feb 2, 2024 — 11:02 AM</td>
+                <td><button class="quote-menu-btn" onclick="toggleQuoteMenu(event,this)"><i class="ti ti-dots-vertical"></i></button></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="showing-count">Showing 8 of 8 quotes</div>
+        </div>
+
+        <!-- Row context menu (shared) -->
+        <div id="quote-ctx-menu" class="quote-ctx-menu" style="display:none">
+          <div class="qcm-item qcm-danger"><i class="ti ti-x"></i> Revoke</div>
+          <div class="qcm-item"><i class="ti ti-copy"></i> Duplicate</div>
+          <div class="qcm-item"><i class="ti ti-external-link"></i> Open Link</div>
+          <div class="qcm-item"><i class="ti ti-link"></i> Copy Link</div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           QUOTES: METHOD PICKER
+      ════════════════════════════════════ -->
+      <div class="page" id="page-quote-method">
+        <div style="margin-bottom:20px">
+          <button class="btn btn-ghost btn-sm" onclick="showPage('quotes')">
+            <i class="ti ti-arrow-left"></i> Back to Quotes
+          </button>
+        </div>
+        <div class="create-flow-card">
+          <div class="create-flow-header">
+            <i class="ti ti-receipt" style="font-size:20px;color:var(--text-info)"></i>
+            <div>
+              <div class="create-flow-title">Create a new quote</div>
+              <div class="create-flow-desc">Pick how you'd like to start this quote.</div>
+            </div>
+          </div>
+          <div class="create-method-list">
+            <div class="create-method-item" onclick="showQuoteFlow('scratch')">
+              <div class="cmi-icon"><i class="ti ti-plus"></i></div>
+              <div class="cmi-text">
+                <div class="cmi-title">Create New</div>
+                <div class="cmi-desc">Step-by-step wizard. Enter customer, boat, and pricing details by hand.</div>
+              </div>
+              <i class="ti ti-chevron-right cmi-arrow"></i>
+            </div>
+            <div class="create-method-item" onclick="showQuoteFlow('upload')">
+              <div class="cmi-icon"><i class="ti ti-file-description"></i></div>
+              <div class="cmi-text">
+                <div class="cmi-title">Upload from document</div>
+                <div class="cmi-desc">Upload an order form, spec sheet or invoice. AI extracts quote data and lets you review side-by-side.</div>
+              </div>
+              <i class="ti ti-chevron-right cmi-arrow"></i>
+            </div>
+            <div class="create-method-item" onclick="showQuoteFlow('duplicate')">
+              <div class="cmi-icon"><i class="ti ti-copy"></i></div>
+              <div class="cmi-text">
+                <div class="cmi-title">Duplicate existing quote</div>
+                <div class="cmi-desc">Copy a previous quote and tweak only what's different.</div>
+              </div>
+              <i class="ti ti-chevron-right cmi-arrow"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           QUOTES: CREATE FROM SCRATCH (wizard)
+      ════════════════════════════════════ -->
+      <div class="page" id="page-quote-scratch">
+        <div style="margin-bottom:20px">
+          <button class="btn btn-ghost btn-sm" onclick="showQuoteFlow('method')">
+            <i class="ti ti-arrow-left"></i> Back
+          </button>
+        </div>
+        <div class="create-flow-card" style="max-width:600px">
+          <div class="create-flow-header">
+            <i class="ti ti-receipt" style="font-size:20px;color:var(--text-info)"></i>
+            <div>
+              <div class="create-flow-title">New Quote</div>
+              <div class="create-flow-desc">Fill in the details below to create a new quote.</div>
+            </div>
+          </div>
+
+          <!-- Wizard bar -->
+          <div class="wizard-bar" style="margin:0 -20px 20px;padding:0 20px">
+            <div class="ws"><div class="ws-num ws-active">1</div><div class="ws-label ws-active">Customer</div></div>
+            <div class="ws"><div class="ws-num">2</div><div class="ws-label">Boat</div></div>
+            <div class="ws"><div class="ws-num">3</div><div class="ws-label">Pricing</div></div>
+            <div class="ws"><div class="ws-num">4</div><div class="ws-label">Review</div></div>
+          </div>
+
+          <div class="form-section-label">Customer information</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">First name <span style="color:var(--text-error)">*</span></label>
+              <input type="text" class="form-input" placeholder="e.g. John">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last name <span style="color:var(--text-error)">*</span></label>
+              <input type="text" class="form-input" placeholder="e.g. Anderson">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email <span style="color:var(--text-error)">*</span></label>
+            <input type="text" class="form-input" placeholder="john@email.com">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Phone</label>
+              <input type="text" class="form-input" placeholder="+1 (305) 000-0000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Company</label>
+              <input type="text" class="form-input" placeholder="Optional">
+            </div>
+          </div>
+          <div class="fields-divider"></div>
+          <div class="form-section-label">Quote details</div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Quote title <span style="color:var(--text-error)">*</span></label>
+              <input type="text" class="form-input" placeholder="e.g. 2024 Sea Ray Sundancer 320">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <select class="form-select">
+                <option>Engaged</option>
+                <option>Quoted</option>
+                <option>Won</option>
+                <option>Lost</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Assigned rep</label>
+            <select class="form-select">
+              <option>John Anderson</option>
+              <option>Sarah Kim</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Notes</label>
+            <textarea class="form-input" style="height:72px;resize:none;padding:8px 12px;line-height:1.5" placeholder="Internal notes or context for this quote…"></textarea>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;gap:8px;padding-top:16px;border-top:1px solid var(--border-line);margin-top:4px">
+            <button class="btn btn-ghost btn-sm" onclick="showPage('quotes')">Cancel</button>
+            <button class="btn btn-primary btn-sm" onclick="saveQuote()">
+              Next: Boat details <i class="ti ti-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           QUOTES: UPLOAD FROM DOCUMENT
+      ════════════════════════════════════ -->
+      <div class="page" id="page-quote-upload">
+        <div style="margin-bottom:20px">
+          <button class="btn btn-ghost btn-sm" onclick="showQuoteFlow('method')">
+            <i class="ti ti-arrow-left"></i> Back
+          </button>
+        </div>
+        <div class="create-flow-card">
+          <div class="create-flow-header">
+            <i class="ti ti-receipt" style="font-size:20px;color:var(--text-info)"></i>
+            <div>
+              <div class="create-flow-title">Create a new quote</div>
+              <div class="create-flow-desc">Pick how you'd like to start this quote.</div>
+            </div>
+          </div>
+
+          <!-- EMPTY STATE -->
+          <div class="upload-doc-zone" id="quote-upload-zone" ondragover="event.preventDefault();this.classList.add('udz-drag')" ondragleave="this.classList.remove('udz-drag')" ondrop="event.preventDefault();this.classList.remove('udz-drag');quoteDocSelected('order_form.pdf','312')">
+            <div class="udz-icon"><i class="ti ti-cloud-upload"></i></div>
+            <div class="udz-title">Drag &amp; drop an order form, spec sheet or invoice</div>
+            <div class="udz-sub">PDF, PNG or JPG · single file</div>
+            <button class="btn btn-ghost btn-sm" style="margin-top:14px" onclick="quoteDocSelected('order_form.pdf','312')">
+              <i class="ti ti-folder-open"></i> Choose file
+            </button>
+          </div>
+
+          <!-- FILE SELECTED STATE -->
+          <div id="quote-file-selected" style="display:none">
+            <div style="border:1.5px dashed var(--border-secondary);border-radius:8px;padding:12px 18px;background:var(--surface-base);display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;cursor:pointer" onclick="quoteDocSelected('order_form.pdf','312')">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-quaternary)">
+                <i class="ti ti-cloud-upload" style="font-size:15px"></i>
+                Drop a different file or <span style="color:var(--text-info);text-decoration:underline">click to replace</span>
+              </div>
+              <div style="display:flex;gap:4px"><span class="fmt-pill">PDF</span><span class="fmt-pill">PNG</span><span class="fmt-pill">JPG</span></div>
+            </div>
+            <div style="border:1px solid var(--border-line);border-radius:8px;background:white;overflow:hidden">
+              <div style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--border-line)">
+                <div style="width:38px;height:38px;border-radius:8px;background:var(--surface-primary-subtle);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                  <i class="ti ti-file-description" style="font-size:18px;color:var(--text-info)"></i>
+                </div>
+                <div style="flex:1;min-width:0">
+                  <div style="font-size:13px;font-weight:600;color:var(--text-secondary)" id="quote-fname">order_form.pdf</div>
+                  <div style="display:flex;align-items:center;gap:8px;margin-top:2px">
+                    <span style="display:inline-flex;align-items:center;gap:3px;font-size:11px;color:var(--text-success);font-weight:500"><i class="ti ti-circle-check" style="font-size:12px"></i> Ready to extract</span>
+                    <span style="font-size:11px;color:var(--text-placeholder)" id="quote-fsize">· 312 KB</span>
+                  </div>
+                </div>
+                <button onclick="quoteClearDoc()" style="background:none;border:none;cursor:pointer;color:var(--text-placeholder);font-size:16px;padding:4px;display:flex;align-items:center"><i class="ti ti-x"></i></button>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:10px;padding:12px 16px;background:var(--surface-primary-subtle)">
+                <i class="ti ti-wand" style="font-size:14px;color:var(--text-info);margin-top:1px;flex-shrink:0"></i>
+                <div style="font-size:11px;color:var(--text-tertiary);line-height:1.5">AI will extract customer name, contact info, boat details, and pricing from this document. You'll review everything before saving.</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;margin-top:20px">
+            <button class="btn btn-primary" id="quote-btn-extract" disabled onclick="showQuoteFlow('review')" style="opacity:0.4;cursor:not-allowed">
+              Extract &amp; continue <i class="ti ti-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           QUOTES: REVIEW EXTRACTED
+      ════════════════════════════════════ -->
+      <div class="page" id="page-quote-review">
+        <div class="review-topbar">
+          <div>
+            <div style="margin-bottom:6px">
+              <button class="btn btn-ghost btn-sm" style="padding:4px 8px;font-size:11px" onclick="showQuoteFlow('upload')">
+                <i class="ti ti-arrow-left"></i> Back
+              </button>
+            </div>
+            <h1 class="page-title" style="font-size:20px">Review extracted quote data</h1>
+            <p class="page-desc">Compare the source document with the extracted fields and edit anything that's off.</p>
+          </div>
+        </div>
+
+        <div class="ai-banner">
+          <i class="ti ti-wand" style="font-size:15px;color:var(--text-info);flex-shrink:0;margin-top:1px"></i>
+          <div>
+            <span style="font-weight:600;color:var(--text-secondary)">We extracted quote data from order_form.pdf.</span>
+            <span style="color:var(--text-tertiary)"> Review the document on the left and edit any field that doesn't look right before saving.</span>
+          </div>
+        </div>
+
+        <div class="review-split">
+          <div class="review-doc-panel">
+            <div class="review-doc-header">
+              <i class="ti ti-file-description" style="font-size:14px;color:var(--text-placeholder)"></i>
+              <span style="font-size:13px;font-weight:500;color:var(--text-secondary)">order_form.pdf</span>
+              <button class="btn btn-ghost btn-sm" style="margin-left:auto;padding:4px 10px;font-size:11px"><i class="ti ti-external-link"></i> Open</button>
+            </div>
+            <div class="review-doc-preview">
+              <div style="background:#f8f9fb;border:1px solid #e2ebf3;border-radius:6px;padding:20px;font-size:11px;color:#475569;line-height:1.6">
+                <div style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #e2ebf3">Boat Order Form — Boatyard Sales Miami</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px">Customer</div><div style="font-weight:600">John Anderson</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px">Email</div><div style="font-weight:500">john.anderson@email.com</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px">Phone</div><div style="font-weight:500">+1 (305) 555-0142</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px">Company</div><div style="font-weight:500">Anderson Marine LLC</div></div>
+                </div>
+                <hr style="border:none;border-top:1px solid #e2ebf3;margin:10px 0">
+                <div style="font-size:11px;font-weight:600;color:#334155;margin-bottom:8px">Boat Details</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Make</div><div style="font-weight:500">Sea Ray</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Model</div><div style="font-weight:500">Sundancer 320</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Year</div><div style="font-weight:500">2024</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Stock #</div><div style="font-weight:500">SR-32-24-0117</div></div>
+                </div>
+                <hr style="border:none;border-top:1px solid #e2ebf3;margin:10px 0">
+                <div style="font-size:11px;font-weight:600;color:#334155;margin-bottom:8px">Pricing</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Base price</div><div style="font-weight:600;color:#20667e">$124,500</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Discount</div><div style="font-weight:500">$2,500</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Final price</div><div style="font-weight:700;color:#1e293b">$122,000</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Payment</div><div style="font-weight:500">Financing</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="review-fields-panel">
+            <div class="review-fields-header">
+              <span style="font-size:10px;font-weight:600;color:var(--text-placeholder);text-transform:uppercase;letter-spacing:0.06em">Extracted quote data</span>
+              <span class="ai-prefilled-badge"><i class="ti ti-wand" style="font-size:11px"></i> AI pre-filled</span>
+            </div>
+            <div class="fields-scroll">
+              <div class="fields-section-label">Customer</div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">First name <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="John">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Last name <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="Anderson">
+                </div>
+              </div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Email <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="john.anderson@email.com">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Phone</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="+1 (305) 555-0142">
+                </div>
+              </div>
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Company</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="Anderson Marine LLC">
+              </div>
+              <div class="fields-divider"></div>
+              <div class="fields-section-label">Boat</div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Make</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="Sea Ray">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Model</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="Sundancer 320">
+                </div>
+              </div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Year</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="2024">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Stock #</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="SR-32-24-0117">
+                </div>
+              </div>
+              <div class="fields-divider"></div>
+              <div class="fields-section-label">Pricing</div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Base price</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="$124,500">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Discount</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="$2,500">
+                </div>
+              </div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <div class="field-label-row"><label class="form-label">Final price</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                  <input type="text" class="form-input" value="$122,000">
+                </div>
+                <div class="field-group">
+                  <label class="form-label">Payment method</label>
+                  <select class="form-select"><option>Financing</option><option>Cash</option><option>Wire transfer</option></select>
+                </div>
+              </div>
+              <div class="field-group">
+                <label class="form-label">Status</label>
+                <select class="form-select"><option>Engaged</option><option>Quoted</option><option>Won</option><option>Lost</option></select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-action-bar">
+          <div style="font-size:11px;color:var(--text-placeholder)">Required: First name, Last name, Email.</div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-ghost btn-sm" onclick="showQuoteFlow('upload')">Cancel</button>
+            <button class="btn btn-primary btn-sm" onclick="saveQuote()">
+              <i class="ti ti-receipt"></i> Save quote
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           QUOTES: DUPLICATE EXISTING
+      ════════════════════════════════════ -->
+      <div class="page" id="page-quote-duplicate">
+        <div style="margin-bottom:20px">
+          <button class="btn btn-ghost btn-sm" onclick="showQuoteFlow('method')">
+            <i class="ti ti-arrow-left"></i> Back
+          </button>
+        </div>
+        <div class="create-flow-card">
+          <div class="create-flow-header">
+            <i class="ti ti-receipt" style="font-size:20px;color:var(--text-info)"></i>
+            <div>
+              <div class="create-flow-title">Duplicate existing quote</div>
+              <div class="create-flow-desc">Select a quote to copy. You can edit all details after.</div>
+            </div>
+          </div>
+          <div style="margin-bottom:14px">
+            <button class="btn btn-ghost btn-sm" style="padding:4px 8px;font-size:12px" onclick="showQuoteFlow('method')">
+              <i class="ti ti-arrow-left"></i> Back
+            </button>
+          </div>
+          <div class="search-wrap" style="margin-bottom:16px">
+            <i class="ti ti-search si"></i>
+            <input type="text" placeholder="Search quotes…">
+          </div>
+          <div class="boat-select-list">
+            <div class="boat-select-item" onclick="selectQuote(this)">
+              <div class="bsi-icon"><i class="ti ti-receipt"></i></div>
+              <div><div class="bsi-name">Q-2024-001 — 2095 Mercury EXCALIBUR LTD 27</div><div class="bsi-detail">John Anderson · Engaged · Feb 2, 2024</div></div>
+              <i class="ti ti-circle-check bsi-check"></i>
+            </div>
+            <div class="boat-select-item" onclick="selectQuote(this)">
+              <div class="bsi-icon"><i class="ti ti-receipt"></i></div>
+              <div><div class="bsi-name">Q-2024-002 — 2024 Sea Ray Sundancer 320</div><div class="bsi-detail">Arlo Simons · Quoted · Feb 2, 2024</div></div>
+              <i class="ti ti-circle-check bsi-check"></i>
+            </div>
+            <div class="boat-select-item" onclick="selectQuote(this)">
+              <div class="bsi-icon"><i class="ti ti-receipt"></i></div>
+              <div><div class="bsi-name">Q-2024-003 — 2022 Tiara Yachts 43 LE</div><div class="bsi-detail">Wilson Fisk · Won · Feb 2, 2024</div></div>
+              <i class="ti ti-circle-check bsi-check"></i>
+            </div>
+            <div class="boat-select-item" onclick="selectQuote(this)">
+              <div class="bsi-icon"><i class="ti ti-receipt"></i></div>
+              <div><div class="bsi-name">Q-2024-004 — 2023 Formula 350 CBR</div><div class="bsi-detail">Matt Murdock · Quoted · Feb 2, 2024</div></div>
+              <i class="ti ti-circle-check bsi-check"></i>
+            </div>
+            <div class="boat-select-item" onclick="selectQuote(this)">
+              <div class="bsi-icon"><i class="ti ti-receipt"></i></div>
+              <div><div class="bsi-name">Q-2024-005 — 2024 Jeanneau NC 37</div><div class="bsi-detail">Karen Page · Engaged · Feb 2, 2024</div></div>
+              <i class="ti ti-circle-check bsi-check"></i>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border-line)">
+            <button class="btn btn-ghost btn-sm" style="margin-right:8px" onclick="showQuoteFlow('method')">Cancel</button>
+            <button class="btn btn-primary btn-sm" id="btn-quote-dup" disabled style="opacity:0.4;cursor:not-allowed"
+              onclick="duplicateQuote()">
+              Duplicate &amp; edit <i class="ti ti-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
     </main>
   </div>
 </div>
@@ -3335,6 +3895,48 @@
 
   /* boat select */
   .boat-select-list { display: flex; flex-direction: column; gap: 8px; }
+
+  /* ─── QUOTES ─── */
+  .quote-menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-placeholder);
+    font-size: 16px;
+    padding: 4px 6px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+  }
+  .quote-menu-btn:hover { background: var(--surface-base); color: var(--text-secondary); }
+
+  .quote-ctx-menu {
+    position: fixed;
+    background: white;
+    border: 1px solid var(--border-line);
+    border-radius: 9px;
+    box-shadow: 0 8px 24px rgba(30,41,59,0.14);
+    padding: 5px;
+    z-index: 300;
+    min-width: 160px;
+  }
+
+  .qcm-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+
+  .qcm-item:hover { background: var(--surface-base); }
+  .qcm-danger { color: var(--text-error); }
+  .qcm-danger:hover { background: var(--alpha-red-7); }
 
   /* ─── DUPLICATE DETECTED ─── */
   .dup-match-card {
@@ -3628,18 +4230,19 @@
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.getElementById('page-' + page).classList.add('active');
 
-    const navId = {'import':'nav-import','reviews':'nav-reviews','boats':'nav-boats'}[page];
+    const navId = {'reviews':'nav-reviews','boats':'nav-boats','quotes':'nav-quotes'}[page];
     if (navId) document.getElementById(navId).classList.add('active');
 
     const labels = {
       import: 'Import Documents',
-      reviews: 'Pending Reviews',
+      reviews: 'Import Manager',
       boats: 'Boats',
+      quotes: 'Quotes',
     };
     const label = labels[page] || 'Boats';
     document.getElementById('breadcrumb').innerHTML =
-      page === 'boats'
-        ? '<span style="color:var(--text-placeholder)">Home</span> <span class="sep">/</span> <span class="current">Boats</span>'
+      ['boats','quotes'].includes(page)
+        ? '<span style="color:var(--text-placeholder)">Home</span> <span class="sep">/</span> <span class="current">' + label + '</span>'
         : '<span class="current">' + label + '</span>';
 
     // Reset upload states when navigating away and back
@@ -3809,10 +4412,10 @@
       'failed':     'page-doc-failed',
     };
     const breadcrumbs = {
-      'review':     'Home <span class="sep">/</span> <span style="cursor:pointer;color:var(--text-placeholder)" onclick="showPage(\'reviews\')">Pending Reviews</span> <span class="sep">/</span> <span class="current">DOC-10473</span>',
-      'processing': 'Home <span class="sep">/</span> <span style="cursor:pointer;color:var(--text-placeholder)" onclick="showPage(\'reviews\')">Pending Reviews</span> <span class="sep">/</span> <span class="current">DOC-10471</span>',
-      'completed':  'Home <span class="sep">/</span> <span style="cursor:pointer;color:var(--text-placeholder)" onclick="showPage(\'reviews\')">Pending Reviews</span> <span class="sep">/</span> <span class="current">DOC-10470</span>',
-      'failed':     'Home <span class="sep">/</span> <span style="cursor:pointer;color:var(--text-placeholder)" onclick="showPage(\'reviews\')">Pending Reviews</span> <span class="sep">/</span> <span class="current">DOC-10469</span>',
+      'review':     'Home <span class="sep">/</span> <span style="cursor:pointer;color:var(--text-placeholder)" onclick="showPage(\'reviews\')">Import Manager</span> <span class="sep">/</span> <span class="current">DOC-10473</span>',
+      'processing': 'Home <span class="sep">/</span> <span style="cursor:pointer;color:var(--text-placeholder)" onclick="showPage(\'reviews\')">Import Manager</span> <span class="sep">/</span> <span class="current">DOC-10471</span>',
+      'completed':  'Home <span class="sep">/</span> <span style="cursor:pointer;color:var(--text-placeholder)" onclick="showPage(\'reviews\')">Import Manager</span> <span class="sep">/</span> <span class="current">DOC-10470</span>',
+      'failed':     'Home <span class="sep">/</span> <span style="cursor:pointer;color:var(--text-placeholder)" onclick="showPage(\'reviews\')">Import Manager</span> <span class="sep">/</span> <span class="current">DOC-10469</span>',
     };
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -3880,7 +4483,93 @@
     }
   }
 
-  // Close panel on outside click
+  // Close quote context menu on outside click
+  document.addEventListener('click', function() {
+    const m = document.getElementById('quote-ctx-menu');
+    if (m) m.style.display = 'none';
+  });
+
+  function approveDoc() {
+    showPage('reviews');
+    showToast('<i class="ti ti-circle-check" style="font-size:16px"></i> Document approved successfully');
+  }
+
+  function saveQuote() {
+    showPage('quotes');
+    showToast('<i class="ti ti-circle-check" style="font-size:16px"></i> Quote created successfully');
+  }
+
+  function duplicateQuote() {
+    showPage('quotes');
+    showToast('<i class="ti ti-circle-check" style="font-size:16px"></i> Quote duplicated successfully');
+  }
+
+  /* ─── QUOTE FLOWS ─── */
+  function showQuoteFlow(step) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('nav-quotes').classList.add('active');
+
+    const map = {
+      'method':    'page-quote-method',
+      'scratch':   'page-quote-scratch',
+      'upload':    'page-quote-upload',
+      'review':    'page-quote-review',
+      'duplicate': 'page-quote-duplicate',
+    };
+
+    if (map[step]) document.getElementById(map[step]).classList.add('active');
+
+    document.getElementById('breadcrumb').innerHTML =
+      '<span style="color:var(--text-placeholder)">Home</span> <span class="sep">/</span> ' +
+      '<span style="color:var(--text-placeholder);cursor:pointer;text-decoration:underline" onclick="showPage(\'quotes\')">Quotes</span> <span class="sep">/</span> ' +
+      '<span class="current">New Quote</span>';
+
+    if (step === 'upload') resetQuoteDropzone();
+  }
+
+  function resetQuoteDropzone() {
+    const zone = document.getElementById('quote-upload-zone');
+    const sel  = document.getElementById('quote-file-selected');
+    const btn  = document.getElementById('quote-btn-extract');
+    if (zone) zone.style.display = 'flex';
+    if (sel)  sel.style.display  = 'none';
+    if (btn)  { btn.disabled = true; btn.style.opacity = '0.4'; btn.style.cursor = 'not-allowed'; }
+  }
+
+  function quoteDocSelected(name, sizeKB) {
+    document.getElementById('quote-upload-zone').style.display = 'none';
+    document.getElementById('quote-file-selected').style.display = 'block';
+    document.getElementById('quote-fname').textContent = name;
+    document.getElementById('quote-fsize').textContent = '· ' + sizeKB + ' KB';
+    const btn = document.getElementById('quote-btn-extract');
+    btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer';
+  }
+
+  function quoteClearDoc() {
+    document.getElementById('quote-file-selected').style.display = 'none';
+    document.getElementById('quote-upload-zone').style.display = 'flex';
+    const btn = document.getElementById('quote-btn-extract');
+    btn.disabled = true; btn.style.opacity = '0.4'; btn.style.cursor = 'not-allowed';
+  }
+
+  function selectQuote(el) {
+    document.querySelectorAll('.boat-select-item').forEach(i => i.classList.remove('selected'));
+    el.classList.add('selected');
+    const btn = document.getElementById('btn-quote-dup');
+    if (btn) { btn.disabled = false; btn.style.opacity = '1'; btn.style.cursor = 'pointer'; }
+  }
+
+  function toggleQuoteMenu(e, btn) {
+    e.stopPropagation();
+    const menu = document.getElementById('quote-ctx-menu');
+    const rect = btn.getBoundingClientRect();
+    menu.style.top  = (rect.bottom + 4) + 'px';
+    menu.style.left = (rect.right - 160) + 'px';
+    menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+  }
+
+  // Close notifications panel on outside click
   document.addEventListener('click', function(e) {
     if (notifOpen && !document.getElementById('notif-panel').contains(e.target)) {
       document.getElementById('notif-panel').style.display = 'none';
