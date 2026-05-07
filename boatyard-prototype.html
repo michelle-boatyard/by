@@ -1,0 +1,3158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boatyard Sales — Prototype</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --text-primary: #1e293b;
+      --text-secondary: #334155;
+      --text-tertiary: #475569;
+      --text-quaternary: #64748b;
+      --text-placeholder: #7b8ba3;
+      --text-disabled: #b5c3d4;
+      --text-inverse: #ffffff;
+      --text-info: #277996;
+      --text-success: #1a8962;
+      --text-warning: #db4d00;
+      --text-error: #c71c22;
+      --surface-default: #ffffff;
+      --surface-base: #f1f5f9;
+      --surface-subtle: #f8f9fb;
+      --surface-primary: #20667e;
+      --surface-primary-hover: #277996;
+      --surface-primary-subtle: rgba(39,121,150,0.06);
+      --surface-primary-subtle-hover: rgba(39,121,150,0.12);
+      --border-line: #e2ebf3;
+      --border-secondary: #d3dce8;
+      --border-primary-color: #20667e;
+      --alpha-blue-12: rgba(39,121,150,0.12);
+      --alpha-green-15: rgba(50,195,143,0.13);
+      --alpha-red-7: rgba(232,41,47,0.07);
+      --alpha-orange-12: rgba(247,142,30,0.12);
+      --alpha-gray-10: rgba(30,41,59,0.10);
+      --alpha-purple-9: rgba(125,61,138,0.09);
+      --marine-400: #51b0d2;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: var(--surface-base);
+      color: var(--text-primary);
+      font-size: 13px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── APP SHELL ─── */
+    .app {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      width: 220px;
+      min-width: 220px;
+      background: var(--surface-default);
+      border-right: 1px solid var(--border-line);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .sidebar-header {
+      padding: 16px;
+      border-bottom: 1px solid var(--border-line);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .sidebar-logomark {
+      width: 34px;
+      height: 34px;
+      background: var(--surface-primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .sidebar-logomark svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .sidebar-brand { font-size: 13px; font-weight: 600; color: var(--text-primary); }
+    .sidebar-sub   { font-size: 11px; color: var(--text-placeholder); font-weight: 400; }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 8px 0;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 16px;
+      cursor: pointer;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 400;
+      transition: background 0.12s;
+      user-select: none;
+    }
+
+    .nav-item:hover { background: var(--surface-subtle); }
+
+    .nav-item.active {
+      background: var(--surface-primary-subtle);
+      color: var(--text-info);
+      font-weight: 500;
+    }
+
+    .nav-item.active .nav-icon { color: var(--text-info); }
+
+    .nav-icon {
+      font-size: 16px;
+      color: var(--text-quaternary);
+      flex-shrink: 0;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      background: #c71c22;
+      color: white;
+      font-size: 9px;
+      font-weight: 700;
+      border-radius: 9px;
+      min-width: 18px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 5px;
+    }
+
+    .sidebar-user {
+      padding: 12px 16px;
+      border-top: 1px solid var(--border-line);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--marine-400);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .user-name { font-size: 13px; font-weight: 500; color: var(--text-primary); }
+    .user-role { font-size: 11px; color: var(--text-placeholder); }
+
+    /* ─── MAIN ─── */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      min-width: 0;
+    }
+
+    .topbar {
+      height: 56px;
+      background: var(--surface-default);
+      border-bottom: 1px solid var(--border-line);
+      display: flex;
+      align-items: center;
+      padding: 0 28px;
+      gap: 12px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 50;
+    }
+
+    /* ─── NOTIFICATIONS PANEL ─── */
+    .notif-panel {
+      position: absolute;
+      top: calc(100% + 6px);
+      right: 16px;
+      width: 360px;
+      background: white;
+      border: 1px solid var(--border-line);
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(30,41,59,0.14), 0 2px 8px rgba(30,41,59,0.06);
+      z-index: 200;
+      overflow: hidden;
+    }
+
+    .notif-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid var(--border-line);
+    }
+
+    .notif-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.2;
+    }
+
+    .notif-unread {
+      font-size: 11px;
+      color: var(--text-placeholder);
+      margin-top: 2px;
+    }
+
+    .notif-mark-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-info);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px 0;
+      font-family: 'Poppins', sans-serif;
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .notif-mark-all:hover { text-decoration: underline; }
+
+    .notif-list { padding: 6px 0; }
+
+    .notif-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 16px;
+      cursor: pointer;
+      transition: background 0.12s;
+      position: relative;
+    }
+
+    .notif-item:hover { background: var(--surface-subtle); }
+
+    .notif-unread-item { background: var(--surface-primary-subtle); }
+    .notif-unread-item:hover { background: var(--surface-primary-subtle-hover); }
+
+    .notif-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .notif-icon-success { background: var(--alpha-green-15); color: var(--text-success); }
+    .notif-icon-error   { background: var(--alpha-red-7);    color: var(--text-error);   }
+    .notif-icon-info    { background: var(--alpha-blue-12);  color: var(--text-info);    }
+
+    .notif-body { flex: 1; min-width: 0; }
+
+    .notif-item-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+
+    .notif-item-desc {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      line-height: 1.4;
+      margin-bottom: 4px;
+    }
+
+    .notif-item-time {
+      font-size: 10px;
+      color: var(--text-placeholder);
+    }
+
+    .notif-badge {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--surface-primary);
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .notif-footer {
+      padding: 10px 16px;
+      border-top: 1px solid var(--border-line);
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .notif-clear-all {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-placeholder);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 2px 0;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .notif-clear-all:hover { color: var(--text-error); }
+
+    .breadcrumb {
+      font-size: 12px;
+      color: var(--text-placeholder);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .breadcrumb .sep { font-size: 11px; }
+
+    .breadcrumb .current {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .topbar-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px;
+    }
+
+    /* ─── PAGES ─── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background 0.12s, opacity 0.12s;
+      font-family: 'Poppins', sans-serif;
+      line-height: 1;
+      white-space: nowrap;
+      text-decoration: none;
+    }
+
+    .btn-primary { background: var(--surface-primary); color: white; }
+    .btn-primary:hover { background: var(--surface-primary-hover); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text-info);
+      border: 1px solid var(--border-primary-color);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-line);
+    }
+
+    .btn-ghost:hover { background: var(--surface-base); }
+
+    .btn-sm { padding: 6px 12px; font-size: 12px; }
+    .btn-icon { padding: 7px; }
+    .btn-icon-sm { padding: 6px; }
+
+    /* ─── PAGE HEADER ─── */
+    .page-header-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      line-height: 1.15;
+    }
+
+    .page-desc {
+      font-size: 12px;
+      color: var(--text-quaternary);
+      margin-top: 3px;
+    }
+
+    .page-header-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ─── STATUS TAGS ─── */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 16px;
+      white-space: nowrap;
+    }
+
+    .tag-listed    { background: var(--alpha-green-15);  color: var(--text-success); }
+    .tag-pending   { background: var(--alpha-orange-12); color: var(--text-warning); }
+    .tag-draft     { background: var(--alpha-gray-10);   color: var(--text-quaternary); }
+    .tag-sold      { background: var(--alpha-blue-12);   color: var(--text-info); }
+    .tag-archived  { background: var(--alpha-gray-10);   color: var(--text-placeholder); }
+    .tag-review    { background: var(--alpha-orange-12); color: #633806; }
+    .tag-done      { background: var(--alpha-green-15);  color: var(--text-success); }
+    .tag-failed    { background: var(--alpha-red-7);     color: var(--text-error); }
+    .tag-processing{ background: var(--alpha-blue-12);   color: var(--text-info); }
+    .tag-completed { background: var(--alpha-green-15);  color: var(--text-success); }
+    .tag-boat-spec { background: var(--alpha-blue-12);   color: var(--text-info); }
+    .tag-order     { background: var(--alpha-purple-9);  color: #7d3d8a; }
+    .tag-invoice   { background: var(--alpha-gray-10);   color: var(--text-quaternary); }
+    .tag-contract  { background: var(--alpha-gray-10);   color: var(--text-quaternary); }
+    .tag-receipt   { background: var(--alpha-gray-10);   color: var(--text-quaternary); }
+    .tag-manifest  { background: var(--alpha-gray-10);   color: var(--text-quaternary); }
+    .tag-po        { background: var(--alpha-gray-10);   color: var(--text-quaternary); }
+
+    /* ─── TABLES ─── */
+    .table-wrap {
+      background: white;
+      border: 1px solid var(--border-line);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .table-wrap.scrollable {
+      overflow-x: auto;
+    }
+
+    .table-wrap.scrollable table {
+      min-width: 720px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    thead tr { background: var(--surface-base); }
+
+    th {
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-placeholder);
+      border-bottom: 1px solid var(--border-line);
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 0 14px;
+      font-size: 12px;
+      color: var(--text-tertiary);
+      border-bottom: 1px solid var(--border-line);
+      height: 56px;
+      vertical-align: middle;
+    }
+
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--surface-subtle); }
+
+    .cell-primary { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+    .cell-sub     { font-size: 11px; color: var(--text-placeholder); margin-top: 1px; }
+
+    .showing-count {
+      padding: 10px 14px;
+      font-size: 11px;
+      color: var(--text-placeholder);
+    }
+
+    /* ─── SEARCH & SELECTS ─── */
+    .search-wrap { position: relative; }
+
+    .search-wrap input {
+      width: 100%;
+      height: 36px;
+      border: 1px solid var(--border-line);
+      border-radius: 8px;
+      padding: 0 12px 0 34px;
+      font-size: 12px;
+      color: var(--text-primary);
+      background: var(--surface-default);
+      font-family: 'Poppins', sans-serif;
+      outline: none;
+      transition: border-color 0.12s;
+    }
+
+    .search-wrap input:focus { border-color: var(--border-primary-color); }
+
+    .search-wrap .si {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-placeholder);
+      font-size: 15px;
+      pointer-events: none;
+    }
+
+    .fselect {
+      height: 36px;
+      border: 1px solid var(--border-line);
+      border-radius: 8px;
+      padding: 0 28px 0 10px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%237b8ba3' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 8px center;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      appearance: none;
+      outline: none;
+      transition: border-color 0.12s;
+    }
+
+    .fselect:focus { border-color: var(--border-primary-color); }
+
+    .filters-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .filters-row .search-wrap { margin-left: auto; width: 240px; }
+
+    /* ─── STAT CARDS ─── */
+    .stat-cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      background: white;
+      border: 1px solid var(--border-line);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .stat-label { font-size: 11px; color: var(--text-quaternary); font-weight: 500; margin-bottom: 6px; }
+    .stat-value { font-size: 28px; font-weight: 700; color: var(--text-secondary); line-height: 1; }
+    .stat-sub   { font-size: 11px; color: var(--text-placeholder); margin-top: 5px; }
+    .stat-value.error { color: var(--text-error); }
+
+    /* ─── UPLOADER AVATAR ─── */
+    .uav {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .uav-blue   { background: var(--alpha-blue-12);   color: var(--text-info); }
+    .uav-purple { background: rgba(125,61,138,0.09);  color: #7d3d8a; }
+    .uav-green  { background: rgba(50,195,143,0.13);  color: #1a8962; }
+    .uav-orange { background: rgba(247,142,30,0.12);  color: #db4d00; }
+
+    .uploaderCell { display: flex; align-items: center; gap: 8px; }
+    .uploaderCell .uname { font-size: 11px; font-weight: 500; color: var(--text-secondary); }
+    .uploaderCell .uemail { font-size: 10px; color: var(--text-placeholder); }
+
+    /* ─── IMPORT PAGE ─── */
+    .import-layout {
+      display: grid;
+      grid-template-columns: 1fr 240px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .import-col { display: flex; flex-direction: column; gap: 14px; }
+
+    .card {
+      background: white;
+      border: 1px solid var(--border-line);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .pipeline-overline {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-placeholder);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .pipeline-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 18px;
+    }
+
+    .pipeline-steps { display: flex; align-items: flex-start; }
+
+    .ps-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      flex: 1;
+      position: relative;
+    }
+
+    .ps-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: calc(50% + 16px);
+      right: calc(-50% + 16px);
+      height: 1px;
+      background: var(--border-line);
+    }
+
+    .ps-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--border-line);
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: var(--text-placeholder);
+      position: relative;
+      z-index: 1;
+    }
+
+    .ps-circle.ps-active {
+      border-color: var(--surface-primary);
+      background: var(--surface-primary);
+      color: white;
+    }
+
+    .ps-circle.ps-done {
+      border-color: var(--surface-primary);
+      background: var(--surface-primary-subtle);
+      color: var(--text-info);
+    }
+
+    .ps-label { font-size: 11px; color: var(--text-placeholder); font-weight: 400; }
+    .ps-label.ps-active { color: var(--text-info); font-weight: 600; }
+
+    .dropzone {
+      border: 1.5px dashed var(--border-secondary);
+      border-radius: 8px;
+      padding: 36px 24px;
+      text-align: center;
+      background: var(--surface-base);
+      cursor: pointer;
+      transition: border-color 0.12s, background 0.12s;
+    }
+
+    .dropzone:hover {
+      border-color: var(--border-primary-color);
+      background: var(--surface-primary-subtle);
+    }
+
+    .dropzone-icon { font-size: 30px; color: var(--text-placeholder); margin-bottom: 10px; }
+    .dropzone-title { font-size: 13px; font-weight: 500; color: var(--text-secondary); margin-bottom: 4px; }
+    .dropzone-title a { color: var(--text-info); text-decoration: none; }
+    .dropzone-title a:hover { text-decoration: underline; }
+
+    .dropzone-formats {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .fmt-pill {
+      font-size: 10px;
+      font-weight: 500;
+      color: var(--text-placeholder);
+      background: white;
+      border: 1px solid var(--border-line);
+      border-radius: 4px;
+      padding: 2px 6px;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: white;
+      border: 1px solid var(--border-line);
+      border-radius: 6px;
+      margin-top: 12px;
+    }
+
+    .file-ic { font-size: 18px; color: var(--text-placeholder); }
+    .file-name { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+    .file-status { font-size: 11px; color: var(--text-placeholder); }
+    .file-size { font-size: 11px; color: var(--text-placeholder); margin-left: auto; }
+
+    .file-remove {
+      font-size: 16px;
+      color: var(--text-placeholder);
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 2px;
+      display: flex;
+      align-items: center;
+    }
+
+    .file-remove:hover { color: var(--text-error); }
+
+    .drop-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-line);
+      gap: 10px;
+    }
+
+    .drop-footer-info .count { font-size: 12px; font-weight: 500; color: var(--text-secondary); margin-bottom: 2px; }
+    .drop-footer-info .notice { font-size: 10px; color: var(--text-placeholder); }
+    .drop-footer-actions { display: flex; align-items: center; gap: 8px; }
+    .drop-footer-size { font-size: 11px; color: var(--text-placeholder); }
+
+    /* RIGHT PANEL */
+    .panel-overline {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-placeholder);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .whn-item { display: flex; gap: 10px; margin-bottom: 14px; }
+    .whn-item:last-child { margin-bottom: 0; }
+
+    .whn-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: var(--surface-primary-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: var(--text-info);
+      flex-shrink: 0;
+    }
+
+    .whn-text strong { display: block; font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 1px; }
+    .whn-text span   { font-size: 11px; color: var(--text-placeholder); }
+
+    .panel-divider { border: none; border-top: 1px solid var(--border-line); margin: 14px 0; }
+
+    .panel-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--text-info);
+      text-decoration: none;
+    }
+
+    .panel-link:hover { text-decoration: underline; }
+
+    .recent-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-line);
+    }
+
+    .recent-item:last-child { border-bottom: none; }
+    .ri-icon { font-size: 14px; color: var(--text-placeholder); flex-shrink: 0; }
+    .ri-name { font-size: 11px; font-weight: 500; color: var(--text-secondary); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0; }
+    .ri-time { font-size: 10px; color: var(--text-placeholder); }
+
+    /* ─── BOATS ─── */
+    .boat-cell { display: flex; align-items: center; gap: 10px; }
+
+    .boat-ic {
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      background: var(--surface-primary-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: var(--text-info);
+      flex-shrink: 0;
+    }
+
+    .table-toolbar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .table-toolbar .search-wrap { flex: 1; }
+
+    /* ─── MODAL ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(30,41,59,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+      backdrop-filter: blur(2px);
+    }
+
+    .modal {
+      background: white;
+      border-radius: 12px;
+      width: 500px;
+      max-width: calc(100vw - 40px);
+      max-height: calc(100vh - 60px);
+      overflow-y: auto;
+      box-shadow: 0 24px 64px rgba(30,41,59,0.22);
+    }
+
+    .modal-header {
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid var(--border-line);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .modal-title { font-size: 17px; font-weight: 600; color: var(--text-primary); }
+    .modal-desc  { font-size: 12px; color: var(--text-quaternary); margin-top: 3px; }
+
+    .modal-close {
+      font-size: 20px;
+      color: var(--text-placeholder);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      margin-top: 2px;
+    }
+
+    .modal-close:hover { color: var(--text-secondary); }
+
+    .modal-body { padding: 22px 24px; }
+
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border-line);
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    /* CREATE OPTIONS */
+    .create-options { display: flex; flex-direction: column; gap: 10px; }
+
+    .create-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 14px 16px;
+      border: 1.5px solid var(--border-line);
+      border-radius: 9px;
+      cursor: pointer;
+      transition: border-color 0.12s, background 0.12s;
+    }
+
+    .create-option:hover {
+      border-color: var(--border-primary-color);
+      background: var(--surface-primary-subtle);
+    }
+
+    .create-option.selected {
+      border-color: var(--surface-primary);
+      background: var(--surface-primary-subtle);
+    }
+
+    .co-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: var(--surface-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      color: var(--text-info);
+      flex-shrink: 0;
+    }
+
+    .create-option.selected .co-icon { background: var(--surface-primary-subtle-hover); }
+
+    .co-title { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+    .co-desc  { font-size: 11px; color: var(--text-placeholder); margin-top: 2px; }
+
+    /* WIZARD */
+    .wizard-bar {
+      display: flex;
+      border-bottom: 1px solid var(--border-line);
+      padding: 0 24px;
+    }
+
+    .ws {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      padding: 14px 8px;
+    }
+
+    .ws-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--border-line);
+      color: var(--text-placeholder);
+      font-size: 11px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ws-num.ws-active { background: var(--surface-primary); color: white; }
+    .ws-num.ws-done   { background: #1a8962; color: white; }
+
+    .ws-label { font-size: 10px; color: var(--text-placeholder); }
+    .ws-label.ws-active { color: var(--text-info); font-weight: 600; }
+
+    /* FORMS */
+    .form-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text-placeholder);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: 16px;
+    }
+
+    .form-group { margin-bottom: 14px; }
+
+    .form-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 36px;
+      border: 1px solid var(--border-line);
+      border-radius: 8px;
+      padding: 0 12px;
+      font-size: 12px;
+      color: var(--text-primary);
+      font-family: 'Poppins', sans-serif;
+      outline: none;
+      transition: border-color 0.12s;
+    }
+
+    .form-input:focus { border-color: var(--border-primary-color); }
+
+    .form-select {
+      width: 100%;
+      height: 36px;
+      border: 1px solid var(--border-line);
+      border-radius: 8px;
+      padding: 0 28px 0 10px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      font-family: 'Poppins', sans-serif;
+      appearance: none;
+      background: white url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='11' viewBox='0 0 24 24' fill='none' stroke='%237b8ba3' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 8px center;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.12s;
+    }
+
+    .form-select:focus { border-color: var(--border-primary-color); }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .form-hint { font-size: 10px; color: var(--text-placeholder); margin-top: 3px; }
+
+    .wizard-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border-line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* COPY FROM EXISTING */
+    .boat-select-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .boat-select-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border: 1.5px solid var(--border-line);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: border-color 0.12s, background 0.12s;
+    }
+
+    .boat-select-item:hover { border-color: var(--border-primary-color); background: var(--surface-primary-subtle); }
+    .boat-select-item.selected { border-color: var(--surface-primary); background: var(--surface-primary-subtle); }
+
+    .bsi-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      background: var(--surface-base);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      color: var(--text-info);
+      flex-shrink: 0;
+    }
+
+    .bsi-name { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+    .bsi-detail { font-size: 11px; color: var(--text-placeholder); margin-top: 1px; }
+    .bsi-check { margin-left: auto; font-size: 16px; color: var(--surface-primary); display: none; }
+    .boat-select-item.selected .bsi-check { display: block; }
+
+    /* UPLOAD DOC MODAL */
+    /* ─── IMPORT SUCCESS STATE ─── */
+    .import-success-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: var(--alpha-green-15);
+      color: var(--text-success);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+
+    .import-success-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .import-success-desc {
+      font-size: 13px;
+      color: var(--text-quaternary);
+      margin-bottom: 20px;
+    }
+
+    .import-doc-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--surface-base);
+      border: 1px solid var(--border-line);
+      border-radius: 20px;
+      font-size: 12px;
+    }
+
+    .upload-dropzone {
+      border: 1.5px dashed var(--border-secondary);
+      border-radius: 8px;
+      padding: 32px;
+      text-align: center;
+      background: var(--surface-base);
+      cursor: pointer;
+      transition: border-color 0.12s, background 0.12s;
+    }
+
+    .upload-dropzone:hover { border-color: var(--border-primary-color); background: var(--surface-primary-subtle); }
+  </style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- ══════════════ SIDEBAR ══════════════ -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-logomark">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="white" stroke-width="1.5"/>
+          <path d="M7 14l5-8 5 8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M5 14h14" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M8 17c1.5 1.5 6.5 1.5 8 0" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="sidebar-brand">Boatyard Sales</div>
+        <div class="sidebar-sub">AI workspace</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-item active" id="nav-import" onclick="showPage('import')">
+        <i class="ti ti-file-upload nav-icon"></i>
+        Import Documents
+      </div>
+      <div class="nav-item" id="nav-reviews" onclick="showPage('reviews')">
+        <i class="ti ti-clipboard-check nav-icon"></i>
+        Pending Reviews
+        <span class="nav-badge">4</span>
+      </div>
+      <div class="nav-item" id="nav-boats" onclick="showPage('boats')">
+        <i class="ti ti-anchor nav-icon"></i>
+        Boats
+      </div>
+    </nav>
+
+    <div class="sidebar-user">
+      <div class="avatar">EW</div>
+      <div>
+        <div class="user-name">Evan Wright</div>
+        <div class="user-role">Reviewer · Acme Inc.</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══════════════ MAIN ══════════════ -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+      <div class="breadcrumb" id="breadcrumb">
+        <span class="current">Import Documents</span>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn btn-ghost btn-icon-sm"><i class="ti ti-help-circle" style="font-size:16px"></i></button>
+        <button class="btn btn-ghost btn-icon-sm" id="btn-notif" onclick="toggleNotif(event)" style="position:relative">
+          <i class="ti ti-bell" style="font-size:16px"></i>
+          <span id="notif-dot" style="position:absolute;top:6px;right:6px;width:6px;height:6px;background:#c71c22;border-radius:50%;border:1.5px solid white"></span>
+        </button>
+        <div class="avatar" style="width:32px;height:32px;font-size:11px;cursor:pointer">EW</div>
+      </div>
+
+      <!-- NOTIFICATIONS PANEL -->
+      <div id="notif-panel" class="notif-panel" style="display:none">
+        <div class="notif-header">
+          <div>
+            <div class="notif-title">Notifications</div>
+            <div class="notif-unread">2 unread</div>
+          </div>
+          <button class="notif-mark-all" onclick="markAllRead()">
+            <i class="ti ti-checks" style="font-size:13px"></i> Mark all read
+          </button>
+        </div>
+
+        <div class="notif-list">
+          <!-- Unread: ready for review -->
+          <div class="notif-item notif-unread-item" id="ni-1" onclick="markRead('ni-1')">
+            <div class="notif-icon notif-icon-success">
+              <i class="ti ti-circle-check" style="font-size:16px"></i>
+            </div>
+            <div class="notif-body">
+              <div class="notif-item-title">Document ready for review</div>
+              <div class="notif-item-desc">DOC-10473 — Beneteau Oceanis 46 finished processing.</div>
+              <div class="notif-item-time">58m ago</div>
+            </div>
+            <span class="notif-badge"></span>
+          </div>
+
+          <!-- Unread: failed -->
+          <div class="notif-item notif-unread-item" id="ni-2" onclick="markRead('ni-2')">
+            <div class="notif-icon notif-icon-error">
+              <i class="ti ti-circle-x" style="font-size:16px"></i>
+            </div>
+            <div class="notif-body">
+              <div class="notif-item-title">Document failed to process</div>
+              <div class="notif-item-desc">DOC-10469 — Shipping manifests W17 could not be extracted.</div>
+              <div class="notif-item-time">5h ago</div>
+            </div>
+            <span class="notif-badge"></span>
+          </div>
+
+          <!-- Read: welcome -->
+          <div class="notif-item" id="ni-3">
+            <div class="notif-icon notif-icon-info">
+              <i class="ti ti-info-circle" style="font-size:16px"></i>
+            </div>
+            <div class="notif-body">
+              <div class="notif-item-title">Welcome to Boatyard Sales</div>
+              <div class="notif-item-desc">Upload a document to start extracting boat data with AI.</div>
+              <div class="notif-item-time">1d ago</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="notif-footer">
+          <button class="notif-clear-all" onclick="clearAll()">
+            <i class="ti ti-trash" style="font-size:13px"></i> Clear all
+          </button>
+        </div>
+      </div>
+
+    </header>
+
+    <!-- CONTENT -->
+    <main class="content">
+
+      <!-- ════════════════════════════════════
+           PAGE: IMPORT DOCUMENTS
+      ════════════════════════════════════ -->
+      <div class="page active" id="page-import">
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Import Documents</h1>
+            <p class="page-desc">Upload invoices or documents to automatically extract boat data using AI.</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-ghost btn-sm" onclick="showPage('reviews')"><i class="ti ti-clipboard-list"></i> View Review Queue</button>
+          </div>
+        </div>
+
+        <!-- ── STATE: UPLOAD (default) ── -->
+        <div id="import-state-upload">
+          <div class="import-layout">
+            <div class="import-col">
+
+              <!-- Pipeline -->
+              <div class="card">
+                <div class="pipeline-overline">Pipeline</div>
+                <div class="pipeline-title" id="pipeline-title">Step 1 of 4 — Upload</div>
+                <div class="pipeline-steps">
+                  <div class="ps-item">
+                    <div class="ps-circle ps-active" id="ps1"><i class="ti ti-upload" style="font-size:14px"></i></div>
+                    <div class="ps-label ps-active" id="psl1">1. Upload</div>
+                  </div>
+                  <div class="ps-item">
+                    <div class="ps-circle" id="ps2"><i class="ti ti-settings" style="font-size:14px"></i></div>
+                    <div class="ps-label" id="psl2">2. Processing</div>
+                  </div>
+                  <div class="ps-item">
+                    <div class="ps-circle" id="ps3"><i class="ti ti-eye" style="font-size:14px"></i></div>
+                    <div class="ps-label" id="psl3">3. Review</div>
+                  </div>
+                  <div class="ps-item">
+                    <div class="ps-circle" id="ps4"><i class="ti ti-check" style="font-size:14px"></i></div>
+                    <div class="ps-label" id="psl4">4. Complete</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Dropzone card -->
+              <div class="card">
+                <div class="dropzone">
+                  <div class="dropzone-icon"><i class="ti ti-cloud-upload"></i></div>
+                  <div class="dropzone-title">
+                    Drag &amp; drop documents here<br>
+                    <span style="font-weight:400;color:var(--text-quaternary)">or <a href="#">click to upload</a> from your computer</span>
+                  </div>
+                  <div class="dropzone-formats">
+                    <span class="fmt-pill">PDF</span>
+                    <span class="fmt-pill">JPG</span>
+                    <span class="fmt-pill">PNG</span>
+                    <span style="font-size:10px;color:var(--text-placeholder)">· up to 25MB per file</span>
+                  </div>
+                </div>
+
+                <div class="file-item">
+                  <i class="ti ti-file-text file-ic"></i>
+                  <div>
+                    <div class="file-name">Overview.png</div>
+                    <div class="file-status">Ready to upload</div>
+                  </div>
+                  <div class="file-size">523 KB</div>
+                  <button class="file-remove"><i class="ti ti-x"></i></button>
+                </div>
+
+                <div class="drop-footer">
+                  <div class="drop-footer-info">
+                    <div class="count">1 file ready</div>
+                    <div class="notice">Files are scanned for malware and processed by our AI service.</div>
+                  </div>
+                  <div class="drop-footer-actions">
+                    <span class="drop-footer-size">Total 523 KB</span>
+                    <button class="btn btn-ghost btn-sm">Clear</button>
+                    <button class="btn btn-primary btn-sm" onclick="startProcessing()"><i class="ti ti-send"></i> Start Processing</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- RIGHT panel -->
+            <div>
+              <div class="card">
+                <div class="panel-overline">What happens next</div>
+                <div class="whn-item">
+                  <div class="whn-icon"><i class="ti ti-wand"></i></div>
+                  <div class="whn-text"><strong>AI extraction</strong><span>Boat data is detected automatically.</span></div>
+                </div>
+                <div class="whn-item">
+                  <div class="whn-icon"><i class="ti ti-shield-check"></i></div>
+                  <div class="whn-text"><strong>Secure &amp; private</strong><span>Files are encrypted at rest.</span></div>
+                </div>
+                <div class="whn-item">
+                  <div class="whn-icon"><i class="ti ti-clock-fast"></i></div>
+                  <div class="whn-text"><strong>Fast turnaround</strong><span>Most invoices process in under 2 min.</span></div>
+                </div>
+                <hr class="panel-divider">
+                <a href="#" class="panel-link"><i class="ti ti-info-circle" style="font-size:13px"></i> Read the upload guide</a>
+                <div style="margin-top:16px">
+                  <div class="panel-overline">Recent imports</div>
+                  <div class="recent-item">
+                    <i class="ti ti-file-text ri-icon"></i>
+                    <div style="flex:1;min-width:0"><div class="ri-name">invoice_marinaBay_apr_2026.pdf</div><div class="ri-time">9:14 AM</div></div>
+                    <span class="tag tag-review">Review</span>
+                  </div>
+                  <div class="recent-item">
+                    <i class="ti ti-file-text ri-icon"></i>
+                    <div style="flex:1;min-width:0"><div class="ri-name">Q1_Invoices_Northwind.pdf</div><div class="ri-time">Yesterday</div></div>
+                    <span class="tag tag-done">Done</span>
+                  </div>
+                  <div class="recent-item">
+                    <i class="ti ti-file-description ri-icon"></i>
+                    <div style="flex:1;min-width:0"><div class="ri-name">Vendor_Contracts_2026.zip</div><div class="ri-time">2 days ago</div></div>
+                    <span class="tag tag-done">Done</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── STATE: PROCESSING CONFIRMED ── -->
+        <div id="import-state-done" style="display:none">
+
+          <!-- Pipeline — step 3 active, 1+2 done -->
+          <div class="card" style="margin-bottom:14px">
+            <div class="pipeline-overline">Pipeline</div>
+            <div class="pipeline-title">Step 3 of 4 — Review</div>
+            <div class="pipeline-steps">
+              <div class="ps-item">
+                <div class="ps-circle ps-done"><i class="ti ti-check" style="font-size:13px"></i></div>
+                <div class="ps-label" style="color:var(--text-success);font-weight:500">1. Upload</div>
+              </div>
+              <div class="ps-item">
+                <div class="ps-circle ps-done"><i class="ti ti-check" style="font-size:13px"></i></div>
+                <div class="ps-label" style="color:var(--text-success);font-weight:500">2. Processing</div>
+              </div>
+              <div class="ps-item">
+                <div class="ps-circle ps-active"><i class="ti ti-eye" style="font-size:14px"></i></div>
+                <div class="ps-label ps-active">3. Review</div>
+              </div>
+              <div class="ps-item">
+                <div class="ps-circle"><i class="ti ti-check" style="font-size:14px"></i></div>
+                <div class="ps-label">4. Complete</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Success card -->
+          <div class="card" style="text-align:center;padding:48px 32px">
+            <div class="import-success-icon">
+              <i class="ti ti-circle-check" style="font-size:26px"></i>
+            </div>
+            <div class="import-success-title">Document uploaded successfully</div>
+            <div class="import-success-desc">AI is processing your file. You will be notified when review is ready.</div>
+
+            <div class="import-doc-pill">
+              <i class="ti ti-file-text" style="font-size:13px;color:var(--text-placeholder)"></i>
+              <span style="color:var(--text-placeholder)">Document</span>
+              <strong style="color:var(--text-secondary)">DOC-23450</strong>
+              <span style="color:var(--text-placeholder)">·</span>
+              <span style="color:var(--text-placeholder)">1 file queued</span>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-top:24px">
+              <button class="btn btn-ghost" onclick="resetImport()">Upload more</button>
+              <button class="btn btn-primary" onclick="showPage('reviews')">Go to Review Queue <i class="ti ti-arrow-right"></i></button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           PAGE: PENDING REVIEWS
+      ════════════════════════════════════ -->
+      <div class="page" id="page-reviews">
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Pending Reviews</h1>
+            <p class="page-desc">Documents processed by AI awaiting verification.</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-ghost btn-sm"><i class="ti ti-download"></i> Export</button>
+            <button class="btn btn-primary btn-sm"><i class="ti ti-upload"></i> Upload document</button>
+          </div>
+        </div>
+
+        <div class="stat-cards">
+          <div class="stat-card">
+            <div class="stat-label">Total documents</div>
+            <div class="stat-value">10</div>
+            <div class="stat-sub">Across all teams</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Awaiting review</div>
+            <div class="stat-value">5</div>
+            <div class="stat-sub">Needs human verification</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Processing</div>
+            <div class="stat-value">2</div>
+            <div class="stat-sub">AI extraction in progress</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Failed</div>
+            <div class="stat-value error">1</div>
+            <div class="stat-sub">Require attention</div>
+          </div>
+        </div>
+
+        <div class="filters-row">
+          <button class="btn btn-ghost btn-sm"><i class="ti ti-adjustments-horizontal"></i> Filters</button>
+          <select class="fselect">
+            <option>All statuses</option>
+            <option>Review Required</option>
+            <option>Processing</option>
+            <option>Completed</option>
+            <option>Failed</option>
+          </select>
+          <select class="fselect">
+            <option>Upload date</option>
+            <option>Apr 29, 2026</option>
+            <option>Apr 28, 2026</option>
+            <option>Apr 27, 2026</option>
+          </select>
+          <select class="fselect">
+            <option>All uploaders</option>
+            <option>Amelia Chen</option>
+            <option>Marcus Lee</option>
+            <option>Priya Raman</option>
+            <option>Tomás Alvarez</option>
+          </select>
+          <select class="fselect">
+            <option>All types</option>
+            <option>Boat Specifications</option>
+            <option>Boat Order Form</option>
+            <option>Invoice</option>
+            <option>Contract</option>
+            <option>Receipt</option>
+            <option>Manifest</option>
+            <option>Purchase order</option>
+          </select>
+          <div class="search-wrap">
+            <i class="ti ti-search si"></i>
+            <input type="text" placeholder="Search by document name or ID">
+          </div>
+        </div>
+
+        <div class="table-wrap scrollable">
+          <table>
+            <thead>
+              <tr>
+                <th style="width:36px"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></th>
+                <th>Document</th>
+                <th>Type</th>
+                <th>Uploaded by</th>
+                <th>Upload date</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td>
+                  <div class="cell-primary">DOC-10473</div>
+                  <div class="cell-sub">beneteau_oceanis46_spec.pdf</div>
+                </td>
+                <td><span class="tag tag-boat-spec">Boat Specifications</span></td>
+                <td>
+                  <div class="uploaderCell">
+                    <div class="uav uav-blue">AC</div>
+                    <div>
+                      <div class="uname">Amelia Chen</div>
+                      <div class="uemail">amelia@northwind.io</div>
+                    </div>
+                  </div>
+                </td>
+                <td><div style="font-size:12px">Apr 29, 2026</div><div class="cell-sub">10:02 AM</div></td>
+                                <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
+                <td><button class="btn btn-primary btn-sm">Review</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td>
+                  <div class="cell-primary">DOC-10474</div>
+                  <div class="cell-sub">boston_whaler_330_order.pdf</div>
+                </td>
+                <td><span class="tag tag-order">Boat Order Form</span></td>
+                <td>
+                  <div class="uploaderCell">
+                    <div class="uav uav-purple">ML</div>
+                    <div>
+                      <div class="uname">Marcus Lee</div>
+                      <div class="uemail">m.lee@acme.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><div style="font-size:12px">Apr 29, 2026</div><div class="cell-sub">8:42 AM</div></td>
+                                <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
+                <td><button class="btn btn-primary btn-sm">Review</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td>
+                  <div class="cell-primary">DOC-10472</div>
+                  <div class="cell-sub">Q1_invoices_northwind.pdf</div>
+                </td>
+                <td><span class="tag tag-invoice">Invoice</span></td>
+                <td>
+                  <div class="uploaderCell">
+                    <div class="uav uav-blue">AC</div>
+                    <div>
+                      <div class="uname">Amelia Chen</div>
+                      <div class="uemail">amelia@northwind.io</div>
+                    </div>
+                  </div>
+                </td>
+                <td><div style="font-size:12px">Apr 28, 2026</div><div class="cell-sub">9:14 AM</div></td>
+                                <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
+                <td><button class="btn btn-primary btn-sm">Review</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td>
+                  <div class="cell-primary">DOC-10471</div>
+                  <div class="cell-sub">vendor_contracts_2026.pdf</div>
+                </td>
+                <td><span class="tag tag-contract">Contract</span></td>
+                <td>
+                  <div class="uploaderCell">
+                    <div class="uav uav-purple">ML</div>
+                    <div>
+                      <div class="uname">Marcus Lee</div>
+                      <div class="uemail">m.lee@acme.com</div>
+                    </div>
+                  </div>
+                </td>
+                <td><div style="font-size:12px">Apr 28, 2026</div><div class="cell-sub">8:48 AM</div></td>
+                                <td><span class="tag tag-processing"><i class="ti ti-refresh" style="font-size:10px"></i> Processing · 62%</span></td>
+                <td><button class="btn btn-ghost btn-sm">Track</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td>
+                  <div class="cell-primary">DOC-10470</div>
+                  <div class="cell-sub">april_expense_receipts.pdf</div>
+                </td>
+                <td><span class="tag tag-receipt">Receipt</span></td>
+                <td>
+                  <div class="uploaderCell">
+                    <div class="uav uav-green">PR</div>
+                    <div>
+                      <div class="uname">Priya Raman</div>
+                      <div class="uemail">priya@globex.co</div>
+                    </div>
+                  </div>
+                </td>
+                <td><div style="font-size:12px">Apr 28, 2026</div><div class="cell-sub">7:55 AM</div></td>
+                                <td><span class="tag tag-completed"><i class="ti ti-circle-check" style="font-size:10px"></i> Completed</span></td>
+                <td><button class="btn btn-ghost btn-sm">Choose action</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td>
+                  <div class="cell-primary">DOC-10469</div>
+                  <div class="cell-sub">shipping_manifests_W17.pdf</div>
+                </td>
+                <td><span class="tag tag-manifest">Manifest</span></td>
+                <td>
+                  <div class="uploaderCell">
+                    <div class="uav uav-orange">TA</div>
+                    <div>
+                      <div class="uname">Tomás Alvarez</div>
+                      <div class="uemail">tomas@initech.dev</div>
+                    </div>
+                  </div>
+                </td>
+                <td><div style="font-size:12px">Apr 27, 2026</div><div class="cell-sub">5:30 PM</div></td>
+                                <td><span class="tag tag-failed"><i class="ti ti-alert-circle" style="font-size:10px"></i> Failed</span></td>
+                <td><button class="btn btn-ghost btn-sm">Retry</button></td>
+              </tr>
+              <tr>
+                <td><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td>
+                  <div class="cell-primary">DOC-10468</div>
+                  <div class="cell-sub">purchase_orders_batch17.pdf</div>
+                </td>
+                <td><span class="tag tag-po">Purchase order</span></td>
+                <td>
+                  <div class="uploaderCell">
+                    <div class="uav uav-blue">AC</div>
+                    <div>
+                      <div class="uname">Amelia Chen</div>
+                      <div class="uemail">amelia@northwind.io</div>
+                    </div>
+                  </div>
+                </td>
+                <td><div style="font-size:12px">Apr 27, 2026</div><div class="cell-sub">3:10 PM</div></td>
+                                <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
+                <td><button class="btn btn-primary btn-sm">Review</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           PAGE: BOATS
+      ════════════════════════════════════ -->
+      <div class="page" id="page-boats">
+        <div class="page-header-row">
+          <div>
+            <h1 class="page-title">Boats</h1>
+            <p class="page-desc">Inventory of boats created from documents or manually.</p>
+          </div>
+          <div class="page-header-actions">
+            <button class="btn btn-primary btn-sm" onclick="showCreateFlow('method')">
+              <i class="ti ti-plus"></i> Create Boat
+            </button>
+          </div>
+        </div>
+
+        <div class="table-toolbar">
+          <div class="search-wrap">
+            <i class="ti ti-search si"></i>
+            <input type="text" placeholder="Search by boat name, make, model or ID">
+          </div>
+          <select class="fselect" style="width:160px">
+            <option>All statuses</option>
+            <option>Listed</option>
+            <option>Pending</option>
+            <option>Draft</option>
+            <option>Sold</option>
+            <option>Archived</option>
+          </select>
+          <select class="fselect" style="width:140px">
+            <option>All sources</option>
+            <option>Document</option>
+            <option>Manual</option>
+          </select>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Boat name</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Length</th>
+                <th>Status</th>
+                <th>Created from</th>
+                <th>Created date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="boat-cell">
+                    <div class="boat-ic"><i class="ti ti-anchor"></i></div>
+                    <div>
+                      <div class="cell-primary">Sea Breeze</div>
+                      <div class="cell-sub">BT-1042</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Beneteau</td>
+                <td>Oceanis 46.1</td>
+                <td>2022</td>
+                <td>46 ft</td>
+                <td><span class="tag tag-listed">Listed</span></td>
+                <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ti ti-file-text" style="font-size:12px;color:var(--text-placeholder)"></i> Document</span></td>
+                <td style="font-size:12px">Apr 12, 2026</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="boat-cell">
+                    <div class="boat-ic"><i class="ti ti-anchor"></i></div>
+                    <div>
+                      <div class="cell-primary">Northern Star</div>
+                      <div class="cell-sub">BT-1043</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Boston Whaler</td>
+                <td>330 Outrage</td>
+                <td>2021</td>
+                <td>33 ft</td>
+                <td><span class="tag tag-pending">Pending</span></td>
+                <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ti ti-file-text" style="font-size:12px;color:var(--text-placeholder)"></i> Document</span></td>
+                <td style="font-size:12px">Apr 18, 2026</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="boat-cell">
+                    <div class="boat-ic"><i class="ti ti-anchor"></i></div>
+                    <div>
+                      <div class="cell-primary">Lady Ann</div>
+                      <div class="cell-sub">BT-1044</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Sea Ray</td>
+                <td>Sundancer 320</td>
+                <td>2019</td>
+                <td>32 ft</td>
+                <td><span class="tag tag-listed">Listed</span></td>
+                <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ti ti-pencil" style="font-size:12px;color:var(--text-placeholder)"></i> Manual</span></td>
+                <td style="font-size:12px">Apr 20, 2026</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="boat-cell">
+                    <div class="boat-ic"><i class="ti ti-anchor"></i></div>
+                    <div>
+                      <div class="cell-primary">Wind Walker</div>
+                      <div class="cell-sub">BT-1045</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Jeanneau</td>
+                <td>Sun Odyssey 410</td>
+                <td>2023</td>
+                <td>41 ft</td>
+                <td><span class="tag tag-draft">Draft</span></td>
+                <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ti ti-file-text" style="font-size:12px;color:var(--text-placeholder)"></i> Document</span></td>
+                <td style="font-size:12px">Apr 24, 2026</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="boat-cell">
+                    <div class="boat-ic"><i class="ti ti-anchor"></i></div>
+                    <div>
+                      <div class="cell-primary">Coastal King</div>
+                      <div class="cell-sub">BT-1046</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Grady-White</td>
+                <td>Freedom 285</td>
+                <td>2020</td>
+                <td>28 ft</td>
+                <td><span class="tag tag-sold">Sold</span></td>
+                <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ti ti-pencil" style="font-size:12px;color:var(--text-placeholder)"></i> Manual</span></td>
+                <td style="font-size:12px;color:var(--text-info)">Mar 30, 2026</td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="boat-cell">
+                    <div class="boat-ic"><i class="ti ti-anchor"></i></div>
+                    <div>
+                      <div class="cell-primary">Blue Horizon</div>
+                      <div class="cell-sub">BT-1047</div>
+                    </div>
+                  </div>
+                </td>
+                <td>Azimut</td>
+                <td>55 Flybridge</td>
+                <td>2018</td>
+                <td>55 ft</td>
+                <td><span class="tag tag-archived">Archived</span></td>
+                <td><span style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ti ti-file-text" style="font-size:12px;color:var(--text-placeholder)"></i> Document</span></td>
+                <td style="font-size:12px">Feb 14, 2026</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="showing-count">Showing 6 of 6 boats</div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           PAGE: CREATE BOAT — Method picker
+      ════════════════════════════════════ -->
+      <div class="page" id="page-create-method">
+        <div style="margin-bottom:20px">
+          <button class="btn btn-ghost btn-sm" onclick="showPage('boats')">
+            <i class="ti ti-arrow-left"></i> Back to Boats
+          </button>
+        </div>
+        <div class="create-flow-card">
+          <div class="create-flow-header">
+            <i class="ti ti-anchor" style="font-size:20px;color:var(--text-info)"></i>
+            <div>
+              <div class="create-flow-title">Create a new boat</div>
+              <div class="create-flow-desc">Pick how you'd like to create this boat.</div>
+            </div>
+          </div>
+          <div class="create-method-list">
+            <div class="create-method-item" onclick="showCreateFlow('scratch-wizard')">
+              <div class="cmi-icon"><i class="ti ti-plus"></i></div>
+              <div class="cmi-text">
+                <div class="cmi-title">Create New</div>
+                <div class="cmi-desc">Step-by-step wizard. Best when entering a unit by hand.</div>
+              </div>
+              <i class="ti ti-chevron-right cmi-arrow"></i>
+            </div>
+            <div class="create-method-item" onclick="showCreateFlow('upload-doc')">
+              <div class="cmi-icon"><i class="ti ti-file-description"></i></div>
+              <div class="cmi-text">
+                <div class="cmi-title">Upload from document</div>
+                <div class="cmi-desc">Drop an order form, spec sheet, invoice or build sheet. We'll extract boat data with AI and let you review side-by-side.</div>
+              </div>
+              <i class="ti ti-chevron-right cmi-arrow"></i>
+            </div>
+            <div class="create-method-item" onclick="showCreateFlow('copy')">
+              <div class="cmi-icon"><i class="ti ti-copy"></i></div>
+              <div class="cmi-text">
+                <div class="cmi-title">Copy From Existing Boat</div>
+                <div class="cmi-desc">Duplicate a boat and tweak only what's different.</div>
+              </div>
+              <i class="ti ti-chevron-right cmi-arrow"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           PAGE: CREATE BOAT — Upload document
+      ════════════════════════════════════ -->
+      <div class="page" id="page-create-upload-doc">
+        <div style="margin-bottom:20px">
+          <button class="btn btn-ghost btn-sm" onclick="showPage('boats')">
+            <i class="ti ti-arrow-left"></i> Back to Boats
+          </button>
+        </div>
+        <div class="create-flow-card">
+          <div class="create-flow-header">
+            <i class="ti ti-anchor" style="font-size:20px;color:var(--text-info)"></i>
+            <div>
+              <div class="create-flow-title">Create a new boat</div>
+              <div class="create-flow-desc">Pick how you'd like to create this boat.</div>
+            </div>
+          </div>
+          <div style="margin-bottom:16px">
+            <button class="btn btn-ghost btn-sm" style="padding:4px 8px;font-size:12px" onclick="showCreateFlow('method')">
+              <i class="ti ti-arrow-left"></i> Back
+            </button>
+          </div>
+          <div class="upload-doc-zone" id="upload-doc-zone" ondragover="event.preventDefault()" ondrop="handleDocDrop(event)">
+            <div class="udz-icon"><i class="ti ti-cloud-upload"></i></div>
+            <div class="udz-title">Drag &amp; drop a manufacturer order form, spec sheet or build sheet</div>
+            <div class="udz-sub">PDF, PNG or JPG · single file</div>
+            <button class="btn btn-ghost btn-sm" style="margin-top:12px" onclick="simulateDocSelect()">Choose file</button>
+            <div id="udz-selected" style="display:none;margin-top:14px;font-size:12px;color:var(--text-secondary)">
+              Selected: <strong id="udz-filename">Overview.png</strong>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:20px">
+            <button class="btn btn-primary" id="btn-extract" disabled onclick="showCreateFlow('duplicate-detected')" style="opacity:0.4;cursor:not-allowed">
+              Extract &amp; continue <i class="ti ti-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           PAGE: CREATE BOAT — Duplicate detected
+      ════════════════════════════════════ -->
+      <div class="page" id="page-create-duplicate-detected">
+        <div style="margin-bottom:20px">
+          <button class="btn btn-ghost btn-sm" onclick="showCreateFlow('upload-doc')">
+            <i class="ti ti-arrow-left"></i> Back
+          </button>
+        </div>
+
+        <div class="create-flow-card" style="max-width:720px">
+          <!-- Header -->
+          <div class="create-flow-header" style="border-bottom:none;padding-bottom:0;margin-bottom:20px">
+            <div style="width:40px;height:40px;border-radius:10px;background:rgba(247,142,30,0.12);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+              <i class="ti ti-alert-triangle" style="font-size:20px;color:#db4d00"></i>
+            </div>
+            <div>
+              <div class="create-flow-title" style="font-size:18px">We found a matching boat in your inventory</div>
+              <div class="create-flow-desc">Overview.png looks like a boat that already exists. Review the match below and choose how to proceed.</div>
+            </div>
+          </div>
+
+          <!-- Match card -->
+          <div class="dup-match-card">
+            <div class="dup-match-header">
+              <span class="dup-match-label">Existing boat</span>
+              <span class="dup-confidence"><i class="ti ti-check" style="font-size:10px"></i> 94% match confidence</span>
+            </div>
+            <div class="dup-match-body">
+              <div class="dup-boat-icon"><i class="ti ti-anchor"></i></div>
+              <div class="dup-boat-info">
+                <div class="dup-boat-name">Lady Ann <span class="dup-boat-id">BT-1044</span></div>
+                <div class="dup-boat-meta">Sea Ray · Sundancer 320 · 2019 · 32 ft · Manual</div>
+              </div>
+              <span class="tag tag-listed" style="margin-left:auto;flex-shrink:0">Listed</span>
+            </div>
+            <div class="dup-fields-grid">
+              <div class="dup-field">
+                <div class="dup-field-label">Make</div>
+                <div class="dup-field-val">Sea Ray</div>
+              </div>
+              <div class="dup-field">
+                <div class="dup-field-label">Model</div>
+                <div class="dup-field-val">Sundancer 320</div>
+              </div>
+              <div class="dup-field">
+                <div class="dup-field-label">Stock #</div>
+                <div class="dup-field-val dup-field-new">SR-32-24-0117 <span class="dup-new-badge">New in doc</span></div>
+              </div>
+              <div class="dup-field">
+                <div class="dup-field-label">Year</div>
+                <div class="dup-field-val dup-field-diff">2019 <span class="dup-diff-badge">Doc says 2024</span></div>
+              </div>
+              <div class="dup-field">
+                <div class="dup-field-label">Price</div>
+                <div class="dup-field-val dup-field-new">$124,500 <span class="dup-new-badge">New in doc</span></div>
+              </div>
+              <div class="dup-field">
+                <div class="dup-field-label">Condition</div>
+                <div class="dup-field-val dup-field-new">New <span class="dup-new-badge">New in doc</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Two options -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px">
+            <div class="dup-option" onclick="showCreateFlow('review-update')">
+              <div class="dup-option-icon" style="background:rgba(39,121,150,0.08)">
+                <i class="ti ti-refresh" style="color:var(--text-info)"></i>
+              </div>
+              <div class="dup-option-title">Update existing boat</div>
+              <div class="dup-option-desc">Apply the new data from the document to Lady Ann (BT-1044). You'll review each change before saving.</div>
+              <div class="dup-option-cta">
+                Update Lady Ann <i class="ti ti-arrow-right" style="font-size:12px"></i>
+              </div>
+            </div>
+            <div class="dup-option" onclick="showCreateFlow('review-extracted')">
+              <div class="dup-option-icon" style="background:rgba(30,41,59,0.06)">
+                <i class="ti ti-plus" style="color:var(--text-quaternary)"></i>
+              </div>
+              <div class="dup-option-title" style="color:var(--text-secondary)">Create as new boat</div>
+              <div class="dup-option-desc">Ignore the match and add this as a separate, independent boat entry.</div>
+              <div class="dup-option-cta" style="color:var(--text-quaternary)">
+                Create anyway <i class="ti ti-arrow-right" style="font-size:12px"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           PAGE: CREATE BOAT — Review & UPDATE existing
+      ════════════════════════════════════ -->
+      <div class="page" id="page-create-review-update">
+        <div class="review-topbar">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+                <button class="btn btn-ghost btn-sm" style="padding:4px 8px;font-size:11px" onclick="showCreateFlow('duplicate-detected')">
+                  <i class="ti ti-arrow-left"></i> Back
+                </button>
+              </div>
+              <h1 class="page-title" style="font-size:20px">Update existing boat</h1>
+              <p class="page-desc">Review what will change on <strong>Lady Ann (BT-1044)</strong> before saving.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ai-banner" style="background:rgba(247,142,30,0.07);border-color:rgba(247,142,30,0.2)">
+          <i class="ti ti-refresh" style="font-size:15px;color:#db4d00;flex-shrink:0;margin-top:1px"></i>
+          <div>
+            <span style="font-weight:600;color:var(--text-secondary)">Updating Lady Ann — BT-1044.</span>
+            <span style="color:var(--text-tertiary)"> Fields highlighted in orange will change. Uncheck any field you don't want to update before saving.</span>
+          </div>
+        </div>
+
+        <div class="review-split">
+          <!-- LEFT: Document preview -->
+          <div class="review-doc-panel">
+            <div class="review-doc-header">
+              <i class="ti ti-file-description" style="font-size:14px;color:var(--text-placeholder)"></i>
+              <span style="font-size:13px;font-weight:500;color:var(--text-secondary)">Overview.png</span>
+              <span style="font-size:11px;color:var(--text-placeholder);margin-left:6px">— source document</span>
+              <button class="btn btn-ghost btn-sm" style="margin-left:auto;padding:4px 10px;font-size:11px">
+                <i class="ti ti-external-link"></i> Open
+              </button>
+            </div>
+            <div class="review-doc-preview">
+              <div style="background:#f8f9fb;border:1px solid #e2ebf3;border-radius:6px;padding:20px;font-size:11px;color:#475569;line-height:1.6">
+                <div style="display:flex;gap:16px;margin-bottom:14px;align-items:flex-start">
+                  <div style="flex:1">
+                    <div style="font-size:15px;font-weight:700;color:#1e293b;margin-bottom:4px">2024 Sea Ray Sundancer<br>320 Outboard</div>
+                    <div style="font-size:14px;font-weight:700;color:#20667e;margin-bottom:8px">$124,500</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:10px">
+                      <div><span style="color:#7b8ba3">Stock #</span> <span style="font-weight:500">SR-32-24-0117</span></div>
+                      <div><span style="color:#7b8ba3">Dealership</span> <span style="font-weight:500">Boatyard Sales — Miami</span></div>
+                    </div>
+                  </div>
+                  <div style="width:120px;height:80px;background:#e2ebf3;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                    <i class="ti ti-anchor" style="font-size:28px;color:#9aa8bc"></i>
+                  </div>
+                </div>
+                <hr style="border:none;border-top:1px solid #e2ebf3;margin:10px 0">
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px">
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Year</div><div style="font-weight:600;color:#db4d00">2024</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Length</div><div style="font-weight:500">32 ft 7 in</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Condition</div><div style="font-weight:600;color:#20667e">New</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Price</div><div style="font-weight:600;color:#20667e">$124,500</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Update fields with diff -->
+          <div class="review-fields-panel">
+            <div class="review-fields-header">
+              <span style="font-size:10px;font-weight:600;color:var(--text-placeholder);text-transform:uppercase;letter-spacing:0.06em">Changes to apply</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;color:#db4d00;background:rgba(247,142,30,0.10);padding:2px 8px;border-radius:4px">
+                <i class="ti ti-edit" style="font-size:11px"></i> 3 fields changing
+              </span>
+            </div>
+            <div class="fields-scroll">
+
+              <!-- No-change fields -->
+              <div class="fields-section-label" style="margin-bottom:10px">Unchanged — already matches</div>
+              <div class="update-field-row update-field-same">
+                <i class="ti ti-check update-field-check"></i>
+                <div class="update-field-content">
+                  <div class="update-field-name">Make</div>
+                  <div class="update-field-val">Sea Ray</div>
+                </div>
+              </div>
+              <div class="update-field-row update-field-same">
+                <i class="ti ti-check update-field-check"></i>
+                <div class="update-field-content">
+                  <div class="update-field-name">Model</div>
+                  <div class="update-field-val">Sundancer 320</div>
+                </div>
+              </div>
+
+              <div class="fields-divider"></div>
+
+              <!-- Changing fields -->
+              <div class="fields-section-label" style="margin-bottom:3px">Will be updated</div>
+              <div class="fields-section-sub">Uncheck to skip a field.</div>
+
+              <div class="update-field-row update-field-change">
+                <input type="checkbox" checked class="update-checkbox" id="uf-year">
+                <label for="uf-year" class="update-field-content" style="cursor:pointer">
+                  <div class="update-field-name">Year</div>
+                  <div class="update-field-diff">
+                    <span class="update-old">2019</span>
+                    <i class="ti ti-arrow-right" style="font-size:10px;color:var(--text-placeholder)"></i>
+                    <span class="update-new">2024</span>
+                  </div>
+                </label>
+              </div>
+
+              <div class="update-field-row update-field-change">
+                <input type="checkbox" checked class="update-checkbox" id="uf-stock">
+                <label for="uf-stock" class="update-field-content" style="cursor:pointer">
+                  <div class="update-field-name">Stock Number</div>
+                  <div class="update-field-diff">
+                    <span class="update-old">—</span>
+                    <i class="ti ti-arrow-right" style="font-size:10px;color:var(--text-placeholder)"></i>
+                    <span class="update-new">SR-32-24-0117</span>
+                  </div>
+                </label>
+              </div>
+
+              <div class="update-field-row update-field-change">
+                <input type="checkbox" checked class="update-checkbox" id="uf-price">
+                <label for="uf-price" class="update-field-content" style="cursor:pointer">
+                  <div class="update-field-name">Price</div>
+                  <div class="update-field-diff">
+                    <span class="update-old">—</span>
+                    <i class="ti ti-arrow-right" style="font-size:10px;color:var(--text-placeholder)"></i>
+                    <span class="update-new">$124,500</span>
+                  </div>
+                </label>
+              </div>
+
+              <div class="update-field-row update-field-change">
+                <input type="checkbox" checked class="update-checkbox" id="uf-condition">
+                <label for="uf-condition" class="update-field-content" style="cursor:pointer">
+                  <div class="update-field-name">Condition</div>
+                  <div class="update-field-diff">
+                    <span class="update-old">—</span>
+                    <i class="ti ti-arrow-right" style="font-size:10px;color:var(--text-placeholder)"></i>
+                    <span class="update-new">New</span>
+                  </div>
+                </label>
+              </div>
+
+              <div class="fields-divider"></div>
+
+              <div class="fields-section-label" style="margin-bottom:10px">Keep unchanged</div>
+              <div class="update-field-row update-field-same">
+                <i class="ti ti-check update-field-check"></i>
+                <div class="update-field-content">
+                  <div class="update-field-name">Status</div>
+                  <div class="update-field-val">Listed (not changed)</div>
+                </div>
+              </div>
+              <div class="update-field-row update-field-same">
+                <i class="ti ti-check update-field-check"></i>
+                <div class="update-field-content">
+                  <div class="update-field-name">Length</div>
+                  <div class="update-field-val">32 ft</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="review-action-bar">
+          <div style="font-size:11px;color:var(--text-placeholder)">Updating Lady Ann · BT-1044</div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-ghost btn-sm" onclick="showCreateFlow('duplicate-detected')">Cancel</button>
+            <button class="btn btn-primary btn-sm" onclick="confirmUpdate()">
+              <i class="ti ti-check"></i> Save changes
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           PAGE: CREATE BOAT — Review extracted (CREATE NEW)
+      ════════════════════════════════════ -->
+      <div class="page" id="page-create-review-extracted">
+        <div class="review-topbar">
+          <div>
+            <div style="margin-bottom:6px">
+              <button class="btn btn-ghost btn-sm" style="padding:4px 8px;font-size:11px" onclick="showCreateFlow('duplicate-detected')">
+                <i class="ti ti-arrow-left"></i> Back
+              </button>
+            </div>
+            <h1 class="page-title" style="font-size:20px">Review extracted boat data</h1>
+            <p class="page-desc">Compare the source document with the extracted fields and edit anything that's off.</p>
+          </div>
+        </div>
+
+        <div class="ai-banner">
+          <i class="ti ti-wand" style="font-size:15px;color:var(--text-info);flex-shrink:0;margin-top:1px"></i>
+          <div>
+            <span style="font-weight:600;color:var(--text-secondary)">We extracted boat data from Overview.png.</span>
+            <span style="color:var(--text-tertiary)"> Please review the document on the left and edit any field on the right that doesn't look right before saving.</span>
+          </div>
+        </div>
+
+        <div class="review-split">
+          <!-- LEFT: Document preview -->
+          <div class="review-doc-panel">
+            <div class="review-doc-header">
+              <i class="ti ti-file-description" style="font-size:14px;color:var(--text-placeholder)"></i>
+              <span style="font-size:13px;font-weight:500;color:var(--text-secondary)">Overview.png</span>
+              <button class="btn btn-ghost btn-sm" style="margin-left:auto;padding:4px 10px;font-size:11px">
+                <i class="ti ti-external-link"></i> Open
+              </button>
+            </div>
+            <div class="review-doc-preview">
+              <div style="background:#f8f9fb;border:1px solid #e2ebf3;border-radius:6px;padding:20px;font-size:11px;color:#475569;line-height:1.6">
+                <div style="display:flex;gap:16px;margin-bottom:14px;align-items:flex-start">
+                  <div style="flex:1">
+                    <div style="font-size:15px;font-weight:700;color:#1e293b;margin-bottom:4px">2024 Sea Ray Sundancer<br>320 Outboard</div>
+                    <div style="font-size:14px;font-weight:700;color:#20667e;margin-bottom:8px">$124,500</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:10px">
+                      <div><span style="color:#7b8ba3">Sold On Order</span> <span style="font-weight:500">Brokerage</span></div>
+                      <div><span style="color:#7b8ba3">Stock #</span> <span style="font-weight:500">SR-32-24-0117</span></div>
+                      <div><span style="color:#7b8ba3">Dealership</span> <span style="font-weight:500">Boatyard Sales — Miami</span></div>
+                    </div>
+                  </div>
+                  <div style="width:120px;height:80px;background:#e2ebf3;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                    <i class="ti ti-anchor" style="font-size:28px;color:#9aa8bc"></i>
+                  </div>
+                </div>
+                <hr style="border:none;border-top:1px solid #e2ebf3;margin:10px 0">
+                <div style="font-size:11px;font-weight:600;color:#334155;margin-bottom:6px">Basic Details</div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px">
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Year</div><div style="font-weight:500">2024</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Power</div><div style="font-weight:500">Outboard</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Arrima</div><div style="font-weight:500">—</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Range</div><div style="font-weight:500">Ferry Carnaval</div></div>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:10px;margin-bottom:10px">
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Length</div><div style="font-weight:500">32 ft 7 in</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Beam</div><div style="font-weight:500">—</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Fuel</div><div style="font-weight:500">Electric</div></div>
+                </div>
+                <div style="font-size:11px;font-weight:600;color:#334155;margin-bottom:4px">Boat Locations</div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:10px;margin-bottom:10px">
+                  <div><div style="color:#7b8ba3;font-size:9px">In Stock</div><div style="font-weight:500">No</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px">Lots</div><div style="font-weight:500">1/5</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px">ZIP</div><div style="font-weight:500">48333</div></div>
+                  <div><div style="color:#7b8ba3;font-size:9px">State</div><div style="font-weight:500">Oklahoma</div></div>
+                </div>
+                <div style="font-size:11px;font-weight:600;color:#334155;margin-bottom:4px">Notes</div>
+                <div style="font-size:10px;color:#64748b">This boat is currently on the Miami shipyard, dock A scheduled for inspection on April 15. Check dealership tablet units and contact Juan Pérez (Marina Manager) — Ext. 203.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT: Extracted fields -->
+          <div class="review-fields-panel">
+            <div class="review-fields-header">
+              <span style="font-size:10px;font-weight:600;color:var(--text-placeholder);text-transform:uppercase;letter-spacing:0.06em">Extracted boat data</span>
+              <span class="ai-prefilled-badge"><i class="ti ti-wand" style="font-size:11px"></i> AI pre-filled</span>
+            </div>
+            <div class="fields-scroll">
+              <div class="fields-section-label">Required information</div>
+              <div class="fields-section-sub">The minimum we need to create this boat.</div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <div class="field-label-row">
+                    <label class="form-label">Make <span class="req">*</span></label>
+                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
+                  </div>
+                  <input type="text" class="form-input" value="Sea Ray">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row">
+                    <label class="form-label">Model <span class="req">*</span></label>
+                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
+                  </div>
+                  <input type="text" class="form-input" value="Sundancer 320">
+                </div>
+              </div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <div class="field-label-row">
+                    <label class="form-label">Stock Number <span class="req">*</span></label>
+                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
+                  </div>
+                  <input type="text" class="form-input" value="SR-32-24-0117">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row">
+                    <label class="form-label">Dealership <span class="req">*</span></label>
+                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
+                  </div>
+                  <input type="text" class="form-input" value="Boatyard Sales — Miami">
+                </div>
+              </div>
+              <div class="fields-divider"></div>
+              <div class="fields-section-label">Optional</div>
+              <div class="field-row-3">
+                <div class="field-group">
+                  <div class="field-label-row">
+                    <label class="form-label">Year</label>
+                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
+                  </div>
+                  <input type="text" class="form-input" value="2024">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row">
+                    <label class="form-label">Condition</label>
+                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
+                  </div>
+                  <select class="form-select"><option selected>New</option><option>Used</option></select>
+                </div>
+                <div class="field-group">
+                  <label class="form-label">Status</label>
+                  <select class="form-select"><option>Draft</option><option>Pending</option><option>Listed</option></select>
+                </div>
+              </div>
+              <div class="fields-divider"></div>
+              <div class="fields-section-label">Additional details</div>
+              <div class="fields-section-sub">None of these are required — fill what you know.</div>
+              <div class="field-group" style="margin-bottom:14px">
+                <label class="form-label">Boat name</label>
+                <input type="text" class="form-input" placeholder='Defaults to "Sea Ray Sundancer 320" if blank'>
+              </div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <div class="field-label-row">
+                    <label class="form-label">Length (ft)</label>
+                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
+                  </div>
+                  <input type="text" class="form-input" value="32.6">
+                </div>
+                <div class="field-group">
+                  <label class="form-label">Category</label>
+                  <select class="form-select"><option value="">Select…</option><option selected>Bowrider</option><option>Cruiser</option><option>Sailboat</option></select>
+                </div>
+              </div>
+              <div class="field-row-2">
+                <div class="field-group">
+                  <label class="form-label">Class</label>
+                  <input type="text" class="form-input" placeholder="e.g. Outboard">
+                </div>
+                <div class="field-group">
+                  <div class="field-label-row">
+                    <label class="form-label">Price</label>
+                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
+                  </div>
+                  <input type="text" class="form-input" value="$124,500">
+                </div>
+              </div>
+              <div class="field-group" style="margin-bottom:0">
+                <label class="form-label">Notes</label>
+                <textarea class="form-input" style="height:64px;resize:none;padding:8px 12px;line-height:1.5" placeholder="Internal notes…"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="review-action-bar">
+          <div style="font-size:11px;color:var(--text-placeholder)">Required: Make, Model, Stock Number, Dealership.</div>
+          <div style="display:flex;gap:10px">
+            <button class="btn btn-ghost btn-sm" onclick="showCreateFlow('upload-doc')">Cancel</button>
+            <button class="btn btn-primary btn-sm" onclick="confirmCreate()">
+              <i class="ti ti-anchor"></i> Save boat
+            </button>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           PAGE: CREATE BOAT — Copy from existing
+      ════════════════════════════════════ -->
+      <div class="page" id="page-create-copy">
+        <div style="margin-bottom:20px">
+          <button class="btn btn-ghost btn-sm" onclick="showPage('boats')">
+            <i class="ti ti-arrow-left"></i> Back to Boats
+          </button>
+        </div>
+        <div class="create-flow-card">
+          <div class="create-flow-header">
+            <i class="ti ti-anchor" style="font-size:20px;color:var(--text-info)"></i>
+            <div>
+              <div class="create-flow-title">Copy From Existing Boat</div>
+              <div class="create-flow-desc">Select a boat to duplicate. You can edit all details after.</div>
+            </div>
+          </div>
+          <div style="margin-bottom:14px">
+            <button class="btn btn-ghost btn-sm" style="padding:4px 8px;font-size:12px" onclick="showCreateFlow('method')">
+              <i class="ti ti-arrow-left"></i> Back
+            </button>
+          </div>
+          <div class="search-wrap" style="margin-bottom:16px">
+            <i class="ti ti-search si"></i>
+            <input type="text" placeholder="Search boats…">
+          </div>
+          <div class="boat-select-list">
+            <div class="boat-select-item" onclick="selectBoat(this)">
+              <div class="bsi-icon"><i class="ti ti-anchor"></i></div>
+              <div><div class="bsi-name">Sea Breeze</div><div class="bsi-detail">Beneteau · Oceanis 46.1 · 2022 · 46 ft</div></div>
+              <span class="tag tag-listed" style="margin-left:auto">Listed</span>
+              <i class="ti ti-circle-check bsi-check"></i>
+            </div>
+            <div class="boat-select-item" onclick="selectBoat(this)">
+              <div class="bsi-icon"><i class="ti ti-anchor"></i></div>
+              <div><div class="bsi-name">Northern Star</div><div class="bsi-detail">Boston Whaler · 330 Outrage · 2021 · 33 ft</div></div>
+              <span class="tag tag-pending" style="margin-left:auto">Pending</span>
+              <i class="ti ti-circle-check bsi-check"></i>
+            </div>
+            <div class="boat-select-item" onclick="selectBoat(this)">
+              <div class="bsi-icon"><i class="ti ti-anchor"></i></div>
+              <div><div class="bsi-name">Lady Ann</div><div class="bsi-detail">Sea Ray · Sundancer 320 · 2019 · 32 ft</div></div>
+              <span class="tag tag-listed" style="margin-left:auto">Listed</span>
+              <i class="ti ti-circle-check bsi-check"></i>
+            </div>
+            <div class="boat-select-item" onclick="selectBoat(this)">
+              <div class="bsi-icon"><i class="ti ti-anchor"></i></div>
+              <div><div class="bsi-name">Wind Walker</div><div class="bsi-detail">Jeanneau · Sun Odyssey 410 · 2023 · 41 ft</div></div>
+              <span class="tag tag-draft" style="margin-left:auto">Draft</span>
+              <i class="ti ti-circle-check bsi-check"></i>
+            </div>
+            <div class="boat-select-item" onclick="selectBoat(this)">
+              <div class="bsi-icon"><i class="ti ti-anchor"></i></div>
+              <div><div class="bsi-name">Blue Horizon</div><div class="bsi-detail">Azimut · 55 Flybridge · 2018 · 55 ft</div></div>
+              <span class="tag tag-archived" style="margin-left:auto">Archived</span>
+              <i class="ti ti-circle-check bsi-check"></i>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border-line)">
+            <button class="btn btn-ghost btn-sm" style="margin-right:8px" onclick="showCreateFlow('method')">Cancel</button>
+            <button class="btn btn-primary btn-sm" id="btn-copy-go" disabled style="opacity:0.4;cursor:not-allowed">
+              Copy &amp; edit <i class="ti ti-arrow-right"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<style>
+  /* ─── CREATE FLOW STYLES ─── */
+  .create-flow-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid var(--border-line);
+    border-radius: 12px;
+    padding: 32px 36px;
+  }
+
+  .create-flow-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-line);
+  }
+
+  .create-flow-title { font-size: 20px; font-weight: 600; color: var(--text-primary); }
+  .create-flow-desc  { font-size: 13px; color: var(--text-quaternary); margin-top: 2px; }
+
+  .create-method-list { display: flex; flex-direction: column; gap: 0; }
+
+  .create-method-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 16px;
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+  }
+
+  .create-method-item:hover {
+    border-color: var(--border-primary-color);
+    background: var(--surface-primary-subtle);
+  }
+
+  .cmi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--surface-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--text-info);
+    flex-shrink: 0;
+  }
+
+  .create-method-item:hover .cmi-icon { background: var(--surface-primary-subtle-hover); }
+
+  .cmi-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 2px; }
+  .cmi-desc  { font-size: 12px; color: var(--text-placeholder); line-height: 1.4; }
+  .cmi-arrow { margin-left: auto; font-size: 16px; color: var(--text-placeholder); flex-shrink: 0; }
+
+  /* Upload dropzone */
+  .upload-doc-zone {
+    border: 1.5px dashed var(--border-secondary);
+    border-radius: 8px;
+    padding: 48px 24px;
+    text-align: center;
+    background: var(--surface-base);
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+  }
+
+  .upload-doc-zone:hover { border-color: var(--border-primary-color); background: var(--surface-primary-subtle); }
+  .udz-icon { font-size: 32px; color: var(--text-placeholder); margin-bottom: 12px; }
+  .udz-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px; }
+  .udz-sub   { font-size: 12px; color: var(--text-placeholder); }
+
+  /* Review split layout */
+  .review-topbar { margin-bottom: 14px; }
+
+  .ai-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--surface-primary-subtle);
+    border: 1px solid var(--alpha-blue-12);
+    border-radius: 8px;
+    margin-bottom: 18px;
+    font-size: 12px;
+  }
+
+  .review-split {
+    display: grid;
+    grid-template-columns: 1fr 420px;
+    gap: 18px;
+    margin-bottom: 0;
+    height: calc(100vh - 290px);
+    min-height: 380px;
+  }
+
+  .review-doc-panel {
+    background: white;
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .review-doc-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-line);
+    background: var(--surface-base);
+    flex-shrink: 0;
+  }
+
+  .review-doc-preview {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+  }
+
+  .review-fields-panel {
+    background: white;
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .review-fields-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-line);
+    background: var(--surface-base);
+    flex-shrink: 0;
+  }
+
+  .ai-prefilled-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-info);
+    background: var(--alpha-blue-12);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .fields-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+  }
+
+  .fields-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-placeholder);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 3px;
+  }
+
+  .fields-section-sub {
+    font-size: 11px;
+    color: var(--text-placeholder);
+    margin-bottom: 14px;
+  }
+
+  .fields-divider {
+    border: none;
+    border-top: 1px solid var(--border-line);
+    margin: 16px 0;
+  }
+
+  .field-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .field-group { display: flex; flex-direction: column; }
+
+  .field-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+
+  .field-label-row .form-label { margin-bottom: 0; }
+
+  .ai-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-info);
+    white-space: nowrap;
+  }
+
+  .req { color: var(--text-error); }
+
+  .review-action-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0 0;
+    margin-top: 14px;
+    border-top: 1px solid var(--border-line);
+  }
+
+  /* boat select */
+  .boat-select-list { display: flex; flex-direction: column; gap: 8px; }
+
+  /* ─── DUPLICATE DETECTED ─── */
+  .dup-match-card {
+    background: var(--surface-base);
+    border: 1px solid var(--border-line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .dup-match-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: white;
+    border-bottom: 1px solid var(--border-line);
+  }
+
+  .dup-match-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-placeholder);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .dup-confidence {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-success);
+    background: var(--alpha-green-15);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .dup-match-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-line);
+    background: white;
+  }
+
+  .dup-boat-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--surface-primary-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--text-info);
+    flex-shrink: 0;
+  }
+
+  .dup-boat-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+  }
+
+  .dup-boat-id {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-placeholder);
+    margin-left: 6px;
+  }
+
+  .dup-boat-meta {
+    font-size: 11px;
+    color: var(--text-placeholder);
+  }
+
+  .dup-fields-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 0;
+  }
+
+  .dup-field {
+    padding: 10px 16px;
+    border-right: 1px solid var(--border-line);
+    border-bottom: 1px solid var(--border-line);
+  }
+
+  .dup-field:nth-child(3n) { border-right: none; }
+  .dup-field:nth-last-child(-n+3) { border-bottom: none; }
+
+  .dup-field-label {
+    font-size: 10px;
+    color: var(--text-placeholder);
+    font-weight: 500;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .dup-field-val {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .dup-field-diff .dup-field-val { color: var(--text-warning); }
+
+  .dup-new-badge {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-info);
+    background: var(--alpha-blue-12);
+    padding: 1px 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .dup-diff-badge {
+    font-size: 9px;
+    font-weight: 600;
+    color: #db4d00;
+    background: rgba(247,142,30,0.12);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* Duplicate action options */
+  .dup-option {
+    border: 1.5px solid var(--border-line);
+    border-radius: 10px;
+    padding: 20px;
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s, box-shadow 0.12s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .dup-option:first-child {
+    border-color: var(--border-primary-color);
+    background: var(--surface-primary-subtle);
+  }
+
+  .dup-option:first-child:hover {
+    background: var(--surface-primary-subtle-hover);
+    box-shadow: 0 0 0 3px rgba(39,121,150,0.1);
+  }
+
+  .dup-option:last-child:hover {
+    border-color: var(--border-secondary);
+    background: var(--surface-subtle);
+  }
+
+  .dup-option-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+
+  .dup-option-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-info);
+  }
+
+  .dup-option-desc {
+    font-size: 12px;
+    color: var(--text-placeholder);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .dup-option-cta {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-info);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  /* ─── UPDATE REVIEW FIELDS ─── */
+  .update-field-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 7px;
+    margin-bottom: 6px;
+  }
+
+  .update-field-same {
+    background: var(--surface-base);
+  }
+
+  .update-field-change {
+    background: rgba(247,142,30,0.05);
+    border: 1px solid rgba(247,142,30,0.2);
+  }
+
+  .update-field-check {
+    font-size: 13px;
+    color: var(--text-success);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .update-checkbox {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    margin-top: 3px;
+    flex-shrink: 0;
+    accent-color: var(--surface-primary);
+  }
+
+  .update-field-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+  }
+
+  .update-field-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .update-field-val {
+    font-size: 12px;
+    color: var(--text-placeholder);
+  }
+
+  .update-field-diff {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  .update-old {
+    color: var(--text-placeholder);
+    text-decoration: line-through;
+  }
+
+  .update-new {
+    font-weight: 600;
+    color: #db4d00;
+  }
+  .boat-select-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border-line);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+  }
+  .boat-select-item:hover { border-color: var(--border-primary-color); background: var(--surface-primary-subtle); }
+  .boat-select-item.selected { border-color: var(--surface-primary); background: var(--surface-primary-subtle); }
+  .bsi-icon { width:32px;height:32px;border-radius:6px;background:var(--surface-base);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-info);flex-shrink:0; }
+  .bsi-name { font-size:13px;font-weight:600;color:var(--text-secondary); }
+  .bsi-detail { font-size:11px;color:var(--text-placeholder);margin-top:1px; }
+  .bsi-check { margin-left:8px;font-size:16px;color:var(--surface-primary);display:none; }
+  .boat-select-item.selected .bsi-check { display:block; }
+</style>
+
+
+<script>
+  /* ─── NAV ─── */
+  function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + page).classList.add('active');
+
+    const navId = {'import':'nav-import','reviews':'nav-reviews','boats':'nav-boats'}[page];
+    if (navId) document.getElementById(navId).classList.add('active');
+
+    const labels = {
+      import: 'Import Documents',
+      reviews: 'Pending Reviews',
+      boats: 'Boats',
+    };
+    const label = labels[page] || 'Boats';
+    document.getElementById('breadcrumb').innerHTML =
+      page === 'boats'
+        ? '<span style="color:var(--text-placeholder)">Home</span> <span class="sep">/</span> <span class="current">Boats</span>'
+        : '<span class="current">' + label + '</span>';
+  }
+
+  /* ─── CREATE FLOW ─── */
+  function showCreateFlow(step) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('nav-boats').classList.add('active');
+
+    const pageMap = {
+      'method':               'page-create-method',
+      'scratch-wizard':       'page-create-method',
+      'upload-doc':           'page-create-upload-doc',
+      'duplicate-detected':   'page-create-duplicate-detected',
+      'review-update':        'page-create-review-update',
+      'review-extracted':     'page-create-review-extracted',
+      'copy':                 'page-create-copy',
+    };
+
+    const pageId = pageMap[step];
+    if (pageId) document.getElementById(pageId).classList.add('active');
+
+    const breadcrumbs = {
+      'method':           'Home / Boats / Create',
+      'upload-doc':       'Home / Boats / Create',
+      'review-extracted': 'Home / Boats / Create',
+      'copy':             'Home / Boats / Create',
+    };
+
+    document.getElementById('breadcrumb').innerHTML =
+      '<span style="color:var(--text-placeholder)">Home</span> <span class="sep">/</span> ' +
+      '<span style="color:var(--text-placeholder);cursor:pointer;text-decoration:underline" onclick="showPage(\'boats\')">Boats</span> <span class="sep">/</span> ' +
+      '<span class="current">Create</span>';
+  }
+
+  /* ─── FILE UPLOAD SIMULATION ─── */
+  function simulateDocSelect() {
+    document.getElementById('udz-selected').style.display = 'block';
+    document.getElementById('udz-filename').textContent = 'Overview.png';
+    const btn = document.getElementById('btn-extract');
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor = 'pointer';
+  }
+
+  function handleDocDrop(event) {
+    event.preventDefault();
+    simulateDocSelect();
+  }
+
+  /* ─── BOAT SELECTOR ─── */
+  function selectBoat(el) {
+    document.querySelectorAll('.boat-select-item').forEach(i => i.classList.remove('selected'));
+    el.classList.add('selected');
+    const btn = document.getElementById('btn-copy-go');
+    if (btn) {
+      btn.disabled = false;
+      btn.style.opacity = '1';
+      btn.style.cursor = 'pointer';
+    }
+  }
+
+  /* ─── CONFIRM ─── */
+  function confirmCreate() {
+    showPage('boats');
+    showToast('<i class="ti ti-circle-check" style="font-size:16px"></i> Boat created successfully');
+  }
+
+  function confirmUpdate() {
+    showPage('boats');
+    showToast('<i class="ti ti-refresh" style="font-size:16px"></i> Lady Ann updated successfully');
+  }
+
+  function showToast(html) {
+    const toast = document.createElement('div');
+    toast.style.cssText = 'position:fixed;bottom:28px;right:28px;background:#1a8962;color:white;padding:12px 20px;border-radius:9px;font-size:13px;font-weight:500;font-family:Poppins,sans-serif;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,0.15);display:flex;align-items:center;gap:8px';
+    toast.innerHTML = html;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  /* ─── IMPORT FLOW ─── */
+  function startProcessing() {
+    document.getElementById('import-state-upload').style.display = 'none';
+    document.getElementById('import-state-done').style.display = 'block';
+  }
+
+  function resetImport() {
+    document.getElementById('import-state-done').style.display = 'none';
+    document.getElementById('import-state-upload').style.display = 'block';
+  }
+
+  /* ─── NOTIFICATIONS ─── */
+  let notifOpen = false;
+  let unreadCount = 2;
+
+  function toggleNotif(e) {
+    e.stopPropagation();
+    const panel = document.getElementById('notif-panel');
+    notifOpen = !notifOpen;
+    panel.style.display = notifOpen ? 'block' : 'none';
+  }
+
+  function markRead(id) {
+    const item = document.getElementById(id);
+    if (!item) return;
+    item.classList.remove('notif-unread-item');
+    const badge = item.querySelector('.notif-badge');
+    if (badge) badge.remove();
+    unreadCount = Math.max(0, unreadCount - 1);
+    updateNotifDot();
+  }
+
+  function markAllRead() {
+    document.querySelectorAll('.notif-unread-item').forEach(el => {
+      el.classList.remove('notif-unread-item');
+    });
+    document.querySelectorAll('.notif-badge').forEach(el => el.remove());
+    unreadCount = 0;
+    updateNotifDot();
+    document.querySelector('.notif-unread').textContent = 'All caught up';
+  }
+
+  function clearAll() {
+    document.querySelector('.notif-list').innerHTML = 
+      '<div style="padding:28px 16px;text-align:center;font-size:12px;color:var(--text-placeholder)"><i class="ti ti-bell-off" style="font-size:24px;display:block;margin:0 auto 8px;color:var(--text-disabled)"></i>No notifications</div>';
+    unreadCount = 0;
+    updateNotifDot();
+    document.querySelector('.notif-unread').textContent = 'All caught up';
+  }
+
+  function updateNotifDot() {
+    const dot = document.getElementById('notif-dot');
+    if (unreadCount > 0) {
+      dot.style.display = 'block';
+    } else {
+      dot.style.display = 'none';
+    }
+  }
+
+  // Close panel on outside click
+  document.addEventListener('click', function(e) {
+    if (notifOpen && !document.getElementById('notif-panel').contains(e.target)) {
+      document.getElementById('notif-panel').style.display = 'none';
+      notifOpen = false;
+    }
+  });
+</script>
+
+</body>
+</html>
