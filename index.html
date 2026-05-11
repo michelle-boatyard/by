@@ -1379,7 +1379,691 @@
     }
 
     .upload-dropzone:hover { border-color: var(--border-primary-color); background: var(--surface-primary-subtle); }
-  </style>
+  
+
+  /* ─── CREATE FLOW STYLES ─── */
+  .create-flow-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border: 1px solid var(--border-line);
+    border-radius: 12px;
+    padding: 32px 36px;
+  }
+
+  .create-flow-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-line);
+  }
+
+  .create-flow-title { font-size: 20px; font-weight: 600; color: var(--text-primary); }
+  .create-flow-desc  { font-size: 13px; color: var(--text-quaternary); margin-top: 2px; }
+
+  .create-method-list { display: flex; flex-direction: column; gap: 0; }
+
+  .create-method-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px 16px;
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+  }
+
+  .create-method-item:hover {
+    border-color: var(--border-primary-color);
+    background: var(--surface-primary-subtle);
+  }
+
+  .cmi-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: var(--surface-base);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: var(--text-info);
+    flex-shrink: 0;
+  }
+
+  .create-method-item:hover .cmi-icon { background: var(--surface-primary-subtle-hover); }
+
+  .cmi-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 2px; }
+  .cmi-desc  { font-size: 12px; color: var(--text-placeholder); line-height: 1.4; }
+  .cmi-arrow { margin-left: auto; font-size: 16px; color: var(--text-placeholder); flex-shrink: 0; }
+
+  /* Upload dropzone */
+  .upload-doc-zone {
+    border: 1.5px dashed var(--border-secondary);
+    border-radius: 8px;
+    padding: 40px 32px;
+    text-align: center;
+    background: var(--surface-base);
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .upload-doc-zone:hover { border-color: var(--border-primary-color); background: var(--surface-primary-subtle); }
+  .udz-icon { font-size: 32px; color: var(--text-placeholder); margin-bottom: 4px; }
+  .udz-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+  .udz-sub   { font-size: 12px; color: var(--text-placeholder); }
+
+  /* Review split layout */
+  .review-topbar { margin-bottom: 14px; }
+
+  .ai-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--surface-primary-subtle);
+    border: 1px solid var(--alpha-blue-12);
+    border-radius: 8px;
+    margin-bottom: 18px;
+    font-size: 12px;
+  }
+
+  .review-split {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 18px;
+    margin-bottom: 0;
+    height: calc(100vh - 290px);
+    min-height: 380px;
+  }
+
+  .review-doc-panel {
+    background: white;
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .review-doc-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-line);
+    background: var(--surface-base);
+    flex-shrink: 0;
+  }
+
+  .review-doc-preview {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+  }
+
+  .review-fields-panel {
+    background: white;
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .review-fields-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border-line);
+    background: var(--surface-base);
+    flex-shrink: 0;
+  }
+
+  .ai-prefilled-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-info);
+    background: var(--alpha-blue-12);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .fields-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px;
+  }
+
+  .fields-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-placeholder);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 3px;
+  }
+
+  .fields-section-sub {
+    font-size: 11px;
+    color: var(--text-placeholder);
+    margin-bottom: 14px;
+  }
+
+  .fields-divider {
+    border: none;
+    border-top: 1px solid var(--border-line);
+    margin: 16px 0;
+  }
+
+  .field-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .field-group { display: flex; flex-direction: column; }
+
+  .field-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+
+  .field-label-row .form-label { margin-bottom: 0; }
+
+  .ai-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-info);
+    white-space: nowrap;
+  }
+
+  .req { color: var(--text-error); }
+
+  .review-action-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0 0;
+    margin-top: 14px;
+    border-top: 1px solid var(--border-line);
+  }
+
+  /* boat select */
+  .boat-select-list { display: flex; flex-direction: column; gap: 8px; }
+
+  /* ─── QUOTES ─── */
+  .quote-menu-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-placeholder);
+    font-size: 16px;
+    padding: 4px 6px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+  }
+  .quote-menu-btn:hover { background: var(--surface-base); color: var(--text-secondary); }
+
+  .quote-ctx-menu {
+    position: fixed;
+    background: white;
+    border: 1px solid var(--border-line);
+    border-radius: 9px;
+    box-shadow: 0 8px 24px rgba(30,41,59,0.14);
+    padding: 5px;
+    z-index: 300;
+    min-width: 160px;
+  }
+
+  .qcm-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+
+  .qcm-item:hover { background: var(--surface-base); }
+  .qcm-danger { color: var(--text-error); }
+  .qcm-danger:hover { background: var(--alpha-red-7); }
+
+  /* ─── BOAT CREATION WIZARD ─── */
+  .bwiz-steps {
+    display: flex;
+    align-items: flex-start;
+    margin: 16px 0 20px;
+    position: relative;
+  }
+
+  .bwiz-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    flex: 1;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .bwiz-step:last-child { flex: 0 0 auto; }
+
+  .bwiz-circle {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--surface-base);
+    border: 2px solid var(--border-line);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-placeholder);
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    transition: background 0.12s, border-color 0.12s;
+  }
+
+  .bwiz-done { background: var(--text-success); border-color: var(--text-success); color: white; }
+  .bwiz-active { background: var(--surface-primary); border-color: var(--surface-primary); color: white; }
+
+  .bwiz-connector {
+    position: absolute;
+    top: 15px;
+    left: calc(50% + 15px);
+    right: calc(-50% + 15px);
+    height: 2px;
+    background: var(--border-line);
+    z-index: 0;
+  }
+
+  .bwiz-connector-done { background: var(--text-success); }
+
+  .bwiz-label {
+    font-size: 11px;
+    color: var(--text-placeholder);
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .bwiz-label-active { color: var(--text-info); font-weight: 600; }
+  .bwiz-label-done   { color: var(--text-success); font-weight: 500; }
+
+  .bwiz-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid var(--border-line);
+  }
+
+  /* Spec accordion */
+  .spec-accordion { display: flex; flex-direction: column; gap: 0; border: 1px solid var(--border-line); border-radius: 8px; overflow: hidden; }
+
+  .spec-section { border-bottom: 1px solid var(--border-line); }
+  .spec-section:last-child { border-bottom: none; }
+
+  .spec-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 16px;
+    cursor: pointer;
+    background: white;
+    transition: background 0.12s;
+    user-select: none;
+  }
+
+  .spec-header:hover { background: var(--surface-subtle); }
+
+  .spec-title { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+  .spec-chevron { font-size: 16px; color: var(--text-placeholder); transition: transform 0.2s; }
+  .spec-chevron-open { transform: rotate(180deg); }
+
+  .spec-body {
+    padding: 14px 16px 16px;
+    background: var(--surface-subtle);
+    border-top: 1px solid var(--border-line);
+  }
+
+  /* Review summary */
+  .review-summary-block {
+    border: 1px solid var(--border-line);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+
+  .rsb-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-placeholder);
+    letter-spacing: 0.06em;
+    padding: 10px 14px 8px;
+    background: var(--surface-base);
+    border-bottom: 1px solid var(--border-line);
+  }
+
+  .rsb-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    border-bottom: 1px solid var(--border-line);
+    font-size: 12px;
+  }
+
+  .rsb-row:last-child { border-bottom: none; }
+  .rsb-row span:first-child { color: var(--text-quaternary); }
+  .rsb-row strong { color: var(--text-secondary); font-weight: 500; }
+  .rsb-empty { color: var(--text-disabled); }
+
+  /* ─── DUPLICATE DETECTED ─── */
+  .dup-match-card {
+    background: var(--surface-base);
+    border: 1px solid var(--border-line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .dup-match-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    background: white;
+    border-bottom: 1px solid var(--border-line);
+  }
+
+  .dup-match-label {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-placeholder);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .dup-confidence {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-success);
+    background: var(--alpha-green-15);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .dup-match-body {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border-line);
+    background: white;
+  }
+
+  .dup-boat-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: var(--surface-primary-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: var(--text-info);
+    flex-shrink: 0;
+  }
+
+  .dup-boat-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 2px;
+  }
+
+  .dup-boat-id {
+    font-size: 11px;
+    font-weight: 400;
+    color: var(--text-placeholder);
+    margin-left: 6px;
+  }
+
+  .dup-boat-meta {
+    font-size: 11px;
+    color: var(--text-placeholder);
+  }
+
+  .dup-fields-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    padding: 0;
+  }
+
+  .dup-field {
+    padding: 10px 16px;
+    border-right: 1px solid var(--border-line);
+    border-bottom: 1px solid var(--border-line);
+  }
+
+  .dup-field:nth-child(3n) { border-right: none; }
+  .dup-field:nth-last-child(-n+3) { border-bottom: none; }
+
+  .dup-field-label {
+    font-size: 10px;
+    color: var(--text-placeholder);
+    font-weight: 500;
+    margin-bottom: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .dup-field-val {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .dup-field-diff .dup-field-val { color: var(--text-warning); }
+
+  .dup-new-badge {
+    font-size: 9px;
+    font-weight: 600;
+    color: var(--text-info);
+    background: var(--alpha-blue-12);
+    padding: 1px 5px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .dup-diff-badge {
+    font-size: 9px;
+    font-weight: 600;
+    color: #db4d00;
+    background: rgba(247,142,30,0.12);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* Duplicate action options */
+  .dup-option {
+    border: 1.5px solid var(--border-line);
+    border-radius: 10px;
+    padding: 20px;
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s, box-shadow 0.12s;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .dup-option:first-child {
+    border-color: var(--border-primary-color);
+    background: var(--surface-primary-subtle);
+  }
+
+  .dup-option:first-child:hover {
+    background: var(--surface-primary-subtle-hover);
+    box-shadow: 0 0 0 3px rgba(39,121,150,0.1);
+  }
+
+  .dup-option:last-child:hover {
+    border-color: var(--border-secondary);
+    background: var(--surface-subtle);
+  }
+
+  .dup-option-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+
+  .dup-option-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-info);
+  }
+
+  .dup-option-desc {
+    font-size: 12px;
+    color: var(--text-placeholder);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .dup-option-cta {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-info);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 4px;
+  }
+
+  /* ─── UPDATE REVIEW FIELDS ─── */
+  .update-field-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 7px;
+    margin-bottom: 6px;
+  }
+
+  .update-field-same {
+    background: var(--surface-base);
+  }
+
+  .update-field-change {
+    background: rgba(247,142,30,0.05);
+    border: 1px solid rgba(247,142,30,0.2);
+  }
+
+  .update-field-check {
+    font-size: 13px;
+    color: var(--text-success);
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .update-checkbox {
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    margin-top: 3px;
+    flex-shrink: 0;
+    accent-color: var(--surface-primary);
+  }
+
+  .update-field-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    flex: 1;
+  }
+
+  .update-field-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .update-field-val {
+    font-size: 12px;
+    color: var(--text-placeholder);
+  }
+
+  .update-field-diff {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+  }
+
+  .update-old {
+    color: var(--text-placeholder);
+    text-decoration: line-through;
+  }
+
+  .update-new {
+    font-weight: 600;
+    color: #db4d00;
+  }
+  .boat-select-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border-line);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.12s, background 0.12s;
+  }
+  .boat-select-item:hover { border-color: var(--border-primary-color); background: var(--surface-primary-subtle); }
+  .boat-select-item.selected { border-color: var(--surface-primary); background: var(--surface-primary-subtle); }
+  .bsi-icon { width:32px;height:32px;border-radius:6px;background:var(--surface-base);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-info);flex-shrink:0; }
+  .bsi-name { font-size:13px;font-weight:600;color:var(--text-secondary); }
+  .bsi-detail { font-size:11px;color:var(--text-placeholder);margin-top:1px; }
+  .bsi-check { margin-left:8px;font-size:16px;color:var(--surface-primary);display:none; }
+  .boat-select-item.selected .bsi-check { display:block; }
+</style>
 </head>
 <body>
 
@@ -2566,7 +3250,7 @@
               </div>
             </div>
             <div style="display:flex;justify-content:flex-end;margin-top:16px">
-              <button class="btn btn-primary" onclick="showCreateFlow('duplicate-detected')">
+              <button class="btn btn-primary" onclick="showCreateFlow('review-extracted')">
                 Extract &amp; continue <i class="ti ti-arrow-right"></i>
               </button>
             </div>
@@ -2588,14 +3272,6 @@
                 </div>
                 <i class="ti ti-chevron-right cmi-arrow"></i>
               </div>
-              <div class="create-method-item" style="padding:12px 14px" onclick="showCreateFlow('copy')">
-                <div class="cmi-icon" style="width:32px;height:32px;font-size:15px"><i class="ti ti-copy"></i></div>
-                <div class="cmi-text">
-                  <div class="cmi-title" style="font-size:12px">Copy existing boat</div>
-                  <div class="cmi-desc" style="font-size:11px">Duplicate and tweak</div>
-                </div>
-                <i class="ti ti-chevron-right cmi-arrow"></i>
-              </div>
             </div>
           </div>
 
@@ -2606,6 +3282,298 @@
       <!-- ════════════════════════════════════
            PAGE: CREATE BOAT — Upload document
       ════════════════════════════════════ -->
+      <div class="page" id="page-create-scratch">
+        <div style="margin-bottom:20px">
+          <button class="btn btn-ghost btn-sm" onclick="showCreateFlow('method')">
+            <i class="ti ti-arrow-left"></i> Back to Boats
+          </button>
+        </div>
+
+        <div class="create-flow-card" style="max-width:700px">
+          <!-- Header -->
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+            <i class="ti ti-anchor" style="font-size:20px;color:var(--text-info)"></i>
+            <div>
+              <div style="font-size:18px;font-weight:700;color:var(--text-secondary)">Boat Creation Wizard</div>
+              <div style="font-size:12px;color:var(--text-quaternary)">Add a new unit to your inventory in a few guided steps.</div>
+            </div>
+          </div>
+
+          <!-- Progress steps -->
+          <div class="bwiz-steps" id="bwiz-steps">
+            <div class="bwiz-step bwiz-step-done" id="bws-1" onclick="goWizStep(1)">
+              <div class="bwiz-circle bwiz-done"><i class="ti ti-check" style="font-size:12px"></i></div>
+              <div class="bwiz-connector"></div>
+              <div class="bwiz-label">Photos</div>
+            </div>
+            <div class="bwiz-step bwiz-step-active" id="bws-2" onclick="goWizStep(2)">
+              <div class="bwiz-circle bwiz-active">2</div>
+              <div class="bwiz-connector"></div>
+              <div class="bwiz-label bwiz-label-active">Basics</div>
+            </div>
+            <div class="bwiz-step" id="bws-3" onclick="goWizStep(3)">
+              <div class="bwiz-circle">3</div>
+              <div class="bwiz-connector"></div>
+              <div class="bwiz-label">Details</div>
+            </div>
+            <div class="bwiz-step" id="bws-4" onclick="goWizStep(4)">
+              <div class="bwiz-circle">4</div>
+              <div class="bwiz-connector"></div>
+              <div class="bwiz-label">Specs</div>
+            </div>
+            <div class="bwiz-step" id="bws-5">
+              <div class="bwiz-circle">5</div>
+              <div class="bwiz-label">Review</div>
+            </div>
+          </div>
+
+          <!-- AI banner -->
+          <div class="ai-banner" style="margin-bottom:20px">
+            <i class="ti ti-wand" style="font-size:14px;color:var(--text-info);flex-shrink:0;margin-top:1px"></i>
+            <div style="font-size:12px">
+              <span style="font-weight:600;color:var(--text-secondary)">We detected boat information from this document.</span>
+              <span style="color:var(--text-tertiary)"> Please review and confirm the details · <span style="color:var(--text-info)">Overview.png</span>.</span>
+            </div>
+          </div>
+
+          <!-- ── STEP 1: Photos ── -->
+          <div id="bwiz-step-1" style="display:none">
+            <div class="fields-section-label" style="margin-bottom:4px">PHOTOS</div>
+            <div class="fields-section-sub" style="margin-bottom:16px">Upload photos of the boat. You can add more later.</div>
+            <div style="border:1.5px dashed var(--border-secondary);border-radius:8px;padding:36px 24px;background:var(--surface-base);text-align:center;cursor:pointer" onclick="bwizPhotoSelected()">
+              <i class="ti ti-photo-plus" style="font-size:28px;color:var(--text-placeholder);margin-bottom:10px;display:block"></i>
+              <div style="font-size:13px;font-weight:500;color:var(--text-secondary);margin-bottom:4px">Click to upload photos</div>
+              <div style="font-size:11px;color:var(--text-placeholder)">JPG, PNG · up to 10MB each</div>
+            </div>
+            <div id="bwiz-photo-preview" style="display:none;margin-top:12px">
+              <div style="display:flex;gap:8px;flex-wrap:wrap">
+                <div style="width:80px;height:60px;border-radius:6px;overflow:hidden;border:1px solid var(--border-line)">
+                  <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=160&h=120&fit=crop" style="width:100%;height:100%;object-fit:cover">
+                </div>
+                <div style="width:60px;height:60px;border-radius:6px;border:1.5px dashed var(--border-secondary);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--surface-base)">
+                  <i class="ti ti-plus" style="font-size:18px;color:var(--text-placeholder)"></i>
+                </div>
+              </div>
+              <div style="font-size:11px;color:var(--text-quaternary);margin-top:8px">1 photo uploaded</div>
+            </div>
+          </div>
+
+          <!-- ── STEP 2: Basics ── -->
+          <div id="bwiz-step-2">
+            <div class="fields-section-label" style="margin-bottom:2px">REQUIRED INFORMATION</div>
+            <div class="fields-section-sub" style="margin-bottom:16px">The minimum we need to create this boat.</div>
+            <div class="field-row-2">
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Make <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="Sea Ray">
+              </div>
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Model <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="Sundancer 320">
+              </div>
+            </div>
+            <div class="field-row-2">
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Stock Number <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="SR-32-24-0117">
+              </div>
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Dealership <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="Boatyard Sales — Miami">
+              </div>
+            </div>
+            <div class="fields-divider"></div>
+            <div class="fields-section-label" style="margin-bottom:16px">OPTIONAL</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Year</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="2024">
+              </div>
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Condition</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <select class="form-select"><option>New</option><option>Used</option></select>
+              </div>
+              <div class="field-group">
+                <label class="form-label">Status</label>
+                <select class="form-select"><option>Draft</option><option>Pending</option><option>Listed</option></select>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── STEP 3: Details ── -->
+          <div id="bwiz-step-3" style="display:none">
+            <div class="fields-section-label" style="margin-bottom:2px">ADDITIONAL DETAILS</div>
+            <div class="fields-section-sub" style="margin-bottom:16px">None of these are required — fill what you know.</div>
+            <div class="field-group">
+              <label class="form-label">Boat name</label>
+              <input type="text" class="form-input" placeholder='Defaults to "Sea Ray Sundancer 320" if blank'>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Length (ft)</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="32">
+              </div>
+              <div class="field-group">
+                <label class="form-label">Category</label>
+                <input type="text" class="form-input" placeholder="Cruiser, Center Console…">
+              </div>
+              <div class="field-group">
+                <label class="form-label">Class</label>
+                <input type="text" class="form-input" placeholder="Sail, Power…">
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Fuel type</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <select class="form-select"><option>Gasoline</option><option>Diesel</option><option>Electric</option><option>Hybrid</option></select>
+              </div>
+              <div class="field-group">
+                <label class="form-label">Hull material</label>
+                <input type="text" class="form-input" placeholder="Fiberglass, aluminum…">
+              </div>
+            </div>
+            <div class="fields-section-label" style="margin-bottom:12px">LOCATION</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+              <div class="field-group"><label class="form-label">City</label><input type="text" class="form-input" placeholder=""></div>
+              <div class="field-group"><label class="form-label">State / Region</label><input type="text" class="form-input" placeholder=""></div>
+              <div class="field-group"><label class="form-label">Country</label><input type="text" class="form-input" placeholder=""></div>
+            </div>
+          </div>
+
+          <!-- ── STEP 4: Specs ── -->
+          <div id="bwiz-step-4" style="display:none">
+            <div class="fields-section-label" style="margin-bottom:2px">ADVANCED SPECIFICATIONS</div>
+            <div class="fields-section-sub" style="margin-bottom:16px">Optional — expand a section to add detail.</div>
+
+            <div class="spec-accordion">
+              <div class="spec-section" id="spec-dimensions">
+                <div class="spec-header" onclick="toggleSpec('dimensions')">
+                  <span class="spec-title">Dimensions</span>
+                  <i class="ti ti-chevron-down spec-chevron" id="spec-chev-dimensions"></i>
+                </div>
+                <div class="spec-body" id="spec-body-dimensions" style="display:none">
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+                    <div class="field-group">
+                      <div class="field-label-row"><label class="form-label">Length (ft)</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                      <input type="text" class="form-input" value="32">
+                    </div>
+                    <div class="field-group"><label class="form-label">Beam (ft)</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Draft (ft)</label><input type="text" class="form-input" placeholder=""></div>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+                    <div class="field-group"><label class="form-label">Height (ft)</label><input type="text" class="form-input" placeholder=""></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="spec-section" id="spec-speed">
+                <div class="spec-header" onclick="toggleSpec('speed')">
+                  <span class="spec-title">Speed</span>
+                  <i class="ti ti-chevron-down spec-chevron" id="spec-chev-speed"></i>
+                </div>
+                <div class="spec-body" id="spec-body-speed" style="display:none">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                    <div class="field-group"><label class="form-label">Cruise speed (kn)</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Max speed (kn)</label><input type="text" class="form-input" placeholder=""></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="spec-section" id="spec-tanks">
+                <div class="spec-header" onclick="toggleSpec('tanks')">
+                  <span class="spec-title">Tanks</span>
+                  <i class="ti ti-chevron-down spec-chevron" id="spec-chev-tanks"></i>
+                </div>
+                <div class="spec-body" id="spec-body-tanks" style="display:none">
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+                    <div class="field-group"><label class="form-label">Fuel (gal)</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Water (gal)</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Holding (gal)</label><input type="text" class="form-input" placeholder=""></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="spec-section" id="spec-weight">
+                <div class="spec-header" onclick="toggleSpec('weight')">
+                  <span class="spec-title">Weight</span>
+                  <i class="ti ti-chevron-down spec-chevron" id="spec-chev-weight"></i>
+                </div>
+                <div class="spec-body" id="spec-body-weight" style="display:none">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                    <div class="field-group"><label class="form-label">Dry weight (lbs)</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Total weight (lbs)</label><input type="text" class="form-input" placeholder=""></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="spec-section" id="spec-accommodation">
+                <div class="spec-header" onclick="toggleSpec('accommodation')">
+                  <span class="spec-title">Accommodation</span>
+                  <i class="ti ti-chevron-down spec-chevron" id="spec-chev-accommodation"></i>
+                </div>
+                <div class="spec-body" id="spec-body-accommodation" style="display:none">
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+                    <div class="field-group"><label class="form-label">Cabins</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Berths</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Heads</label><input type="text" class="form-input" placeholder=""></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── STEP 5: Review ── -->
+          <div id="bwiz-step-5" style="display:none">
+            <div class="review-summary-block">
+              <div class="rsb-section-label">PHOTOS</div>
+              <div style="font-size:12px;color:var(--text-placeholder);padding:8px 0 4px">No photos uploaded.</div>
+            </div>
+            <div class="review-summary-block">
+              <div class="rsb-section-label">BASIC INFO</div>
+              <div class="rsb-row"><span>Make</span><strong>Sea Ray</strong></div>
+              <div class="rsb-row"><span>Model</span><strong>Sundancer 320</strong></div>
+              <div class="rsb-row"><span>Stock Number</span><strong>SR-32-24-0117</strong></div>
+              <div class="rsb-row"><span>Dealership</span><strong>Boatyard Sales — Miami</strong></div>
+              <div class="rsb-row"><span>Year</span><strong>2024</strong></div>
+              <div class="rsb-row"><span>Condition</span><strong>New</strong></div>
+              <div class="rsb-row"><span>Status</span><strong>Draft</strong></div>
+            </div>
+            <div class="review-summary-block">
+              <div class="rsb-section-label">ADDITIONAL DETAILS</div>
+              <div class="rsb-row"><span>Name</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Length</span><strong>32 ft</strong></div>
+              <div class="rsb-row"><span>Category</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Class</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Fuel type</span><strong>Gasoline</strong></div>
+              <div class="rsb-row"><span>Hull material</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Location</span><span class="rsb-empty">—</span></div>
+            </div>
+            <div class="review-summary-block">
+              <div class="rsb-section-label">SPECS</div>
+              <div class="rsb-row"><span>Beam</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Draft</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Cruise speed</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Max speed</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Fuel capacity</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Cabins / Berths / Heads</span><span class="rsb-empty">—</span></div>
+            </div>
+          </div>
+
+          <!-- Footer nav -->
+          <div class="bwiz-footer" id="bwiz-footer">
+            <button class="btn btn-ghost btn-sm" id="bwiz-btn-back" onclick="bwizBack()"><i class="ti ti-arrow-left"></i> Back</button>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ghost btn-sm" id="bwiz-btn-skip" style="display:none" onclick="bwizNext()">Skip</button>
+              <button class="btn btn-ghost btn-sm" onclick="showPage('boats')">Cancel</button>
+              <button class="btn btn-primary btn-sm" id="bwiz-btn-next" onclick="bwizNext()">
+                Continue <i class="ti ti-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
       <div class="page" id="page-create-upload-doc">
         <div style="margin-bottom:20px">
           <button class="btn btn-ghost btn-sm" onclick="showPage('boats')">
@@ -2680,7 +3648,7 @@
           </div>
 
           <div style="display:flex;justify-content:flex-end;margin-top:20px">
-            <button class="btn btn-primary" id="btn-extract" disabled onclick="showCreateFlow('duplicate-detected')" style="opacity:0.4;cursor:not-allowed">
+            <button class="btn btn-primary" id="btn-extract" disabled onclick="showCreateFlow('review-extracted')" style="opacity:0.4;cursor:not-allowed">
               Extract &amp; continue <i class="ti ti-arrow-right"></i>
             </button>
           </div>
@@ -3140,31 +4108,16 @@
         <div class="review-action-bar">
           <div style="font-size:11px;color:var(--text-placeholder)">Required: Make, Model, Stock Number, Dealership.</div>
           <div style="display:flex;gap:10px">
-            <button class="btn btn-ghost btn-sm" onclick="showCreateFlow('upload-doc')">Cancel</button>
+            <button class="btn btn-ghost btn-sm" onclick="showCreateFlow('method')">Cancel</button>
+            <button class="btn btn-ghost btn-sm" onclick="saveDraftBoat()">
+              <i class="ti ti-device-floppy"></i> Save draft
+            </button>
             <button class="btn btn-primary btn-sm" onclick="confirmCreate()">
               <i class="ti ti-anchor"></i> Save boat
             </button>
           </div>
         </div>
       </div>
-
-
-      <!-- ════════════════════════════════════
-           PAGE: CREATE BOAT — Copy from existing
-      ════════════════════════════════════ -->
-      <div class="page" id="page-create-copy">
-        <div style="margin-bottom:20px">
-          <button class="btn btn-ghost btn-sm" onclick="showPage('boats')">
-            <i class="ti ti-arrow-left"></i> Back to Boats
-          </button>
-        </div>
-        <div class="create-flow-card">
-          <div class="create-flow-header">
-            <i class="ti ti-anchor" style="font-size:20px;color:var(--text-info)"></i>
-            <div>
-              <div class="create-flow-title">Copy From Existing Boat</div>
-              <div class="create-flow-desc">Select a boat to duplicate. You can edit all details after.</div>
-            </div>
           </div>
           <div style="margin-bottom:14px">
             <button class="btn btn-ghost btn-sm" style="padding:4px 8px;font-size:12px" onclick="showCreateFlow('method')">
@@ -3209,12 +4162,6 @@
           </div>
           <div style="display:flex;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border-line)">
             <button class="btn btn-ghost btn-sm" style="margin-right:8px" onclick="showCreateFlow('method')">Cancel</button>
-            <button class="btn btn-primary btn-sm" id="btn-copy-go" disabled style="opacity:0.4;cursor:not-allowed">
-              Copy &amp; edit <i class="ti ti-arrow-right"></i>
-            </button>
-          </div>
-        </div>
-      </div>
 
 
       <!-- ════════════════════════════════════
@@ -3430,14 +4377,6 @@
                 <div class="cmi-text">
                   <div class="cmi-title" style="font-size:12px">Create manually</div>
                   <div class="cmi-desc" style="font-size:11px">Enter all details by hand</div>
-                </div>
-                <i class="ti ti-chevron-right cmi-arrow"></i>
-              </div>
-              <div class="create-method-item" style="padding:12px 14px" onclick="showQuoteFlow('duplicate')">
-                <div class="cmi-icon" style="width:32px;height:32px;font-size:15px"><i class="ti ti-copy"></i></div>
-                <div class="cmi-text">
-                  <div class="cmi-title" style="font-size:12px">Duplicate existing quote</div>
-                  <div class="cmi-desc" style="font-size:11px">Copy and tweak</div>
                 </div>
                 <i class="ti ti-chevron-right cmi-arrow"></i>
               </div>
@@ -3751,633 +4690,22 @@
         <div class="review-action-bar">
           <div style="font-size:11px;color:var(--text-placeholder)">Required: First name, Last name, Email.</div>
           <div style="display:flex;gap:10px">
-            <button class="btn btn-ghost btn-sm" onclick="showQuoteFlow('upload')">Cancel</button>
+            <button class="btn btn-ghost btn-sm" onclick="showQuoteFlow('method')">Cancel</button>
+            <button class="btn btn-ghost btn-sm" onclick="saveDraftQuote()">
+              <i class="ti ti-device-floppy"></i> Save draft
+            </button>
             <button class="btn btn-primary btn-sm" onclick="saveQuote()">
               <i class="ti ti-receipt"></i> Save quote
             </button>
           </div>
         </div>
-      </div>
 
-
-      <!-- ════════════════════════════════════
-           QUOTES: DUPLICATE EXISTING
-      ════════════════════════════════════ -->
-      <div class="page" id="page-quote-duplicate">
-        <div style="margin-bottom:20px">
-          <button class="btn btn-ghost btn-sm" onclick="showQuoteFlow('method')">
-            <i class="ti ti-arrow-left"></i> Back
-          </button>
-        </div>
-        <div class="create-flow-card">
-          <div class="create-flow-header">
-            <i class="ti ti-receipt" style="font-size:20px;color:var(--text-info)"></i>
-            <div>
-              <div class="create-flow-title">Duplicate existing quote</div>
-              <div class="create-flow-desc">Select a quote to copy. You can edit all details after.</div>
-            </div>
-          </div>
-          <div style="margin-bottom:14px">
-            <button class="btn btn-ghost btn-sm" style="padding:4px 8px;font-size:12px" onclick="showQuoteFlow('method')">
-              <i class="ti ti-arrow-left"></i> Back
-            </button>
-          </div>
-          <div class="search-wrap" style="margin-bottom:16px">
-            <i class="ti ti-search si"></i>
-            <input type="text" placeholder="Search quotes…">
-          </div>
-          <div class="boat-select-list">
-            <div class="boat-select-item" onclick="selectQuote(this)">
-              <div class="bsi-icon"><i class="ti ti-receipt"></i></div>
-              <div><div class="bsi-name">Q-2024-001 — 2095 Mercury EXCALIBUR LTD 27</div><div class="bsi-detail">John Anderson · Engaged · Feb 2, 2024</div></div>
-              <i class="ti ti-circle-check bsi-check"></i>
-            </div>
-            <div class="boat-select-item" onclick="selectQuote(this)">
-              <div class="bsi-icon"><i class="ti ti-receipt"></i></div>
-              <div><div class="bsi-name">Q-2024-002 — 2024 Sea Ray Sundancer 320</div><div class="bsi-detail">Arlo Simons · Quoted · Feb 2, 2024</div></div>
-              <i class="ti ti-circle-check bsi-check"></i>
-            </div>
-            <div class="boat-select-item" onclick="selectQuote(this)">
-              <div class="bsi-icon"><i class="ti ti-receipt"></i></div>
-              <div><div class="bsi-name">Q-2024-003 — 2022 Tiara Yachts 43 LE</div><div class="bsi-detail">Wilson Fisk · Won · Feb 2, 2024</div></div>
-              <i class="ti ti-circle-check bsi-check"></i>
-            </div>
-            <div class="boat-select-item" onclick="selectQuote(this)">
-              <div class="bsi-icon"><i class="ti ti-receipt"></i></div>
-              <div><div class="bsi-name">Q-2024-004 — 2023 Formula 350 CBR</div><div class="bsi-detail">Matt Murdock · Quoted · Feb 2, 2024</div></div>
-              <i class="ti ti-circle-check bsi-check"></i>
-            </div>
-            <div class="boat-select-item" onclick="selectQuote(this)">
-              <div class="bsi-icon"><i class="ti ti-receipt"></i></div>
-              <div><div class="bsi-name">Q-2024-005 — 2024 Jeanneau NC 37</div><div class="bsi-detail">Karen Page · Engaged · Feb 2, 2024</div></div>
-              <i class="ti ti-circle-check bsi-check"></i>
-            </div>
-          </div>
-          <div style="display:flex;justify-content:flex-end;margin-top:20px;padding-top:16px;border-top:1px solid var(--border-line)">
-            <button class="btn btn-ghost btn-sm" style="margin-right:8px" onclick="showQuoteFlow('method')">Cancel</button>
-            <button class="btn btn-primary btn-sm" id="btn-quote-dup" disabled style="opacity:0.4;cursor:not-allowed"
-              onclick="duplicateQuote()">
-              Duplicate &amp; edit <i class="ti ti-arrow-right"></i>
-            </button>
-          </div>
-        </div>
-      </div>
 
     </main>
   </div>
 </div>
 
-<style>
-  /* ─── CREATE FLOW STYLES ─── */
-  .create-flow-card {
-    max-width: 800px;
-    margin: 0 auto;
-    background: white;
-    border: 1px solid var(--border-line);
-    border-radius: 12px;
-    padding: 32px 36px;
-  }
 
-  .create-flow-header {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 24px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--border-line);
-  }
-
-  .create-flow-title { font-size: 20px; font-weight: 600; color: var(--text-primary); }
-  .create-flow-desc  { font-size: 13px; color: var(--text-quaternary); margin-top: 2px; }
-
-  .create-method-list { display: flex; flex-direction: column; gap: 0; }
-
-  .create-method-item {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 18px 16px;
-    border: 1px solid var(--border-line);
-    border-radius: 8px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    transition: border-color 0.12s, background 0.12s;
-  }
-
-  .create-method-item:hover {
-    border-color: var(--border-primary-color);
-    background: var(--surface-primary-subtle);
-  }
-
-  .cmi-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    background: var(--surface-base);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    color: var(--text-info);
-    flex-shrink: 0;
-  }
-
-  .create-method-item:hover .cmi-icon { background: var(--surface-primary-subtle-hover); }
-
-  .cmi-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); margin-bottom: 2px; }
-  .cmi-desc  { font-size: 12px; color: var(--text-placeholder); line-height: 1.4; }
-  .cmi-arrow { margin-left: auto; font-size: 16px; color: var(--text-placeholder); flex-shrink: 0; }
-
-  /* Upload dropzone */
-  .upload-doc-zone {
-    border: 1.5px dashed var(--border-secondary);
-    border-radius: 8px;
-    padding: 40px 32px;
-    text-align: center;
-    background: var(--surface-base);
-    cursor: pointer;
-    transition: border-color 0.12s, background 0.12s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .upload-doc-zone:hover { border-color: var(--border-primary-color); background: var(--surface-primary-subtle); }
-  .udz-icon { font-size: 32px; color: var(--text-placeholder); margin-bottom: 4px; }
-  .udz-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
-  .udz-sub   { font-size: 12px; color: var(--text-placeholder); }
-
-  /* Review split layout */
-  .review-topbar { margin-bottom: 14px; }
-
-  .ai-banner {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 12px 16px;
-    background: var(--surface-primary-subtle);
-    border: 1px solid var(--alpha-blue-12);
-    border-radius: 8px;
-    margin-bottom: 18px;
-    font-size: 12px;
-  }
-
-  .review-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-    margin-bottom: 0;
-    height: calc(100vh - 290px);
-    min-height: 380px;
-  }
-
-  .review-doc-panel {
-    background: white;
-    border: 1px solid var(--border-line);
-    border-radius: 8px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  .review-doc-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 14px;
-    border-bottom: 1px solid var(--border-line);
-    background: var(--surface-base);
-    flex-shrink: 0;
-  }
-
-  .review-doc-preview {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px;
-  }
-
-  .review-fields-panel {
-    background: white;
-    border: 1px solid var(--border-line);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-
-  .review-fields-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--border-line);
-    background: var(--surface-base);
-    flex-shrink: 0;
-  }
-
-  .ai-prefilled-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--text-info);
-    background: var(--alpha-blue-12);
-    padding: 2px 8px;
-    border-radius: 4px;
-  }
-
-  .fields-scroll {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px;
-  }
-
-  .fields-section-label {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--text-placeholder);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    margin-bottom: 3px;
-  }
-
-  .fields-section-sub {
-    font-size: 11px;
-    color: var(--text-placeholder);
-    margin-bottom: 14px;
-  }
-
-  .fields-divider {
-    border: none;
-    border-top: 1px solid var(--border-line);
-    margin: 16px 0;
-  }
-
-  .field-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
-  .field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-  .field-group { display: flex; flex-direction: column; }
-
-  .field-label-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 5px;
-  }
-
-  .field-label-row .form-label { margin-bottom: 0; }
-
-  .ai-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--text-info);
-    white-space: nowrap;
-  }
-
-  .req { color: var(--text-error); }
-
-  .review-action-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 0 0;
-    margin-top: 14px;
-    border-top: 1px solid var(--border-line);
-  }
-
-  /* boat select */
-  .boat-select-list { display: flex; flex-direction: column; gap: 8px; }
-
-  /* ─── QUOTES ─── */
-  .quote-menu-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--text-placeholder);
-    font-size: 16px;
-    padding: 4px 6px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-  }
-  .quote-menu-btn:hover { background: var(--surface-base); color: var(--text-secondary); }
-
-  .quote-ctx-menu {
-    position: fixed;
-    background: white;
-    border: 1px solid var(--border-line);
-    border-radius: 9px;
-    box-shadow: 0 8px 24px rgba(30,41,59,0.14);
-    padding: 5px;
-    z-index: 300;
-    min-width: 160px;
-  }
-
-  .qcm-item {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 8px 12px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.1s;
-  }
-
-  .qcm-item:hover { background: var(--surface-base); }
-  .qcm-danger { color: var(--text-error); }
-  .qcm-danger:hover { background: var(--alpha-red-7); }
-
-  /* ─── DUPLICATE DETECTED ─── */
-  .dup-match-card {
-    background: var(--surface-base);
-    border: 1px solid var(--border-line);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .dup-match-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
-    background: white;
-    border-bottom: 1px solid var(--border-line);
-  }
-
-  .dup-match-label {
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--text-placeholder);
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-  }
-
-  .dup-confidence {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-success);
-    background: var(--alpha-green-15);
-    padding: 2px 8px;
-    border-radius: 4px;
-  }
-
-  .dup-match-body {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    border-bottom: 1px solid var(--border-line);
-    background: white;
-  }
-
-  .dup-boat-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    background: var(--surface-primary-subtle);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    color: var(--text-info);
-    flex-shrink: 0;
-  }
-
-  .dup-boat-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 2px;
-  }
-
-  .dup-boat-id {
-    font-size: 11px;
-    font-weight: 400;
-    color: var(--text-placeholder);
-    margin-left: 6px;
-  }
-
-  .dup-boat-meta {
-    font-size: 11px;
-    color: var(--text-placeholder);
-  }
-
-  .dup-fields-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    padding: 0;
-  }
-
-  .dup-field {
-    padding: 10px 16px;
-    border-right: 1px solid var(--border-line);
-    border-bottom: 1px solid var(--border-line);
-  }
-
-  .dup-field:nth-child(3n) { border-right: none; }
-  .dup-field:nth-last-child(-n+3) { border-bottom: none; }
-
-  .dup-field-label {
-    font-size: 10px;
-    color: var(--text-placeholder);
-    font-weight: 500;
-    margin-bottom: 3px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-  }
-
-  .dup-field-val {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-
-  .dup-field-diff .dup-field-val { color: var(--text-warning); }
-
-  .dup-new-badge {
-    font-size: 9px;
-    font-weight: 600;
-    color: var(--text-info);
-    background: var(--alpha-blue-12);
-    padding: 1px 5px;
-    border-radius: 3px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-  }
-
-  .dup-diff-badge {
-    font-size: 9px;
-    font-weight: 600;
-    color: #db4d00;
-    background: rgba(247,142,30,0.12);
-    padding: 1px 5px;
-    border-radius: 3px;
-  }
-
-  /* Duplicate action options */
-  .dup-option {
-    border: 1.5px solid var(--border-line);
-    border-radius: 10px;
-    padding: 20px;
-    cursor: pointer;
-    transition: border-color 0.12s, background 0.12s, box-shadow 0.12s;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .dup-option:first-child {
-    border-color: var(--border-primary-color);
-    background: var(--surface-primary-subtle);
-  }
-
-  .dup-option:first-child:hover {
-    background: var(--surface-primary-subtle-hover);
-    box-shadow: 0 0 0 3px rgba(39,121,150,0.1);
-  }
-
-  .dup-option:last-child:hover {
-    border-color: var(--border-secondary);
-    background: var(--surface-subtle);
-  }
-
-  .dup-option-icon {
-    width: 36px;
-    height: 36px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    margin-bottom: 2px;
-  }
-
-  .dup-option-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text-info);
-  }
-
-  .dup-option-desc {
-    font-size: 12px;
-    color: var(--text-placeholder);
-    line-height: 1.5;
-    flex: 1;
-  }
-
-  .dup-option-cta {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-info);
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    margin-top: 4px;
-  }
-
-  /* ─── UPDATE REVIEW FIELDS ─── */
-  .update-field-row {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 7px;
-    margin-bottom: 6px;
-  }
-
-  .update-field-same {
-    background: var(--surface-base);
-  }
-
-  .update-field-change {
-    background: rgba(247,142,30,0.05);
-    border: 1px solid rgba(247,142,30,0.2);
-  }
-
-  .update-field-check {
-    font-size: 13px;
-    color: var(--text-success);
-    margin-top: 2px;
-    flex-shrink: 0;
-  }
-
-  .update-checkbox {
-    width: 15px;
-    height: 15px;
-    cursor: pointer;
-    margin-top: 3px;
-    flex-shrink: 0;
-    accent-color: var(--surface-primary);
-  }
-
-  .update-field-content {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    flex: 1;
-  }
-
-  .update-field-name {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-secondary);
-  }
-
-  .update-field-val {
-    font-size: 12px;
-    color: var(--text-placeholder);
-  }
-
-  .update-field-diff {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-  }
-
-  .update-old {
-    color: var(--text-placeholder);
-    text-decoration: line-through;
-  }
-
-  .update-new {
-    font-weight: 600;
-    color: #db4d00;
-  }
-  .boat-select-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
-    border: 1.5px solid var(--border-line);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: border-color 0.12s, background 0.12s;
-  }
-  .boat-select-item:hover { border-color: var(--border-primary-color); background: var(--surface-primary-subtle); }
-  .boat-select-item.selected { border-color: var(--surface-primary); background: var(--surface-primary-subtle); }
-  .bsi-icon { width:32px;height:32px;border-radius:6px;background:var(--surface-base);display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--text-info);flex-shrink:0; }
-  .bsi-name { font-size:13px;font-weight:600;color:var(--text-secondary); }
-  .bsi-detail { font-size:11px;color:var(--text-placeholder);margin-top:1px; }
-  .bsi-check { margin-left:8px;font-size:16px;color:var(--surface-primary);display:none; }
-  .boat-select-item.selected .bsi-check { display:block; }
-</style>
 
 
 <script>
@@ -4414,12 +4742,11 @@
 
     const pageMap = {
       'method':               'page-create-method',
-      'scratch-wizard':       'page-create-method',
+      'scratch-wizard':       'page-create-scratch',
       'upload-doc':           'page-create-upload-doc',
       'duplicate-detected':   'page-create-duplicate-detected',
       'review-update':        'page-create-review-update',
       'review-extracted':     'page-create-review-extracted',
-      'copy':                 'page-create-copy',
     };
 
     const pageId = pageMap[step];
@@ -4427,6 +4754,7 @@
 
     // Reset boat upload dropzone every time user arrives at upload-doc step
     if (step === 'upload-doc') resetBoatDropzone();
+    if (step === 'scratch-wizard') setTimeout(initWizard, 0);
 
     // Reset method page inline dropzones
     if (step === 'method' || step === 'scratch-wizard') {
@@ -4600,6 +4928,16 @@
     showToast('<i class="ti ti-circle-check" style="font-size:16px"></i> Boat created successfully');
   }
 
+  function saveDraftBoat() {
+    showPage('boats');
+    showToast('<i class="ti ti-device-floppy" style="font-size:16px"></i> Draft saved — boat is in Draft status');
+  }
+
+  function saveDraftQuote() {
+    showPage('quotes');
+    showToast('<i class="ti ti-device-floppy" style="font-size:16px"></i> Draft saved — quote is in Draft status');
+  }
+
   function confirmUpdate() {
     showPage('boats');
     showToast('<i class="ti ti-refresh" style="font-size:16px"></i> Lady Ann updated successfully');
@@ -4727,6 +5065,90 @@
     showToast('<i class="ti ti-circle-check" style="font-size:16px"></i> Quote duplicated successfully');
   }
 
+  /* ─── BOAT WIZARD ─── */
+  let bwizCurrentStep = 2;
+
+  function initWizard() {
+    bwizCurrentStep = 2;
+    goWizStep(2);
+  }
+
+  function goWizStep(step) {
+    bwizCurrentStep = step;
+    // Hide all steps
+    for (let i = 1; i <= 5; i++) {
+      const el = document.getElementById('bwiz-step-' + i);
+      if (el) el.style.display = 'none';
+    }
+    // Show current
+    const cur = document.getElementById('bwiz-step-' + step);
+    if (cur) cur.style.display = 'block';
+
+    // Update step indicators
+    for (let i = 1; i <= 5; i++) {
+      const circle = document.querySelector('#bws-' + i + ' .bwiz-circle');
+      const label  = document.querySelector('#bws-' + i + ' .bwiz-label');
+      const conn   = document.querySelector('#bws-' + i + ' .bwiz-connector');
+      if (!circle) continue;
+      circle.classList.remove('bwiz-done', 'bwiz-active');
+      label.classList.remove('bwiz-label-active', 'bwiz-label-done');
+      if (conn) conn.classList.remove('bwiz-connector-done');
+
+      if (i < step) {
+        circle.classList.add('bwiz-done');
+        circle.innerHTML = '<i class="ti ti-check" style="font-size:12px"></i>';
+        label.classList.add('bwiz-label-done');
+        if (conn) conn.classList.add('bwiz-connector-done');
+      } else if (i === step) {
+        circle.classList.add('bwiz-active');
+        circle.innerHTML = i === 1 ? '<i class="ti ti-check" style="font-size:12px"></i>' : String(i);
+        label.classList.add('bwiz-label-active');
+      } else {
+        circle.innerHTML = String(i);
+      }
+    }
+
+    // Footer buttons
+    const backBtn = document.getElementById('bwiz-btn-back');
+    const nextBtn = document.getElementById('bwiz-btn-next');
+    const skipBtn = document.getElementById('bwiz-btn-skip');
+
+    if (backBtn) backBtn.style.display = step === 1 ? 'none' : 'inline-flex';
+    if (skipBtn) skipBtn.style.display = step === 4 ? 'inline-flex' : 'none';
+
+    if (nextBtn) {
+      if (step === 5) {
+        nextBtn.innerHTML = '<i class="ti ti-anchor"></i> Create Boat';
+        nextBtn.onclick = function() { confirmCreate(); };
+      } else {
+        nextBtn.innerHTML = 'Continue <i class="ti ti-arrow-right"></i>';
+        nextBtn.onclick = bwizNext;
+      }
+    }
+  }
+
+  function bwizNext() {
+    if (bwizCurrentStep < 5) goWizStep(bwizCurrentStep + 1);
+    else confirmCreate();
+  }
+
+  function bwizBack() {
+    if (bwizCurrentStep > 1) goWizStep(bwizCurrentStep - 1);
+  }
+
+  function bwizPhotoSelected() {
+    document.getElementById('bwiz-photo-preview').style.display = 'block';
+  }
+
+  function toggleSpec(name) {
+    const body = document.getElementById('spec-body-' + name);
+    const chev = document.getElementById('spec-chev-' + name);
+    if (!body) return;
+    const isOpen = body.style.display !== 'none';
+    body.style.display = isOpen ? 'none' : 'block';
+    chev.classList.toggle('spec-chevron-open', !isOpen);
+  }
+
   /* ─── QUOTE FLOWS ─── */
   function showQuoteFlow(step) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -4738,7 +5160,6 @@
       'scratch':   'page-quote-scratch',
       'upload':    'page-quote-upload',
       'review':    'page-quote-review',
-      'duplicate': 'page-quote-duplicate',
     };
 
     if (map[step]) document.getElementById(map[step]).classList.add('active');
