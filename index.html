@@ -3102,6 +3102,53 @@
               </tr>
             </thead>
             <tbody>
+
+              <!-- Processing row — clicks to pipeline view -->
+              <tr class="doc-row" style="cursor:pointer" onclick="showPage('boat-processing')">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td>
+                  <div class="boat-thumb boat-thumb-empty" style="border-color:var(--alpha-blue-12);background:var(--surface-primary-subtle)">
+                    <span class="dpb-spinner" style="width:14px;height:14px;border-width:2px"></span>
+                  </div>
+                </td>
+                <td>
+                  <div class="cell-primary">2024 Sea Ray Sundancer 320</div>
+                  <div class="cell-sub" style="display:flex;align-items:center;gap:5px">
+                    <span>Sea Ray · Sundancer 320</span>
+                    <span style="font-size:10px;color:var(--text-info);font-weight:500">· Uploaded from document</span>
+                  </div>
+                </td>
+                <td style="font-size:12px;color:var(--text-placeholder)">—</td>
+                <td style="font-size:12px;color:var(--text-placeholder)">—</td>
+                <td>
+                  <span class="tag tag-processing" style="display:inline-flex;align-items:center;gap:5px">
+                    <span class="dpb-spinner-sm"></span> Processing
+                  </span>
+                </td>
+                <td><span class="tag tag-archived">Unpublished</span></td>
+                <td style="font-size:12px;color:var(--text-placeholder)">—</td>
+                <td style="font-size:12px;color:var(--text-secondary)">Boatyard Sales — Miami</td>
+              </tr>
+
+              <!-- Draft row — clicks to doc wizard to complete -->
+              <tr class="doc-row" style="cursor:pointer" onclick="showCreateFlow('review-extracted')">
+                <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
+                <td><div class="boat-thumb boat-thumb-empty"><i class="ti ti-photo" style="font-size:18px;color:var(--text-disabled)"></i></div></td>
+                <td>
+                  <div class="cell-primary">2023 Beneteau Oceanis 46</div>
+                  <div class="cell-sub" style="display:flex;align-items:center;gap:5px">
+                    <span>Beneteau · Oceanis 46</span>
+                    <span style="font-size:10px;color:var(--text-warning);font-weight:500">· Incomplete — review needed</span>
+                  </div>
+                </td>
+                <td style="font-size:12px;color:var(--text-placeholder)">BEN-46-23-0091</td>
+                <td style="font-size:12px;color:var(--text-placeholder)">—</td>
+                <td><span class="tag tag-draft">Draft</span></td>
+                <td><span class="tag tag-archived">Unpublished</span></td>
+                <td style="font-size:12px;color:var(--text-placeholder)">—</td>
+                <td style="font-size:12px;color:var(--text-secondary)">MarineMax St. Petersburg</td>
+              </tr>
+
               <tr class="doc-row" style="cursor:pointer">
                 <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
                 <td><div class="boat-thumb boat-thumb-empty"><i class="ti ti-photo" style="font-size:18px;color:var(--text-disabled)"></i></div></td>
@@ -3188,7 +3235,92 @@
               </tr>
             </tbody>
           </table>
-          <div class="showing-count">Showing 6 of 14 boats</div>
+          <div class="showing-count">Showing 8 of 14 boats</div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           PAGE: BOAT — Processing status
+      ════════════════════════════════════ -->
+      <div class="page" id="page-boat-processing">
+        <div class="doc-detail-topbar">
+          <button class="btn btn-ghost btn-sm" onclick="showPage('boats')"><i class="ti ti-arrow-left"></i> Back to Boats</button>
+          <div class="doc-detail-meta">
+            <span class="cell-primary" style="font-size:14px">2024 Sea Ray Sundancer 320</span>
+            <span style="color:var(--text-placeholder);font-size:12px">·</span>
+            <span style="font-size:12px;color:var(--text-quaternary)">Boatyard Sales — Miami</span>
+            <span class="tag tag-processing" style="margin-left:4px;display:inline-flex;align-items:center;gap:5px">
+              <span class="dpb-spinner-sm"></span> Processing
+            </span>
+          </div>
+        </div>
+
+        <!-- Pipeline bar — reuse Import Manager style -->
+        <div class="doc-pipeline-bar">
+          <div class="doc-pipeline-inner">
+            <div class="dpb-label">Pipeline Status</div>
+            <div class="dpb-title">AI Validation</div>
+            <div class="dpb-sub">Cross-checking extracted boat data</div>
+          </div>
+          <div class="dpb-meta">
+            <div><div class="dpb-meta-label">Started</div><div class="dpb-meta-val">9:14 AM</div></div>
+            <div><div class="dpb-meta-label">ETA</div><div class="dpb-meta-val">~2 min</div></div>
+          </div>
+          <div class="dpb-badge dpb-badge-processing"><span class="dpb-spinner"></span> 62% complete</div>
+          <div class="dpb-steps">
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">Upload Document</div>
+              <div class="dpb-step-sub">File received and queued</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">AI Routing</div>
+              <div class="dpb-step-sub">Detecting document type</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-active"></div>
+              <div class="dpb-step-label">Data Extraction</div>
+              <div class="dpb-step-sub">Reading fields with OCR + LLM</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step">
+              <div class="dpb-step-circle dpb-active"><i class="ti ti-shield-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector"></div>
+              <div class="dpb-step-label">AI Validation</div>
+              <div class="dpb-step-sub">Cross-checking extracted data</div>
+              <div class="dpb-step-status dpb-status-inprogress"><span class="dpb-spinner-sm"></span> In progress · 62%</div>
+            </div>
+            <div class="dpb-step">
+              <div class="dpb-step-circle dpb-waiting"><i class="ti ti-clipboard-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-label">Ready for Review</div>
+              <div class="dpb-step-sub">Awaiting your verification</div>
+              <div class="dpb-step-status dpb-status-waiting"><i class="ti ti-clock" style="font-size:10px"></i> Waiting</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px;text-align:center;padding:48px 32px">
+          <div style="width:52px;height:52px;border-radius:50%;background:var(--alpha-blue-12);color:var(--text-info);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px">
+            <i class="ti ti-settings" style="animation:spin 2s linear infinite"></i>
+          </div>
+          <div style="font-size:16px;font-weight:600;color:var(--text-secondary);margin-bottom:6px">AI is processing this document</div>
+          <div style="font-size:13px;color:var(--text-quaternary);margin-bottom:20px">You'll be notified when it's ready for your review. This usually takes under 2 minutes.</div>
+          <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:var(--surface-base);border:1px solid var(--border-line);border-radius:8px;font-size:12px;color:var(--text-secondary);margin-bottom:24px">
+            <span class="dpb-spinner-sm"></span> Processing · 62% complete
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:10px">
+            <button class="btn btn-ghost btn-sm" onclick="showPage('boats')">Back to Boats</button>
+            <button class="btn btn-primary btn-sm" onclick="showPage('reviews')">
+              <i class="ti ti-clipboard-check"></i> View in Import Manager
+            </button>
+          </div>
         </div>
       </div>
 
@@ -4239,6 +4371,33 @@
               </tr>
             </thead>
             <tbody>
+              <!-- Processing row -->
+              <tr class="doc-row" style="cursor:pointer" onclick="showPage('quote-processing')">
+                <td>
+                  <div class="cell-primary" style="display:flex;align-items:center;gap:6px">
+                    <span class="dpb-spinner-sm"></span> Q-2024-009
+                  </div>
+                </td>
+                <td style="font-size:12px;color:var(--text-placeholder);font-style:italic">Processing from order_form.pdf…</td>
+                <td style="font-size:12px;color:var(--text-placeholder)">—</td>
+                <td><span class="tag tag-processing" style="display:inline-flex;align-items:center;gap:5px"><span class="dpb-spinner-sm"></span> Processing</span></td>
+                <td style="font-size:12px;color:var(--text-placeholder)">—</td>
+                <td style="font-size:12px;color:var(--text-placeholder)">Just now</td>
+                <td></td>
+              </tr>
+              <!-- Draft row -->
+              <tr class="doc-row" style="cursor:pointer" onclick="showQuoteFlow('review')">
+                <td><div class="cell-primary">Q-2024-010</div></td>
+                <td>
+                  <div style="font-size:12px;color:var(--text-secondary)">2023 Jeanneau NC 37</div>
+                  <div style="font-size:10px;color:var(--text-warning);font-weight:500;margin-top:2px">Incomplete — review needed</div>
+                </td>
+                <td><div style="font-size:12px">Karen Page</div><div class="cell-sub">k.page@nyt.com</div></td>
+                <td><span class="tag tag-draft">Draft</span></td>
+                <td style="font-size:12px">John Anderson</td>
+                <td style="font-size:12px;color:var(--text-quaternary)">May 5, 2026</td>
+                <td><button class="quote-menu-btn" onclick="event.stopPropagation()"><i class="ti ti-dots-vertical"></i></button></td>
+              </tr>
               <tr class="doc-row" style="cursor:pointer">
                 <td><div class="cell-primary">Q-2024-001</div></td>
                 <td style="font-size:12px;color:var(--text-secondary)">2095 Mercury EXCALIBUR LTD 27</td>
@@ -4573,154 +4732,217 @@
            QUOTES: REVIEW EXTRACTED
       ════════════════════════════════════ -->
       <div class="page" id="page-quote-review">
-        <div class="review-topbar">
-          <div>
-            <div style="margin-bottom:6px">
-              <button class="btn btn-ghost btn-sm" style="padding:4px 8px;font-size:11px" onclick="showQuoteFlow('upload')">
-                <i class="ti ti-arrow-left"></i> Back
-              </button>
-            </div>
-            <h1 class="page-title" style="font-size:20px">Review extracted quote data</h1>
-            <p class="page-desc">Compare the source document with the extracted fields and edit anything that's off.</p>
-          </div>
+        <div style="margin-bottom:16px">
+          <button class="btn btn-ghost btn-sm" onclick="showQuoteFlow('method')">
+            <i class="ti ti-arrow-left"></i> Back
+          </button>
         </div>
 
-        <div class="ai-banner">
-          <i class="ti ti-wand" style="font-size:15px;color:var(--text-info);flex-shrink:0;margin-top:1px"></i>
-          <div>
-            <span style="font-weight:600;color:var(--text-secondary)">We extracted quote data from order_form.pdf.</span>
-            <span style="color:var(--text-tertiary)"> Review the document on the left and edit any field that doesn't look right before saving.</span>
-          </div>
-        </div>
-
-        <div class="review-split">
-          <div class="review-doc-panel">
-            <div class="review-doc-header">
-              <i class="ti ti-file-description" style="font-size:14px;color:var(--text-placeholder)"></i>
-              <span style="font-size:13px;font-weight:500;color:var(--text-secondary)">order_form.pdf</span>
-              <button class="btn btn-ghost btn-sm" style="margin-left:auto;padding:4px 10px;font-size:11px"><i class="ti ti-external-link"></i> Open</button>
-            </div>
-            <div class="review-doc-preview">
-              <div style="background:#f8f9fb;border:1px solid #e2ebf3;border-radius:6px;padding:20px;font-size:11px;color:#475569;line-height:1.6">
-                <div style="font-size:14px;font-weight:700;color:#1e293b;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid #e2ebf3">Boat Order Form — Boatyard Sales Miami</div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px">Customer</div><div style="font-weight:600">John Anderson</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px">Email</div><div style="font-weight:500">john.anderson@email.com</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px">Phone</div><div style="font-weight:500">+1 (305) 555-0142</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:.04em;margin-bottom:2px">Company</div><div style="font-weight:500">Anderson Marine LLC</div></div>
-                </div>
-                <hr style="border:none;border-top:1px solid #e2ebf3;margin:10px 0">
-                <div style="font-size:11px;font-weight:600;color:#334155;margin-bottom:8px">Boat Details</div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Make</div><div style="font-weight:500">Sea Ray</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Model</div><div style="font-weight:500">Sundancer 320</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Year</div><div style="font-weight:500">2024</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Stock #</div><div style="font-weight:500">SR-32-24-0117</div></div>
-                </div>
-                <hr style="border:none;border-top:1px solid #e2ebf3;margin:10px 0">
-                <div style="font-size:11px;font-weight:600;color:#334155;margin-bottom:8px">Pricing</div>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Base price</div><div style="font-weight:600;color:#20667e">$124,500</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Discount</div><div style="font-weight:500">$2,500</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Final price</div><div style="font-weight:700;color:#1e293b">$122,000</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase">Payment</div><div style="font-weight:500">Financing</div></div>
-                </div>
-              </div>
+        <div class="create-flow-card" style="max-width:700px">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+            <i class="ti ti-receipt" style="font-size:20px;color:var(--text-info)"></i>
+            <div>
+              <div style="font-size:18px;font-weight:700;color:var(--text-secondary)">New Quote</div>
+              <div style="font-size:12px;color:var(--text-quaternary)">Review and confirm the extracted details.</div>
             </div>
           </div>
 
-          <div class="review-fields-panel">
-            <div class="review-fields-header">
-              <span style="font-size:10px;font-weight:600;color:var(--text-placeholder);text-transform:uppercase;letter-spacing:0.06em">Extracted quote data</span>
-              <span class="ai-prefilled-badge"><i class="ti ti-wand" style="font-size:11px"></i> AI pre-filled</span>
+          <!-- AI banner with view file button -->
+          <div class="ai-banner" style="margin:16px 0 20px">
+            <i class="ti ti-wand" style="font-size:14px;color:var(--text-info);flex-shrink:0;margin-top:1px"></i>
+            <div style="font-size:12px;flex:1">
+              <span style="font-weight:600;color:var(--text-secondary)">We extracted quote data from order_form.pdf.</span>
+              <span style="color:var(--text-tertiary)"> Please review and confirm the details before saving.</span>
             </div>
-            <div class="fields-scroll">
-              <div class="fields-section-label">Customer</div>
-              <div class="field-row-2">
-                <div class="field-group">
-                  <div class="field-label-row"><label class="form-label">First name <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
-                  <input type="text" class="form-input" value="John">
-                </div>
-                <div class="field-group">
-                  <div class="field-label-row"><label class="form-label">Last name <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
-                  <input type="text" class="form-input" value="Anderson">
-                </div>
-              </div>
-              <div class="field-row-2">
-                <div class="field-group">
-                  <div class="field-label-row"><label class="form-label">Email <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
-                  <input type="text" class="form-input" value="john.anderson@email.com">
-                </div>
-                <div class="field-group">
-                  <div class="field-label-row"><label class="form-label">Phone</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
-                  <input type="text" class="form-input" value="+1 (305) 555-0142">
-                </div>
-              </div>
-              <div class="field-group">
-                <div class="field-label-row"><label class="form-label">Company</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
-                <input type="text" class="form-input" value="Anderson Marine LLC">
-              </div>
-              <div class="fields-divider"></div>
-              <div class="fields-section-label">Boat</div>
-              <div class="field-row-2">
-                <div class="field-group">
-                  <div class="field-label-row"><label class="form-label">Make</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
-                  <input type="text" class="form-input" value="Sea Ray">
-                </div>
-                <div class="field-group">
-                  <div class="field-label-row"><label class="form-label">Model</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
-                  <input type="text" class="form-input" value="Sundancer 320">
-                </div>
-              </div>
-              <div class="field-row-2">
-                <div class="field-group">
-                  <div class="field-label-row"><label class="form-label">Year</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
-                  <input type="text" class="form-input" value="2024">
-                </div>
-                <div class="field-group">
-                  <div class="field-label-row"><label class="form-label">Stock #</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
-                  <input type="text" class="form-input" value="SR-32-24-0117">
-                </div>
-              </div>
-              <div class="fields-divider"></div>
-              <div class="fields-section-label">Pricing</div>
-              <div class="field-row-2">
-                <div class="field-group">
-                  <div class="field-label-row"><label class="form-label">Base price</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
-                  <input type="text" class="form-input" value="$124,500">
-                </div>
-                <div class="field-group">
-                  <div class="field-label-row"><label class="form-label">Discount</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
-                  <input type="text" class="form-input" value="$2,500">
-                </div>
-              </div>
-              <div class="field-row-2">
-                <div class="field-group">
-                  <div class="field-label-row"><label class="form-label">Final price</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
-                  <input type="text" class="form-input" value="$122,000">
-                </div>
-                <div class="field-group">
-                  <label class="form-label">Payment method</label>
-                  <select class="form-select"><option>Financing</option><option>Cash</option><option>Wire transfer</option></select>
-                </div>
-              </div>
-              <div class="field-group">
-                <label class="form-label">Status</label>
-                <select class="form-select"><option>Engaged</option><option>Quoted</option><option>Won</option><option>Lost</option></select>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="review-action-bar">
-          <div style="font-size:11px;color:var(--text-placeholder)">Required: First name, Last name, Email.</div>
-          <div style="display:flex;gap:10px">
-            <button class="btn btn-ghost btn-sm" onclick="showQuoteFlow('method')">Cancel</button>
-            <button class="btn btn-ghost btn-sm" onclick="saveDraftQuote()">
-              <i class="ti ti-device-floppy"></i> Save draft
+            <button class="btn btn-ghost btn-sm" style="flex-shrink:0;font-size:11px;padding:4px 10px;border-color:var(--alpha-blue-12)">
+              <i class="ti ti-external-link" style="font-size:12px"></i> View original file
             </button>
-            <button class="btn btn-primary btn-sm" onclick="saveQuote()">
-              <i class="ti ti-receipt"></i> Save quote
+          </div>
+
+          <!-- Customer section -->
+          <div class="fields-section-label" style="margin-bottom:2px">CUSTOMER</div>
+          <div class="fields-section-sub" style="margin-bottom:14px">Required to create this quote.</div>
+          <div class="field-row-2">
+            <div class="field-group">
+              <div class="field-label-row"><label class="form-label">First name <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+              <input type="text" class="form-input" value="John">
+            </div>
+            <div class="field-group">
+              <div class="field-label-row"><label class="form-label">Last name <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+              <input type="text" class="form-input" value="Anderson">
+            </div>
+          </div>
+          <div class="field-row-2">
+            <div class="field-group">
+              <div class="field-label-row"><label class="form-label">Email <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+              <input type="text" class="form-input" value="john.anderson@email.com">
+            </div>
+            <div class="field-group">
+              <div class="field-label-row"><label class="form-label">Phone</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+              <input type="text" class="form-input" value="+1 (305) 555-0142">
+            </div>
+          </div>
+          <div class="field-group">
+            <div class="field-label-row"><label class="form-label">Company</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+            <input type="text" class="form-input" value="Anderson Marine LLC">
+          </div>
+
+          <div class="fields-divider"></div>
+
+          <!-- Boat section -->
+          <div class="fields-section-label" style="margin-bottom:14px">BOAT</div>
+          <div class="field-row-2">
+            <div class="field-group">
+              <div class="field-label-row"><label class="form-label">Make</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+              <input type="text" class="form-input" value="Sea Ray">
+            </div>
+            <div class="field-group">
+              <div class="field-label-row"><label class="form-label">Model</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+              <input type="text" class="form-input" value="Sundancer 320">
+            </div>
+          </div>
+          <div class="field-row-2">
+            <div class="field-group">
+              <div class="field-label-row"><label class="form-label">Year</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+              <input type="text" class="form-input" value="2024">
+            </div>
+            <div class="field-group">
+              <div class="field-label-row"><label class="form-label">Stock #</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+              <input type="text" class="form-input" value="SR-32-24-0117">
+            </div>
+          </div>
+
+          <div class="fields-divider"></div>
+
+          <!-- Pricing section -->
+          <div class="fields-section-label" style="margin-bottom:14px">PRICING</div>
+          <div class="field-row-2">
+            <div class="field-group">
+              <div class="field-label-row"><label class="form-label">Base price</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+              <input type="text" class="form-input" value="$124,500">
+            </div>
+            <div class="field-group">
+              <div class="field-label-row"><label class="form-label">Discount</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+              <input type="text" class="form-input" value="$2,500">
+            </div>
+          </div>
+          <div class="field-row-2">
+            <div class="field-group">
+              <div class="field-label-row"><label class="form-label">Final price</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+              <input type="text" class="form-input" value="$122,000">
+            </div>
+            <div class="field-group">
+              <label class="form-label">Payment method</label>
+              <select class="form-select"><option>Financing</option><option>Cash</option><option>Wire transfer</option></select>
+            </div>
+          </div>
+
+          <div class="fields-divider"></div>
+
+          <!-- Status -->
+          <div class="fields-section-label" style="margin-bottom:14px">QUOTE STATUS</div>
+          <div class="field-row-2">
+            <div class="field-group">
+              <label class="form-label">Status</label>
+              <select class="form-select"><option>Engaged</option><option>Quoted</option><option>Won</option><option>Lost</option></select>
+            </div>
+            <div class="field-group">
+              <label class="form-label">Assigned rep</label>
+              <select class="form-select"><option>John Anderson</option><option>Sarah Kim</option></select>
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div class="bwiz-footer">
+            <div></div>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ghost btn-sm" onclick="showQuoteFlow('method')">Cancel</button>
+              <button class="btn btn-ghost btn-sm" onclick="saveDraftQuote()"><i class="ti ti-device-floppy"></i> Save draft</button>
+              <button class="btn btn-primary btn-sm" onclick="saveQuote()"><i class="ti ti-receipt"></i> Save quote</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- ════════════════════════════════════
+           PAGE: QUOTE — Processing status
+      ════════════════════════════════════ -->
+      <div class="page" id="page-quote-processing">
+        <div class="doc-detail-topbar">
+          <button class="btn btn-ghost btn-sm" onclick="showPage('quotes')"><i class="ti ti-arrow-left"></i> Back to Quotes</button>
+          <div class="doc-detail-meta">
+            <span class="cell-primary" style="font-size:14px">Q-2024-009 — 2024 Sea Ray Sundancer 320</span>
+            <span style="color:var(--text-placeholder);font-size:12px">·</span>
+            <span style="font-size:12px;color:var(--text-quaternary)">John Anderson</span>
+            <span class="tag tag-processing" style="margin-left:4px;display:inline-flex;align-items:center;gap:5px">
+              <span class="dpb-spinner-sm"></span> Processing
+            </span>
+          </div>
+        </div>
+
+        <div class="doc-pipeline-bar">
+          <div class="doc-pipeline-inner">
+            <div class="dpb-label">Pipeline Status</div>
+            <div class="dpb-title">AI Validation</div>
+            <div class="dpb-sub">Cross-checking extracted quote data</div>
+          </div>
+          <div class="dpb-meta">
+            <div><div class="dpb-meta-label">Started</div><div class="dpb-meta-val">10:22 AM</div></div>
+            <div><div class="dpb-meta-label">ETA</div><div class="dpb-meta-val">~2 min</div></div>
+          </div>
+          <div class="dpb-badge dpb-badge-processing"><span class="dpb-spinner"></span> 58% complete</div>
+          <div class="dpb-steps">
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">Upload Document</div>
+              <div class="dpb-step-sub">File received and queued</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-done"></div>
+              <div class="dpb-step-label">AI Routing</div>
+              <div class="dpb-step-sub">Detecting document type</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step dpb-step-done">
+              <div class="dpb-step-circle dpb-done"><i class="ti ti-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector dpb-conn-active"></div>
+              <div class="dpb-step-label">Data Extraction</div>
+              <div class="dpb-step-sub">Reading fields with OCR + LLM</div>
+              <div class="dpb-step-status dpb-status-done"><i class="ti ti-check" style="font-size:10px"></i> Completed</div>
+            </div>
+            <div class="dpb-step">
+              <div class="dpb-step-circle dpb-active"><i class="ti ti-shield-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-connector"></div>
+              <div class="dpb-step-label">AI Validation</div>
+              <div class="dpb-step-sub">Cross-checking extracted data</div>
+              <div class="dpb-step-status dpb-status-inprogress"><span class="dpb-spinner-sm"></span> In progress · 58%</div>
+            </div>
+            <div class="dpb-step">
+              <div class="dpb-step-circle dpb-waiting"><i class="ti ti-clipboard-check" style="font-size:11px"></i></div>
+              <div class="dpb-step-label">Ready for Review</div>
+              <div class="dpb-step-sub">Awaiting your verification</div>
+              <div class="dpb-step-status dpb-status-waiting"><i class="ti ti-clock" style="font-size:10px"></i> Waiting</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px;text-align:center;padding:48px 32px">
+          <div style="width:52px;height:52px;border-radius:50%;background:var(--alpha-blue-12);color:var(--text-info);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:22px">
+            <i class="ti ti-settings" style="animation:spin 2s linear infinite"></i>
+          </div>
+          <div style="font-size:16px;font-weight:600;color:var(--text-secondary);margin-bottom:6px">AI is processing this document</div>
+          <div style="font-size:13px;color:var(--text-quaternary);margin-bottom:20px">You'll be notified when the quote is ready for your review.</div>
+          <div style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:var(--surface-base);border:1px solid var(--border-line);border-radius:8px;font-size:12px;color:var(--text-secondary);margin-bottom:24px">
+            <span class="dpb-spinner-sm"></span> Processing · 58% complete
+          </div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:10px">
+            <button class="btn btn-ghost btn-sm" onclick="showPage('quotes')">Back to Quotes</button>
+            <button class="btn btn-primary btn-sm" onclick="showPage('reviews')">
+              <i class="ti ti-clipboard-check"></i> View in Import Manager
             </button>
           </div>
         </div>
@@ -4740,7 +4962,7 @@
     document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
     document.getElementById('page-' + page).classList.add('active');
 
-    const navId = {'reviews':'nav-reviews','boats':'nav-boats','quotes':'nav-quotes'}[page];
+    const navId = {'reviews':'nav-reviews','boats':'nav-boats','quotes':'nav-quotes','boat-processing':'nav-boats','quote-processing':'nav-quotes'}[page];
     if (navId) document.getElementById(navId).classList.add('active');
 
     const labels = {
@@ -4748,6 +4970,8 @@
       reviews: 'Import Manager',
       boats: 'Boats',
       quotes: 'Quotes',
+      'boat-processing': 'Boats',
+      'quote-processing': 'Quotes',
     };
     const label = labels[page] || 'Boats';
     document.getElementById('breadcrumb').innerHTML =
