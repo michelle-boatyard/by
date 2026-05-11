@@ -279,7 +279,7 @@
     .notif-icon-error   { background: var(--alpha-red-7);    color: var(--text-error);   }
     .notif-icon-info    { background: var(--alpha-blue-12);  color: var(--text-info);    }
 
-    .notif-body { flex: 1; min-width: 0; }
+    .notif-.notif-body { flex: 1; min-width: 0; }
 
     .notif-item-title {
       font-size: 12px;
@@ -457,6 +457,7 @@
     .tag-processing{ background: var(--alpha-blue-12);   color: var(--text-info); }
     .tag-completed { background: var(--alpha-green-15);  color: var(--text-success); }
     .tag-boat-spec { background: var(--alpha-blue-12);   color: var(--text-info); }
+    .tag-quote     { background: var(--alpha-purple-9);  color: #7d3d8a; }
     .tag-order     { background: var(--alpha-purple-9);  color: #7d3d8a; }
     .tag-invoice   { background: var(--alpha-gray-10);   color: var(--text-quaternary); }
     .tag-contract  { background: var(--alpha-gray-10);   color: var(--text-quaternary); }
@@ -935,7 +936,7 @@
 
     .modal-close:hover { color: var(--text-secondary); }
 
-    .modal-body { padding: 22px 24px; }
+    .modal-.modal-body { padding: 22px 24px; }
 
     .modal-footer {
       padding: 16px 24px;
@@ -2451,7 +2452,6 @@
         </div>
 
         <div class="filters-row">
-          <button class="btn btn-ghost btn-sm"><i class="ti ti-adjustments-horizontal"></i> Filters</button>
           <select class="fselect">
             <option>All statuses</option>
             <option>Review Required</option>
@@ -2460,27 +2460,9 @@
             <option>Failed</option>
           </select>
           <select class="fselect">
-            <option>Upload date</option>
-            <option>Apr 29, 2026</option>
-            <option>Apr 28, 2026</option>
-            <option>Apr 27, 2026</option>
-          </select>
-          <select class="fselect">
-            <option>All uploaders</option>
-            <option>Amelia Chen</option>
-            <option>Marcus Lee</option>
-            <option>Priya Raman</option>
-            <option>Tomás Alvarez</option>
-          </select>
-          <select class="fselect">
             <option>All types</option>
-            <option>Boat Specifications</option>
-            <option>Boat Order Form</option>
-            <option>Invoice</option>
-            <option>Contract</option>
-            <option>Receipt</option>
-            <option>Manifest</option>
-            <option>Purchase order</option>
+            <option>Boat</option>
+            <option>Quote</option>
           </select>
           <div class="search-wrap">
             <i class="ti ti-search si"></i>
@@ -2495,8 +2477,6 @@
                 <th style="width:36px"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></th>
                 <th>Document</th>
                 <th>Type</th>
-                <th>Uploaded by</th>
-                <th>Upload date</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -2508,17 +2488,7 @@
                   <div class="cell-primary">DOC-10473</div>
                   <div class="cell-sub">beneteau_oceanis46_spec.pdf</div>
                 </td>
-                <td><span class="tag tag-boat-spec">Boat Specifications</span></td>
-                <td>
-                  <div class="uploaderCell">
-                    <div class="uav uav-blue">AC</div>
-                    <div>
-                      <div class="uname">Amelia Chen</div>
-                      <div class="uemail">amelia@northwind.io</div>
-                    </div>
-                  </div>
-                </td>
-                <td><div style="font-size:12px">Apr 29, 2026</div><div class="cell-sub">10:02 AM</div></td>
+                <td><span class="tag tag-boat-spec">Boat</span></td>
                 <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
                 <td onclick="event.stopPropagation()"><button class="btn btn-primary btn-sm" onclick="openDoc('review')">Review</button></td>
               </tr>
@@ -2528,17 +2498,7 @@
                   <div class="cell-primary">DOC-10474</div>
                   <div class="cell-sub">boston_whaler_330_order.pdf</div>
                 </td>
-                <td><span class="tag tag-order">Boat Order Form</span></td>
-                <td>
-                  <div class="uploaderCell">
-                    <div class="uav uav-purple">ML</div>
-                    <div>
-                      <div class="uname">Marcus Lee</div>
-                      <div class="uemail">m.lee@acme.com</div>
-                    </div>
-                  </div>
-                </td>
-                <td><div style="font-size:12px">Apr 29, 2026</div><div class="cell-sub">8:42 AM</div></td>
+                <td><span class="tag tag-boat-spec">Boat</span></td>
                 <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
                 <td onclick="event.stopPropagation()"><button class="btn btn-primary btn-sm" onclick="openDoc('review')">Review</button></td>
               </tr>
@@ -2548,17 +2508,7 @@
                   <div class="cell-primary">DOC-10472</div>
                   <div class="cell-sub">Q1_invoices_northwind.pdf</div>
                 </td>
-                <td><span class="tag tag-invoice">Invoice</span></td>
-                <td>
-                  <div class="uploaderCell">
-                    <div class="uav uav-blue">AC</div>
-                    <div>
-                      <div class="uname">Amelia Chen</div>
-                      <div class="uemail">amelia@northwind.io</div>
-                    </div>
-                  </div>
-                </td>
-                <td><div style="font-size:12px">Apr 28, 2026</div><div class="cell-sub">9:14 AM</div></td>
+                <td><span class="tag tag-boat-spec">Boat</span></td>
                 <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
                 <td onclick="event.stopPropagation()"><button class="btn btn-primary btn-sm" onclick="openDoc('review')">Review</button></td>
               </tr>
@@ -2566,19 +2516,9 @@
                 <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
                 <td>
                   <div class="cell-primary">DOC-10471</div>
-                  <div class="cell-sub">vendor_contracts_2026.pdf</div>
+                  <div class="cell-sub">quote_anderson_marine_2026.pdf</div>
                 </td>
-                <td><span class="tag tag-contract">Contract</span></td>
-                <td>
-                  <div class="uploaderCell">
-                    <div class="uav uav-purple">ML</div>
-                    <div>
-                      <div class="uname">Marcus Lee</div>
-                      <div class="uemail">m.lee@acme.com</div>
-                    </div>
-                  </div>
-                </td>
-                <td><div style="font-size:12px">Apr 28, 2026</div><div class="cell-sub">8:48 AM</div></td>
+                <td><span class="tag tag-quote">Quote</span></td>
                 <td><span class="tag tag-processing"><i class="ti ti-refresh" style="font-size:10px"></i> Processing · 62%</span></td>
                 <td onclick="event.stopPropagation()"><button class="btn btn-ghost btn-sm" onclick="openDoc('processing')">Track</button></td>
               </tr>
@@ -2586,19 +2526,9 @@
                 <td onclick="event.stopPropagation()"><input type="checkbox" style="width:14px;height:14px;cursor:pointer"></td>
                 <td>
                   <div class="cell-primary">DOC-10470</div>
-                  <div class="cell-sub">april_expense_receipts.pdf</div>
+                  <div class="cell-sub">quote_rand_princess_v55.pdf</div>
                 </td>
-                <td><span class="tag tag-receipt">Receipt</span></td>
-                <td>
-                  <div class="uploaderCell">
-                    <div class="uav uav-green">PR</div>
-                    <div>
-                      <div class="uname">Priya Raman</div>
-                      <div class="uemail">priya@globex.co</div>
-                    </div>
-                  </div>
-                </td>
-                <td><div style="font-size:12px">Apr 28, 2026</div><div class="cell-sub">7:55 AM</div></td>
+                <td><span class="tag tag-quote">Quote</span></td>
                 <td><span class="tag tag-completed"><i class="ti ti-circle-check" style="font-size:10px"></i> Completed</span></td>
                 <td onclick="event.stopPropagation()"><button class="btn btn-ghost btn-sm" onclick="openDoc('completed')">View</button></td>
               </tr>
@@ -2608,17 +2538,7 @@
                   <div class="cell-primary">DOC-10469</div>
                   <div class="cell-sub">shipping_manifests_W17.pdf</div>
                 </td>
-                <td><span class="tag tag-manifest">Manifest</span></td>
-                <td>
-                  <div class="uploaderCell">
-                    <div class="uav uav-orange">TA</div>
-                    <div>
-                      <div class="uname">Tomás Alvarez</div>
-                      <div class="uemail">tomas@initech.dev</div>
-                    </div>
-                  </div>
-                </td>
-                <td><div style="font-size:12px">Apr 27, 2026</div><div class="cell-sub">5:30 PM</div></td>
+                <td><span class="tag tag-boat-spec">Boat</span></td>
                 <td><span class="tag tag-failed"><i class="ti ti-alert-circle" style="font-size:10px"></i> Failed</span></td>
                 <td onclick="event.stopPropagation()"><button class="btn btn-ghost btn-sm" onclick="openDoc('failed')">Retry</button></td>
               </tr>
@@ -2628,17 +2548,7 @@
                   <div class="cell-primary">DOC-10468</div>
                   <div class="cell-sub">purchase_orders_batch17.pdf</div>
                 </td>
-                <td><span class="tag tag-po">Purchase order</span></td>
-                <td>
-                  <div class="uploaderCell">
-                    <div class="uav uav-blue">AC</div>
-                    <div>
-                      <div class="uname">Amelia Chen</div>
-                      <div class="uemail">amelia@northwind.io</div>
-                    </div>
-                  </div>
-                </td>
-                <td><div style="font-size:12px">Apr 27, 2026</div><div class="cell-sub">3:10 PM</div></td>
+                <td><span class="tag tag-boat-spec">Boat</span></td>
                 <td><span class="tag tag-review"><i class="ti ti-alert-triangle" style="font-size:10px"></i> Review Required</span></td>
                 <td onclick="event.stopPropagation()"><button class="btn btn-primary btn-sm" onclick="openDoc('review')">Review</button></td>
               </tr>
