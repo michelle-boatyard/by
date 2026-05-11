@@ -3929,201 +3929,267 @@
            PAGE: CREATE BOAT — Review extracted (CREATE NEW)
       ════════════════════════════════════ -->
       <div class="page" id="page-create-review-extracted">
-        <div class="review-topbar">
-          <div>
-            <div style="margin-bottom:6px">
-              <button class="btn btn-ghost btn-sm" style="padding:4px 8px;font-size:11px" onclick="showCreateFlow('duplicate-detected')">
-                <i class="ti ti-arrow-left"></i> Back
-              </button>
-            </div>
-            <h1 class="page-title" style="font-size:20px">Review extracted boat data</h1>
-            <p class="page-desc">Compare the source document with the extracted fields and edit anything that's off.</p>
-          </div>
+        <div style="margin-bottom:16px">
+          <button class="btn btn-ghost btn-sm" onclick="showCreateFlow('method')">
+            <i class="ti ti-arrow-left"></i> Back
+          </button>
         </div>
 
-        <div class="ai-banner">
-          <i class="ti ti-wand" style="font-size:15px;color:var(--text-info);flex-shrink:0;margin-top:1px"></i>
-          <div>
-            <span style="font-weight:600;color:var(--text-secondary)">We extracted boat data from Overview.png.</span>
-            <span style="color:var(--text-tertiary)"> Please review the document on the left and edit any field on the right that doesn't look right before saving.</span>
-          </div>
-        </div>
-
-        <div class="review-split">
-          <!-- LEFT: Document preview -->
-          <div class="review-doc-panel">
-            <div class="review-doc-header">
-              <i class="ti ti-file-description" style="font-size:14px;color:var(--text-placeholder)"></i>
-              <span style="font-size:13px;font-weight:500;color:var(--text-secondary)">Overview.png</span>
-              <button class="btn btn-ghost btn-sm" style="margin-left:auto;padding:4px 10px;font-size:11px">
-                <i class="ti ti-external-link"></i> Open
-              </button>
+        <div class="create-flow-card" style="max-width:700px">
+          <!-- Header -->
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+            <i class="ti ti-anchor" style="font-size:20px;color:var(--text-info)"></i>
+            <div>
+              <div style="font-size:18px;font-weight:700;color:var(--text-secondary)">Boat Creation Wizard</div>
+              <div style="font-size:12px;color:var(--text-quaternary)">Add a new unit to your inventory in a few guided steps.</div>
             </div>
-            <div class="review-doc-preview">
-              <div style="background:#f8f9fb;border:1px solid #e2ebf3;border-radius:6px;padding:20px;font-size:11px;color:#475569;line-height:1.6">
-                <div style="display:flex;gap:16px;margin-bottom:14px;align-items:flex-start">
-                  <div style="flex:1">
-                    <div style="font-size:15px;font-weight:700;color:#1e293b;margin-bottom:4px">2024 Sea Ray Sundancer<br>320 Outboard</div>
-                    <div style="font-size:14px;font-weight:700;color:#20667e;margin-bottom:8px">$124,500</div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 16px;font-size:10px">
-                      <div><span style="color:#7b8ba3">Sold On Order</span> <span style="font-weight:500">Brokerage</span></div>
-                      <div><span style="color:#7b8ba3">Stock #</span> <span style="font-weight:500">SR-32-24-0117</span></div>
-                      <div><span style="color:#7b8ba3">Dealership</span> <span style="font-weight:500">Boatyard Sales — Miami</span></div>
+          </div>
+
+          <!-- Progress steps — start at step 2 (Photos already done via doc) -->
+          <div class="bwiz-steps" id="docwiz-steps">
+            <div class="bwiz-step" id="docbws-1">
+              <div class="bwiz-circle bwiz-done"><i class="ti ti-check" style="font-size:12px"></i></div>
+              <div class="bwiz-connector bwiz-connector-done"></div>
+              <div class="bwiz-label bwiz-label-done">Photos</div>
+            </div>
+            <div class="bwiz-step" id="docbws-2">
+              <div class="bwiz-circle bwiz-active" id="docwiz-circle-2">2</div>
+              <div class="bwiz-connector" id="docwiz-conn-2"></div>
+              <div class="bwiz-label bwiz-label-active" id="docwiz-label-2">Basics</div>
+            </div>
+            <div class="bwiz-step" id="docbws-3">
+              <div class="bwiz-circle" id="docwiz-circle-3">3</div>
+              <div class="bwiz-connector" id="docwiz-conn-3"></div>
+              <div class="bwiz-label" id="docwiz-label-3">Details</div>
+            </div>
+            <div class="bwiz-step" id="docbws-4">
+              <div class="bwiz-circle" id="docwiz-circle-4">4</div>
+              <div class="bwiz-connector" id="docwiz-conn-4"></div>
+              <div class="bwiz-label" id="docwiz-label-4">Specs</div>
+            </div>
+            <div class="bwiz-step" id="docbws-5">
+              <div class="bwiz-circle" id="docwiz-circle-5">5</div>
+              <div class="bwiz-label" id="docwiz-label-5">Review</div>
+            </div>
+          </div>
+
+          <!-- AI banner -->
+          <div class="ai-banner" style="margin-bottom:20px">
+            <i class="ti ti-wand" style="font-size:14px;color:var(--text-info);flex-shrink:0;margin-top:1px"></i>
+            <div style="font-size:12px;flex:1">
+              <span style="font-weight:600;color:var(--text-secondary)">We detected boat information from this document.</span>
+              <span style="color:var(--text-tertiary)"> Please review and confirm the details · <span style="color:var(--text-info)">Overview.png</span>.</span>
+            </div>
+            <button class="btn btn-ghost btn-sm" style="flex-shrink:0;font-size:11px;padding:4px 10px;border-color:var(--alpha-blue-12)">
+              <i class="ti ti-external-link" style="font-size:12px"></i> View original file
+            </button>
+          </div>
+          <div id="docwiz-step-2">
+            <div class="fields-section-label" style="margin-bottom:2px">REQUIRED INFORMATION</div>
+            <div class="fields-section-sub" style="margin-bottom:16px">The minimum we need to create this boat.</div>
+            <div class="field-row-2">
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Make <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="Sea Ray">
+              </div>
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Model <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="Sundancer 320">
+              </div>
+            </div>
+            <div class="field-row-2">
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Stock Number <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="SR-32-24-0117">
+              </div>
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Dealership <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="Boatyard Sales — Miami">
+              </div>
+            </div>
+            <div class="fields-divider"></div>
+            <div class="fields-section-label" style="margin-bottom:16px">OPTIONAL</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Year</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="2024">
+              </div>
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Condition</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <select class="form-select"><option>New</option><option>Used</option></select>
+              </div>
+              <div class="field-group">
+                <label class="form-label">Status</label>
+                <select class="form-select"><option>Draft</option><option>Pending</option><option>Listed</option></select>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── STEP 3: Details ── -->
+          <div id="docwiz-step-3" style="display:none">
+            <div class="fields-section-label" style="margin-bottom:2px">ADDITIONAL DETAILS</div>
+            <div class="fields-section-sub" style="margin-bottom:16px">None of these are required — fill what you know.</div>
+            <div class="field-group">
+              <label class="form-label">Boat name</label>
+              <input type="text" class="form-input" placeholder='Defaults to "Sea Ray Sundancer 320" if blank'>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:14px">
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Length (ft)</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <input type="text" class="form-input" value="32">
+              </div>
+              <div class="field-group">
+                <label class="form-label">Category</label>
+                <input type="text" class="form-input" placeholder="Cruiser, Center Console…">
+              </div>
+              <div class="field-group">
+                <label class="form-label">Class</label>
+                <input type="text" class="form-input" placeholder="Sail, Power…">
+              </div>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px">
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Fuel type</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                <select class="form-select"><option>Gasoline</option><option>Diesel</option><option>Electric</option><option>Hybrid</option></select>
+              </div>
+              <div class="field-group">
+                <label class="form-label">Hull material</label>
+                <input type="text" class="form-input" placeholder="Fiberglass, aluminum…">
+              </div>
+            </div>
+            <div class="fields-section-label" style="margin-bottom:12px">LOCATION</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+              <div class="field-group"><label class="form-label">City</label><input type="text" class="form-input" placeholder=""></div>
+              <div class="field-group"><label class="form-label">State / Region</label><input type="text" class="form-input" placeholder=""></div>
+              <div class="field-group"><label class="form-label">Country</label><input type="text" class="form-input" placeholder=""></div>
+            </div>
+          </div>
+
+          <!-- ── STEP 4: Specs ── -->
+          <div id="docwiz-step-4" style="display:none">
+            <div class="fields-section-label" style="margin-bottom:2px">ADVANCED SPECIFICATIONS</div>
+            <div class="fields-section-sub" style="margin-bottom:16px">Optional — expand a section to add detail.</div>
+            <div class="spec-accordion">
+              <div class="spec-section">
+                <div class="spec-header" onclick="toggleSpec('doc-dimensions')">
+                  <span class="spec-title">Dimensions</span>
+                  <i class="ti ti-chevron-down spec-chevron" id="spec-chev-doc-dimensions"></i>
+                </div>
+                <div class="spec-body" id="spec-body-doc-dimensions" style="display:none">
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:12px">
+                    <div class="field-group">
+                      <div class="field-label-row"><label class="form-label">Length (ft)</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span></div>
+                      <input type="text" class="form-input" value="32">
                     </div>
+                    <div class="field-group"><label class="form-label">Beam (ft)</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Draft (ft)</label><input type="text" class="form-input" placeholder=""></div>
                   </div>
-                  <div style="width:120px;height:80px;background:#e2ebf3;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-                    <i class="ti ti-anchor" style="font-size:28px;color:#9aa8bc"></i>
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+                    <div class="field-group"><label class="form-label">Height (ft)</label><input type="text" class="form-input" placeholder=""></div>
                   </div>
                 </div>
-                <hr style="border:none;border-top:1px solid #e2ebf3;margin:10px 0">
-                <div style="font-size:11px;font-weight:600;color:#334155;margin-bottom:6px">Basic Details</div>
-                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px">
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Year</div><div style="font-weight:500">2024</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Power</div><div style="font-weight:500">Outboard</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Arrima</div><div style="font-weight:500">—</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Range</div><div style="font-weight:500">Ferry Carnaval</div></div>
+              </div>
+              <div class="spec-section">
+                <div class="spec-header" onclick="toggleSpec('doc-speed')">
+                  <span class="spec-title">Speed</span>
+                  <i class="ti ti-chevron-down spec-chevron" id="spec-chev-doc-speed"></i>
                 </div>
-                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:10px;margin-bottom:10px">
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Length</div><div style="font-weight:500">32 ft 7 in</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Beam</div><div style="font-weight:500">—</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px;text-transform:uppercase;letter-spacing:0.04em">Fuel</div><div style="font-weight:500">Electric</div></div>
+                <div class="spec-body" id="spec-body-doc-speed" style="display:none">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                    <div class="field-group"><label class="form-label">Cruise speed (kn)</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Max speed (kn)</label><input type="text" class="form-input" placeholder=""></div>
+                  </div>
                 </div>
-                <div style="font-size:11px;font-weight:600;color:#334155;margin-bottom:4px">Boat Locations</div>
-                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:10px;margin-bottom:10px">
-                  <div><div style="color:#7b8ba3;font-size:9px">In Stock</div><div style="font-weight:500">No</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px">Lots</div><div style="font-weight:500">1/5</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px">ZIP</div><div style="font-weight:500">48333</div></div>
-                  <div><div style="color:#7b8ba3;font-size:9px">State</div><div style="font-weight:500">Oklahoma</div></div>
+              </div>
+              <div class="spec-section">
+                <div class="spec-header" onclick="toggleSpec('doc-tanks')">
+                  <span class="spec-title">Tanks</span>
+                  <i class="ti ti-chevron-down spec-chevron" id="spec-chev-doc-tanks"></i>
                 </div>
-                <div style="font-size:11px;font-weight:600;color:#334155;margin-bottom:4px">Notes</div>
-                <div style="font-size:10px;color:#64748b">This boat is currently on the Miami shipyard, dock A scheduled for inspection on April 15. Check dealership tablet units and contact Juan Pérez (Marina Manager) — Ext. 203.</div>
+                <div class="spec-body" id="spec-body-doc-tanks" style="display:none">
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+                    <div class="field-group"><label class="form-label">Fuel (gal)</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Water (gal)</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Holding (gal)</label><input type="text" class="form-input" placeholder=""></div>
+                  </div>
+                </div>
+              </div>
+              <div class="spec-section">
+                <div class="spec-header" onclick="toggleSpec('doc-weight')">
+                  <span class="spec-title">Weight</span>
+                  <i class="ti ti-chevron-down spec-chevron" id="spec-chev-doc-weight"></i>
+                </div>
+                <div class="spec-body" id="spec-body-doc-weight" style="display:none">
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                    <div class="field-group"><label class="form-label">Dry weight (lbs)</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Total weight (lbs)</label><input type="text" class="form-input" placeholder=""></div>
+                  </div>
+                </div>
+              </div>
+              <div class="spec-section">
+                <div class="spec-header" onclick="toggleSpec('doc-accommodation')">
+                  <span class="spec-title">Accommodation</span>
+                  <i class="ti ti-chevron-down spec-chevron" id="spec-chev-doc-accommodation"></i>
+                </div>
+                <div class="spec-body" id="spec-body-doc-accommodation" style="display:none">
+                  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px">
+                    <div class="field-group"><label class="form-label">Cabins</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Berths</label><input type="text" class="form-input" placeholder=""></div>
+                    <div class="field-group"><label class="form-label">Heads</label><input type="text" class="form-input" placeholder=""></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
 
-          <!-- RIGHT: Extracted fields -->
-          <div class="review-fields-panel">
-            <div class="review-fields-header">
-              <span style="font-size:10px;font-weight:600;color:var(--text-placeholder);text-transform:uppercase;letter-spacing:0.06em">Extracted boat data</span>
-              <span class="ai-prefilled-badge"><i class="ti ti-wand" style="font-size:11px"></i> AI pre-filled</span>
+          <!-- ── STEP 5: Review ── -->
+          <div id="docwiz-step-5" style="display:none">
+            <div class="review-summary-block">
+              <div class="rsb-section-label">BASIC INFO</div>
+              <div class="rsb-row"><span>Make</span><strong>Sea Ray</strong></div>
+              <div class="rsb-row"><span>Model</span><strong>Sundancer 320</strong></div>
+              <div class="rsb-row"><span>Stock Number</span><strong>SR-32-24-0117</strong></div>
+              <div class="rsb-row"><span>Dealership</span><strong>Boatyard Sales — Miami</strong></div>
+              <div class="rsb-row"><span>Year</span><strong>2024</strong></div>
+              <div class="rsb-row"><span>Condition</span><strong>New</strong></div>
+              <div class="rsb-row"><span>Status</span><strong>Draft</strong></div>
             </div>
-            <div class="fields-scroll">
-              <div class="fields-section-label">Required information</div>
-              <div class="fields-section-sub">The minimum we need to create this boat.</div>
-              <div class="field-row-2">
-                <div class="field-group">
-                  <div class="field-label-row">
-                    <label class="form-label">Make <span class="req">*</span></label>
-                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
-                  </div>
-                  <input type="text" class="form-input" value="Sea Ray">
-                </div>
-                <div class="field-group">
-                  <div class="field-label-row">
-                    <label class="form-label">Model <span class="req">*</span></label>
-                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
-                  </div>
-                  <input type="text" class="form-input" value="Sundancer 320">
-                </div>
-              </div>
-              <div class="field-row-2">
-                <div class="field-group">
-                  <div class="field-label-row">
-                    <label class="form-label">Stock Number <span class="req">*</span></label>
-                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
-                  </div>
-                  <input type="text" class="form-input" value="SR-32-24-0117">
-                </div>
-                <div class="field-group">
-                  <div class="field-label-row">
-                    <label class="form-label">Dealership <span class="req">*</span></label>
-                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
-                  </div>
-                  <input type="text" class="form-input" value="Boatyard Sales — Miami">
-                </div>
-              </div>
-              <div class="fields-divider"></div>
-              <div class="fields-section-label">Optional</div>
-              <div class="field-row-3">
-                <div class="field-group">
-                  <div class="field-label-row">
-                    <label class="form-label">Year</label>
-                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
-                  </div>
-                  <input type="text" class="form-input" value="2024">
-                </div>
-                <div class="field-group">
-                  <div class="field-label-row">
-                    <label class="form-label">Condition</label>
-                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
-                  </div>
-                  <select class="form-select"><option selected>New</option><option>Used</option></select>
-                </div>
-                <div class="field-group">
-                  <label class="form-label">Status</label>
-                  <select class="form-select"><option>Draft</option><option>Pending</option><option>Listed</option></select>
-                </div>
-              </div>
-              <div class="fields-divider"></div>
-              <div class="fields-section-label">Additional details</div>
-              <div class="fields-section-sub">None of these are required — fill what you know.</div>
-              <div class="field-group" style="margin-bottom:14px">
-                <label class="form-label">Boat name</label>
-                <input type="text" class="form-input" placeholder='Defaults to "Sea Ray Sundancer 320" if blank'>
-              </div>
-              <div class="field-row-2">
-                <div class="field-group">
-                  <div class="field-label-row">
-                    <label class="form-label">Length (ft)</label>
-                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
-                  </div>
-                  <input type="text" class="form-input" value="32.6">
-                </div>
-                <div class="field-group">
-                  <label class="form-label">Category</label>
-                  <select class="form-select"><option value="">Select…</option><option selected>Bowrider</option><option>Cruiser</option><option>Sailboat</option></select>
-                </div>
-              </div>
-              <div class="field-row-2">
-                <div class="field-group">
-                  <label class="form-label">Class</label>
-                  <input type="text" class="form-input" placeholder="e.g. Outboard">
-                </div>
-                <div class="field-group">
-                  <div class="field-label-row">
-                    <label class="form-label">Price</label>
-                    <span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i> AI extracted</span>
-                  </div>
-                  <input type="text" class="form-input" value="$124,500">
-                </div>
-              </div>
-              <div class="field-group" style="margin-bottom:0">
-                <label class="form-label">Notes</label>
-                <textarea class="form-input" style="height:64px;resize:none;padding:8px 12px;line-height:1.5" placeholder="Internal notes…"></textarea>
-              </div>
+            <div class="review-summary-block">
+              <div class="rsb-section-label">ADDITIONAL DETAILS</div>
+              <div class="rsb-row"><span>Length</span><strong>32 ft</strong></div>
+              <div class="rsb-row"><span>Fuel type</span><strong>Gasoline</strong></div>
+              <div class="rsb-row"><span>Category</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Class</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Hull material</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Location</span><span class="rsb-empty">—</span></div>
+            </div>
+            <div class="review-summary-block">
+              <div class="rsb-section-label">SPECS</div>
+              <div class="rsb-row"><span>Beam</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Draft</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Cruise speed</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Max speed</span><span class="rsb-empty">—</span></div>
+              <div class="rsb-row"><span>Cabins / Berths / Heads</span><span class="rsb-empty">—</span></div>
             </div>
           </div>
-        </div>
 
-        <div class="review-action-bar">
-          <div style="font-size:11px;color:var(--text-placeholder)">Required: Make, Model, Stock Number, Dealership.</div>
-          <div style="display:flex;gap:10px">
-            <button class="btn btn-ghost btn-sm" onclick="showCreateFlow('method')">Cancel</button>
-            <button class="btn btn-ghost btn-sm" onclick="saveDraftBoat()">
-              <i class="ti ti-device-floppy"></i> Save draft
-            </button>
-            <button class="btn btn-primary btn-sm" onclick="confirmCreate()">
-              <i class="ti ti-anchor"></i> Save boat
-            </button>
+          <!-- Footer nav -->
+          <div class="bwiz-footer">
+            <button class="btn btn-ghost btn-sm" id="docwiz-btn-back" style="display:none" onclick="docWizBack()"><i class="ti ti-arrow-left"></i> Back</button>
+            <div style="display:flex;gap:8px">
+              <button class="btn btn-ghost btn-sm" id="docwiz-btn-skip" style="display:none" onclick="docWizNext()">Skip</button>
+              <button class="btn btn-ghost btn-sm" onclick="showCreateFlow('method')">Cancel</button>
+              <button class="btn btn-ghost btn-sm" onclick="saveDraftBoat()"><i class="ti ti-device-floppy"></i> Save draft</button>
+              <button class="btn btn-primary btn-sm" id="docwiz-btn-next" onclick="docWizNext()">
+                Continue <i class="ti ti-arrow-right"></i>
+              </button>
+            </div>
           </div>
         </div>
       </div>
-          </div>
-          <div style="margin-bottom:14px">
-            <button class="btn btn-ghost btn-sm" style="padding:4px 8px;font-size:12px" onclick="showCreateFlow('method')">
-              <i class="ti ti-arrow-left"></i> Back
-            </button>
-          <!-- ════════════════════════════════════
+
+
+      <!-- ════════════════════════════════════
            PAGE: QUOTES LIST
       ════════════════════════════════════ -->
       <div class="page" id="page-quotes">
@@ -4714,6 +4780,7 @@
     // Reset boat upload dropzone every time user arrives at upload-doc step
     if (step === 'upload-doc') resetBoatDropzone();
     if (step === 'scratch-wizard') setTimeout(initWizard, 0);
+    if (step === 'review-extracted') setTimeout(initDocWiz, 0);
 
     // Reset method page inline dropzones
     if (step === 'method' || step === 'scratch-wizard') {
@@ -5022,6 +5089,68 @@
   function duplicateQuote() {
     showPage('quotes');
     showToast('<i class="ti ti-circle-check" style="font-size:16px"></i> Quote duplicated successfully');
+  }
+
+  /* ─── DOC WIZARD (review-extracted) ─── */
+  let docWizStep = 2;
+
+  function initDocWiz() {
+    docWizStep = 2;
+    goDocWizStep(2);
+  }
+
+  function goDocWizStep(step) {
+    docWizStep = step;
+    for (let i = 2; i <= 5; i++) {
+      const el = document.getElementById('docwiz-step-' + i);
+      if (el) el.style.display = i === step ? 'block' : 'none';
+    }
+    // Update step indicators
+    for (let i = 1; i <= 5; i++) {
+      const circle = document.getElementById('docwiz-circle-' + i);
+      const label  = document.getElementById('docwiz-label-' + i);
+      const conn   = document.getElementById('docwiz-conn-' + i);
+      if (!circle) continue;
+      circle.classList.remove('bwiz-done','bwiz-active');
+      circle.style.background = ''; circle.style.borderColor = ''; circle.style.color = '';
+      if (label) label.className = 'bwiz-label';
+      if (conn)  conn.className = 'bwiz-connector';
+      if (i < step) {
+        circle.classList.add('bwiz-done');
+        circle.innerHTML = '<i class="ti ti-check" style="font-size:12px"></i>';
+        if (label) label.classList.add('bwiz-label-done');
+        if (conn)  conn.classList.add('bwiz-connector-done');
+      } else if (i === step) {
+        circle.classList.add('bwiz-active');
+        circle.innerHTML = String(i);
+        if (label) { label.classList.add('bwiz-label-active'); }
+      } else {
+        circle.innerHTML = String(i);
+      }
+    }
+    const backBtn = document.getElementById('docwiz-btn-back');
+    const nextBtn = document.getElementById('docwiz-btn-next');
+    const skipBtn = document.getElementById('docwiz-btn-skip');
+    if (backBtn) backBtn.style.display = step > 2 ? 'inline-flex' : 'none';
+    if (skipBtn) skipBtn.style.display = step === 4 ? 'inline-flex' : 'none';
+    if (nextBtn) {
+      if (step === 5) {
+        nextBtn.innerHTML = '<i class="ti ti-anchor"></i> Create Boat';
+        nextBtn.onclick = confirmCreate;
+      } else {
+        nextBtn.innerHTML = 'Continue <i class="ti ti-arrow-right"></i>';
+        nextBtn.onclick = docWizNext;
+      }
+    }
+  }
+
+  function docWizNext() {
+    if (docWizStep < 5) goDocWizStep(docWizStep + 1);
+    else confirmCreate();
+  }
+
+  function docWizBack() {
+    if (docWizStep > 2) goDocWizStep(docWizStep - 1);
   }
 
   /* ─── BOAT WIZARD ─── */
