@@ -3946,28 +3946,28 @@
           <div id="bwiz-step-1">
             <div class="field-row-2">
               <div class="field-group">
-                <div class="field-label-row"><label class="form-label">Make <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
-                <input type="text" class="form-input" value="Sea Ray">
-              </div>
-              <div class="field-group">
-                <div class="field-label-row"><label class="form-label">Model <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
-                <input type="text" class="form-input" value="Sundancer 320">
-              </div>
-            </div>
-            <div class="field-row-2">
-              <div class="field-group">
                 <div class="field-label-row"><label class="form-label">Year</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
                 <input type="text" class="form-input" value="2024">
               </div>
               <div class="field-group">
-                <div class="field-label-row"><label class="form-label">Condition</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
-                <select class="form-select"><option>New</option><option>Used</option></select>
+                <div class="field-label-row"><label class="form-label">Make <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
+                <input type="text" class="form-input" value="Sea Ray">
               </div>
             </div>
             <div class="field-row-2">
               <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Model <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
+                <input type="text" class="form-input" value="Sundancer 320">
+              </div>
+              <div class="field-group">
                 <div class="field-label-row"><label class="form-label">Stock Number <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
                 <input type="text" class="form-input" value="SR-32-24-0117">
+              </div>
+            </div>
+            <div class="field-row-2">
+              <div class="field-group">
+                <div class="field-label-row"><label class="form-label">Condition</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
+                <select class="form-select"><option>New</option><option>Used</option></select>
               </div>
               <div class="field-group">
                 <label class="form-label">Status</label>
@@ -4662,19 +4662,19 @@
 
           <div class="field-row-2">
             <div class="field-group">
-              <div class="field-label-row"><label class="form-label">Make <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
-              <input type="text" class="form-input" value="Sea Ray">
+              <div class="field-label-row"><label class="form-label">Year</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
+              <input type="text" class="form-input" value="2024">
             </div>
             <div class="field-group">
-              <div class="field-label-row"><label class="form-label">Model <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
-              <input type="text" class="form-input" value="Sundancer 320">
+              <div class="field-label-row"><label class="form-label">Make <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
+              <input type="text" class="form-input" value="Sea Ray">
             </div>
           </div>
 
           <div class="field-row-2">
             <div class="field-group">
-              <div class="field-label-row"><label class="form-label">Year</label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
-              <input type="text" class="form-input" value="2024">
+              <div class="field-label-row"><label class="form-label">Model <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
+              <input type="text" class="form-input" value="Sundancer 320">
             </div>
             <div class="field-group">
               <div class="field-label-row"><label class="form-label">Stock number <span class="req">*</span></label><span class="ai-tag"><i class="ti ti-wand" style="font-size:10px"></i></span></div>
@@ -5501,10 +5501,7 @@
 
   /* ── Boats method dropzone ── */
   function boatMethodDocSelected(name, sizeKB) {
-    document.getElementById('boat-method-zone').style.display = 'none';
-    document.getElementById('boat-method-selected').style.display = 'block';
-    document.getElementById('boat-method-fname').textContent = name;
-    document.getElementById('boat-method-fsize').textContent = '· ' + sizeKB + ' KB';
+    showCreateFlow('review-extracted');
   }
 
   function boatMethodClear() {
