@@ -402,6 +402,77 @@
 
   .doc-divider { border: none; border-top: 1px solid var(--border-primary); margin: 14px 0; }
   .doc-footer { font-size: 10px; color: var(--text-placeholder); font-style: italic; margin-top: 8px; }
+
+  /* ─── SAVE FOOTER ─── */
+  .save-footer {
+    padding: 11px 15px;
+    border-top: 1px solid var(--border-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface-white);
+    border-radius: 0 0 8px 8px;
+  }
+  .btn-save {
+    flex: 1;
+    height: 34px;
+    background: var(--primary);
+    color: #fff;
+    border: none;
+    border-radius: 7px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    transition: background 0.15s, opacity 0.15s;
+  }
+  .btn-save:hover:not(:disabled) { background: var(--primary-hover); }
+  .btn-save:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-clear {
+    height: 34px;
+    padding: 0 12px;
+    background: none;
+    color: var(--text-quaternary);
+    border: 1px solid var(--border-primary);
+    border-radius: 7px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+    white-space: nowrap;
+  }
+  .btn-clear:hover { border-color: var(--border-secondary); color: var(--text-secondary); }
+  .btn-clear:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  /* saved flash */
+  @keyframes savedPulse {
+    0%   { background: #1a8962; }
+    50%  { background: #22aa7a; }
+    100% { background: var(--primary); }
+  }
+  .btn-save.saving { animation: savedPulse 0.5s ease; }
+
+  /* ─── CHIP SAVED (multi-label) ─── */
+  .chip-saved {
+    background: var(--primary-subtle);
+    border: 1px solid var(--primary-border-active);
+    color: var(--primary);
+  }
+  .chip-saved .chip-content {
+    white-space: normal;
+    word-break: break-word;
+    line-height: 1.35;
+  }
+  .chip-saved-sep {
+    color: rgba(32,102,126,0.5);
+    font-weight: 600;
+    margin: 0 1px;
+  }
 </style>
 </head>
 <body>
@@ -485,7 +556,7 @@
           <div class="composer-zone">
             <div class="zone-label">Mapped as</div>
             <div class="composer-tokens" id="composerTokens" role="list" aria-label="Selected fields">
-              <span class="empty-hint" id="tokEmpty">No fields selected yet</span>
+              
             </div>
           </div>
 
@@ -533,6 +604,17 @@
               </button>
             </div>
             <p class="static-hint">Static text appears literally in the output (e.g. a space between First + Last name)</p>
+          </div>
+
+          <!-- SAVE FOOTER -->
+          <div class="save-footer">
+            <button class="btn-clear" id="btnClear" onclick="clearAll()" disabled>
+              Clear
+            </button>
+            <button class="btn-save" id="btnSave" onclick="saveMapping()" disabled>
+              <i class="ti ti-device-floppy" aria-hidden="true"></i>
+              Save mapping
+            </button>
           </div>
 
         </div>
@@ -636,113 +718,188 @@
 
 <script>
   const FIELDS = [
-    { name: 'Unit Brand Name',   key: 'unit.brand',      val: 'Yamaha'     },
-    { name: 'Unit Stock Number', key: 'unit.stock_no',   val: 'STK-00421'  },
-    { name: 'Unit Title',        key: 'unit.title',      val: 'Yamaha AR195'},
-    { name: 'Unit Condition',    key: 'unit.condition',  val: 'New'        },
-    { name: 'Unit Year',         key: 'unit.year',       val: '2024'       },
-    { name: 'Unit Model',        key: 'unit.model',      val: 'AR195'      },
-    { name: 'Unit Price',        key: 'unit.price',      val: '$42,500'    },
-    { name: 'Buyer First Name',  key: 'buyer.first_name',val: 'John'       },
-    { name: 'Buyer Last Name',   key: 'buyer.last_name', val: 'Doe'        },
-    { name: 'Buyer Full Name',   key: 'buyer.full_name', val: 'John Doe'   },
+    { name: 'Unit Brand Name',   key: 'unit.brand',       val: 'Yamaha'      },
+    { name: 'Unit Stock Number', key: 'unit.stock_no',    val: 'STK-00421'   },
+    { name: 'Unit Title',        key: 'unit.title',       val: 'Yamaha AR195' },
+    { name: 'Unit Condition',    key: 'unit.condition',   val: 'New'         },
+    { name: 'Unit Year',         key: 'unit.year',        val: '2024'        },
+    { name: 'Unit Model',        key: 'unit.model',       val: 'AR195'       },
+    { name: 'Unit Price',        key: 'unit.price',       val: '$42,500'     },
+    { name: 'Buyer First Name',  key: 'buyer.first_name', val: 'John'        },
+    { name: 'Buyer Last Name',   key: 'buyer.last_name',  val: 'Doe'         },
+    { name: 'Buyer Full Name',   key: 'buyer.full_name',  val: 'John Doe'    },
   ];
 
   let selected = [];
   let suggestedActive = false;
+  let savedMapping = null;
 
-  /* ── RENDER ── */
+  /* ── HTML ESCAPE ── */
+  function esc(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  /* ── RENDER COMPOSER + PREVIEW STRIP ── */
   function renderAll() {
-    const container   = document.getElementById('composerTokens');
-    const emptyHint   = document.getElementById('tokEmpty');
-    const badge       = document.getElementById('mappedBadge');
-    const prevEl      = document.getElementById('prevValue');
+    const container = document.getElementById('composerTokens');
+    const badge     = document.getElementById('mappedBadge');
+    const prevEl    = document.getElementById('prevValue');
+
+    // Clear composer
+    container.innerHTML = '';
 
     if (selected.length === 0) {
-      container.innerHTML = '';
-      container.appendChild(emptyHint);
-      emptyHint.style.display = '';
-      badge.className = 'badge badge-unmapped';
+      container.innerHTML = '<span class="empty-hint">No fields selected yet</span>';
+      badge.className   = 'badge badge-unmapped';
       badge.textContent = 'Unmapped';
-      prevEl.className = 'prev-empty';
-      prevEl.textContent = '—';
-      updateDocChip('', false);
+      prevEl.className  = 'prev-empty';
+      prevEl.textContent = '\u2014';
+      // Only reset doc chip if nothing is saved
+      if (!savedMapping) updateDocChip('', false);
       updateProgress();
+      updateButtons();
       return;
     }
 
-    emptyHint.style.display = 'none';
-    badge.className = 'badge badge-mapped';
+    badge.className   = 'badge badge-mapped';
     badge.textContent = selected.length === 1 ? '1 field' : selected.length + ' fields';
 
-    container.innerHTML = '';
-    selected.forEach((item, i) => {
+    selected.forEach(function(item, i) {
       if (i > 0) {
-        const sep = document.createElement('span');
+        var sep = document.createElement('span');
         sep.className = 'tok-sep';
         sep.textContent = '+';
         sep.setAttribute('aria-hidden', 'true');
         container.appendChild(sep);
       }
-      const tok = document.createElement('span');
-      tok.className = item.type === 'static' ? 'token token-static' : 'token token-field';
+
+      var tok = document.createElement('span');
+      tok.className   = item.type === 'static' ? 'token token-static' : 'token token-field';
       tok.setAttribute('role', 'listitem');
 
-      const lbl = document.createElement('span');
+      var lbl = document.createElement('span');
       lbl.textContent = item.type === 'static' ? '"' + item.name + '"' : item.name;
 
-      const rm = document.createElement('button');
+      var rm = document.createElement('button');
       rm.className = 'token-rm';
       rm.setAttribute('aria-label', 'Remove ' + item.name);
+      rm.type = 'button';
       rm.innerHTML = '<i class="ti ti-x" aria-hidden="true"></i>';
-      rm.onclick = () => removeToken(item.id);
+      (function(id) { rm.onclick = function() { removeToken(id); }; })(item.id);
 
       tok.appendChild(lbl);
       tok.appendChild(rm);
       container.appendChild(tok);
     });
 
-    const previewText = selected.map(s => s.type === 'static' ? s.name : s.val).join('');
-    prevEl.className = 'prev-val';
+    var previewText = selected.map(function(s) {
+      return s.type === 'static' ? s.name : s.val;
+    }).join('');
+
+    prevEl.className  = 'prev-val';
     prevEl.textContent = previewText;
-    updateDocChip(previewText, true);
+
+    // Only update doc chip in live mode (not saved yet, or was cleared)
+    if (!savedMapping) {
+      updateDocChip(previewText, true);
+    }
+
     updateProgress();
+    updateButtons();
   }
 
-  /* ── UPDATE DOC CHIP ── */
+  /* ── DOC CHIP — live preview ── */
   function updateDocChip(val, mapped) {
-    const chip    = document.getElementById('docMakeChip');
-    const chipVal = document.getElementById('docMakeVal');
+    var chip    = document.getElementById('docMakeChip');
+    var chipVal = document.getElementById('docMakeVal');
     if (mapped) {
-      chip.className = 'chip chip-active';
-      chipVal.textContent = val || '…';
+      chip.className      = 'chip chip-active';
+      chipVal.textContent = val || '\u2026';
     } else {
-      chip.className = 'chip chip-orange';
+      chip.className      = 'chip chip-orange';
       chipVal.textContent = 'Unmapped';
     }
   }
 
-  /* ── PROGRESS ── */
+  /* ── DOC CHIP — saved (shows field names) ── */
+  function updateDocChipSaved(tokens) {
+    var chip    = document.getElementById('docMakeChip');
+    var chipVal = document.getElementById('docMakeVal');
+    chip.className = 'chip chip-saved';
+
+    var parts = tokens.map(function(s) {
+      if (s.type === 'static') {
+        return '<span class="chip-saved-sep">&ldquo;' + esc(s.name) + '&rdquo;</span>';
+      }
+      return esc(s.name);
+    });
+    chipVal.innerHTML = parts.join('<span class="chip-saved-sep"> + </span>');
+  }
+
+  /* ── PROGRESS BAR ── */
   function updateProgress() {
-    const alreadyMapped = 6;
-    const total = 16;
-    const thisMapped = selected.length > 0 ? 1 : 0;
-    const pct = Math.round(((alreadyMapped + thisMapped) / total) * 100);
+    var alreadyMapped = 6;
+    var total         = 16;
+    var thisMapped    = (selected.length > 0 || savedMapping) ? 1 : 0;
+    var pct = Math.round(((alreadyMapped + thisMapped) / total) * 100);
     document.getElementById('progressBar').style.width = pct + '%';
     document.getElementById('progressPct').textContent = pct + '%';
   }
 
+  /* ── SAVE / CLEAR BUTTONS STATE ── */
+  function updateButtons() {
+    var hasSel = selected.length > 0;
+    document.getElementById('btnSave').disabled  = !hasSel;
+    document.getElementById('btnClear').disabled = !hasSel && !savedMapping;
+  }
+
+  /* ── SAVE MAPPING ── */
+  function saveMapping() {
+    if (selected.length === 0) return;
+    savedMapping = selected.map(function(s) { return Object.assign({}, s); });
+
+    var btn = document.getElementById('btnSave');
+    btn.classList.add('saving');
+    btn.innerHTML = '<i class="ti ti-check" aria-hidden="true"></i> Saved!';
+    setTimeout(function() {
+      btn.classList.remove('saving');
+      btn.innerHTML = '<i class="ti ti-device-floppy" aria-hidden="true"></i> Save mapping';
+    }, 1400);
+
+    updateDocChipSaved(savedMapping);
+    updateProgress();
+    updateButtons();
+  }
+
+  /* ── CLEAR ALL ── */
+  function clearAll() {
+    selected       = [];
+    savedMapping   = null;
+    suggestedActive = false;
+    setSugBtn(false);
+
+    document.querySelectorAll('.f-row.sel-row').forEach(function(r) {
+      r.classList.remove('sel-row');
+      var box = r.querySelector('.chk');
+      if (box) { box.classList.remove('on'); box.innerHTML = ''; }
+    });
+
+    updateDocChip('', false);
+    renderAll();
+  }
+
   /* ── REMOVE TOKEN ── */
   function removeToken(id) {
-    const item = selected.find(s => s.id === id);
+    var item = selected.find(function(s) { return s.id === id; });
     if (!item) return;
-    selected = selected.filter(s => s.id !== id);
+    selected = selected.filter(function(s) { return s.id !== id; });
     if (item.type === 'field') {
       setRowCheck(item.key, false);
-      if (item.name === 'Unit Brand Name') {
-        suggestedActive = false;
-        setSugBtn(false);
-      }
+      if (item.name === 'Unit Brand Name') { suggestedActive = false; setSugBtn(false); }
     }
     renderAll();
   }
@@ -752,22 +909,23 @@
     if (!suggestedActive) {
       suggestedActive = true;
       setSugBtn(true);
-      if (!selected.find(s => s.key === 'unit.brand')) {
+      if (!selected.find(function(s) { return s.key === 'unit.brand'; })) {
         selected.push({ id: Date.now(), type: 'field', name: 'Unit Brand Name', key: 'unit.brand', val: 'Yamaha' });
         setRowCheck('unit.brand', true);
       }
     } else {
       suggestedActive = false;
       setSugBtn(false);
-      selected = selected.filter(s => s.key !== 'unit.brand');
+      selected = selected.filter(function(s) { return s.key !== 'unit.brand'; });
       setRowCheck('unit.brand', false);
     }
     renderAll();
   }
 
   function setSugBtn(on) {
-    const btn = document.getElementById('suggestBtn');
-    const ic  = document.getElementById('suggestIc');
+    var btn = document.getElementById('suggestBtn');
+    var ic  = document.getElementById('suggestIc');
+    if (!btn || !ic) return;
     btn.setAttribute('aria-pressed', String(on));
     if (on) {
       btn.classList.add('sel');
@@ -782,9 +940,10 @@
 
   /* ── ROW CHECKBOX ── */
   function setRowCheck(key, on) {
-    const row = document.querySelector('[data-key="' + key + '"]');
+    var row = document.querySelector('[data-key="' + key + '"]');
     if (!row) return;
-    const box = row.querySelector('.chk');
+    var box = row.querySelector('.chk');
+    if (!box) return;
     if (on) {
       row.classList.add('sel-row');
       box.classList.add('on');
@@ -798,9 +957,9 @@
 
   /* ── TOGGLE FIELD ── */
   function toggleField(key) {
-    const f = FIELDS.find(f => f.key === key);
+    var f = FIELDS.find(function(f) { return f.key === key; });
     if (!f) return;
-    const idx = selected.findIndex(s => s.key === key && s.type === 'field');
+    var idx = selected.findIndex(function(s) { return s.key === key && s.type === 'field'; });
     if (idx > -1) {
       selected.splice(idx, 1);
       setRowCheck(key, false);
@@ -815,8 +974,8 @@
 
   /* ── ADD STATIC ── */
   function addStatic() {
-    const inp = document.getElementById('statInp');
-    const v = inp.value;
+    var inp = document.getElementById('statInp');
+    var v   = inp.value.trim();
     if (!v) return;
     selected.push({ id: Date.now(), type: 'static', name: v, val: v });
     inp.value = '';
@@ -825,36 +984,40 @@
 
   /* ── SEARCH FILTER ── */
   function filterFields() {
-    const q = document.getElementById('srch').value.toLowerCase();
-    document.querySelectorAll('.f-row').forEach(row => {
-      row.style.display = row.dataset.name.toLowerCase().includes(q) ? '' : 'none';
+    var q = document.getElementById('srch').value.toLowerCase();
+    document.querySelectorAll('.f-row').forEach(function(row) {
+      row.style.display = row.dataset.name.toLowerCase().indexOf(q) > -1 ? '' : 'none';
     });
   }
 
   /* ── BUILD FIELD LIST ── */
   function buildFieldList() {
-    const list = document.getElementById('fList');
-    FIELDS.forEach(f => {
-      const row = document.createElement('div');
+    var list = document.getElementById('fList');
+    FIELDS.forEach(function(f) {
+      var row = document.createElement('div');
       row.className = 'f-row';
-      row.dataset.key = f.key;
+      row.dataset.key  = f.key;
       row.dataset.name = f.name;
       row.setAttribute('role', 'listitem');
       row.setAttribute('tabindex', '0');
-      row.setAttribute('aria-label', f.name + ' — ' + f.key);
-      row.onclick = () => toggleField(f.key);
-      row.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleField(f.key); } };
-      row.innerHTML = `
-        <div class="f-row-l">
-          <div class="chk" aria-hidden="true"></div>
-          <span class="f-name">${f.name}</span>
-        </div>
-        <span class="f-key">${f.key}</span>
-      `;
+      row.setAttribute('aria-label', f.name + ' \u2014 ' + f.key);
+      (function(key) {
+        row.onclick   = function() { toggleField(key); };
+        row.onkeydown = function(e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleField(key); }
+        };
+      })(f.key);
+      row.innerHTML =
+        '<div class="f-row-l">' +
+          '<div class="chk" aria-hidden="true"></div>' +
+          '<span class="f-name">' + esc(f.name) + '</span>' +
+        '</div>' +
+        '<span class="f-key">' + esc(f.key) + '</span>';
       list.appendChild(row);
     });
   }
 
+  /* ── INIT ── */
   buildFieldList();
   renderAll();
 </script>
