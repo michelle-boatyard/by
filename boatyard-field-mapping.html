@@ -9,528 +9,252 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.30.0/dist/tabler-icons.min.css">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --primary: #20667e;
-    --primary-hover: #1a566a;
-    --primary-subtle: rgba(39, 121, 150, 0.10);
-    --primary-border: rgba(39, 121, 150, 0.25);
-    --primary-border-active: rgba(39, 121, 150, 0.40);
+:root {
+  --primary:              #20667e;
+  --primary-hover:        #1a566a;
+  --primary-subtle:       rgba(39,121,150,0.10);
+  --primary-border:       rgba(39,121,150,0.25);
+  --primary-border-act:   rgba(39,121,150,0.40);
+  --surface-base:         #f1f5f9;
+  --surface-white:        #ffffff;
+  --surface-faint:        #fafcfe;
+  --border-primary:       #e2ebf3;
+  --border-secondary:     #d3dce8;
+  --text-primary:         #1e293b;
+  --text-secondary:       #334155;
+  --text-tertiary:        #475569;
+  --text-quaternary:      #64748b;
+  --text-placeholder:     #7b8ba3;
+  --text-disabled:        #b5c3d4;
+  --success:              #1a8962;
+  --success-bg:           rgba(26,137,98,0.08);
+  --success-border:       rgba(26,137,98,0.25);
+  --warning:              #db4d00;
+  --warning-bg:           rgba(247,142,30,0.10);
+  --warning-border:       rgba(247,142,30,0.35);
+  --error:                #c71c22;
+}
 
-    --surface-base: #f1f5f9;
-    --surface-white: #ffffff;
-    --surface-faint: #fafcfe;
+html, body { height: 100%; font-family: 'Poppins', sans-serif; font-size: 13px; color: var(--text-secondary); background: var(--surface-base); -webkit-font-smoothing: antialiased; }
 
-    --border-primary: #e2ebf3;
-    --border-secondary: #d3dce8;
+/* ── APP SHELL ── */
+.app   { display: flex; flex-direction: column; height: 100vh; }
+.main  { display: flex; flex: 1; overflow: hidden; }
 
-    --text-primary: #1e293b;
-    --text-secondary: #334155;
-    --text-tertiary: #475569;
-    --text-quaternary: #64748b;
-    --text-placeholder: #7b8ba3;
-    --text-disabled: #b5c3d4;
+/* ── TOPBAR ── */
+.topbar { height: 52px; background: var(--surface-white); border-bottom: 1px solid var(--border-primary); display: flex; align-items: center; padding: 0 16px; gap: 10px; flex-shrink: 0; }
+.topbar-logo { display: flex; align-items: center; gap: 7px; text-decoration: none; }
+.logomark { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.logomark svg { width: 15px; height: 15px; }
+.brand-name { display: block; font-size: 12px; font-weight: 700; color: var(--primary); letter-spacing: .05em; line-height: 1; }
+.brand-sub  { display: block; font-size: 7px; font-weight: 600; color: var(--text-placeholder); letter-spacing: .10em; text-transform: uppercase; margin-top: 1px; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.badge-icon { position: relative; display: flex; align-items: center; color: var(--text-tertiary); font-size: 18px; }
+.badge-dot  { position: absolute; top: -4px; right: -5px; background: var(--error); color: #fff; font-size: 8px; font-weight: 700; border-radius: 9px; padding: 1px 4px; min-width: 16px; text-align: center; line-height: 1.4; }
+.avatar     { width: 28px; height: 28px; border-radius: 50%; background: #277996; color: #fff; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center; }
+.user-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
 
-    --success: #1a8962;
-    --success-bg: rgba(26, 137, 98, 0.08);
-    --success-border: rgba(26, 137, 98, 0.25);
+/* ── SIDEBAR ── */
+.sidebar { width: 48px; background: var(--surface-white); border-right: 1px solid var(--border-primary); display: flex; flex-direction: column; align-items: center; padding: 12px 0; gap: 4px; flex-shrink: 0; }
+.nav-item { width: 34px; height: 34px; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: var(--text-placeholder); cursor: pointer; transition: background .15s, color .15s; font-size: 17px; }
+.nav-item:hover  { background: var(--surface-base); color: var(--text-secondary); }
+.nav-item.active { background: var(--primary-subtle); color: var(--primary); }
 
-    --warning: #db4d00;
-    --warning-bg: rgba(247, 142, 30, 0.10);
-    --warning-border: rgba(247, 142, 30, 0.35);
+/* ── CONTENT ── */
+.content { flex: 1; padding: 18px 22px; overflow-y: auto; }
+.page-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+.back-btn { display: flex; align-items: center; gap: 3px; font-size: 11px; color: var(--text-quaternary); cursor: pointer; background: none; border: none; font-family: 'Poppins', sans-serif; padding: 0; transition: color .15s; }
+.back-btn:hover { color: var(--text-secondary); }
+.page-title { font-size: 16px; font-weight: 600; color: var(--text-secondary); }
+.progress-wrap { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.progress-track { width: 170px; height: 5px; background: var(--border-primary); border-radius: 4px; overflow: hidden; }
+.progress-fill  { height: 100%; background: var(--primary); border-radius: 4px; transition: width .35s ease; }
+.progress-pct   { font-size: 11px; font-weight: 600; color: var(--text-secondary); min-width: 30px; }
 
-    --error: #c71c22;
-    --error-bg: rgba(232, 41, 47, 0.07);
+/* ── TWO COLUMN ── */
+.two-col { display: grid; grid-template-columns: 300px 1fr; gap: 14px; align-items: start; }
 
-    --gray-bg: rgba(30, 41, 59, 0.05);
-    --gray-border: #e2ebf3;
-  }
+/* ── LEFT PANEL — sticky, flex column, footer always visible ── */
+.panel-sticky {
+  position: sticky; top: 0;
+  max-height: calc(100vh - 88px);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  border-radius: 8px; border: 1px solid var(--border-primary); background: var(--surface-white);
+}
+.panel-scroll {
+  flex: 1; overflow-y: auto; overscroll-behavior: contain;
+  scrollbar-width: thin; scrollbar-color: #d3dce8 transparent;
+}
+.panel-scroll::-webkit-scrollbar { width: 4px; }
+.panel-scroll::-webkit-scrollbar-thumb { background: #d3dce8; border-radius: 2px; }
 
-  html, body {
-    height: 100%;
-    font-family: 'Poppins', sans-serif;
-    font-size: 13px;
-    color: var(--text-secondary);
-    background: var(--surface-base);
-    -webkit-font-smoothing: antialiased;
-  }
+/* ── RIGHT PANEL ── */
+.panel { background: var(--surface-white); border-radius: 8px; border: 1px solid var(--border-primary); }
 
-  /* ─── LAYOUT ─── */
-  .app { display: flex; flex-direction: column; height: 100vh; min-height: 600px; }
+/* ── MAP HEADER ── */
+.map-header { padding: 13px 15px 11px; border-bottom: 1px solid var(--border-primary); }
+.map-header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 7px; }
+.map-field-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
+.badge { font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 4px; transition: background .2s, color .2s; }
+.badge-unmapped { background: var(--warning-bg); color: var(--warning); }
+.badge-mapped   { background: var(--success-bg);  color: var(--success); }
+.req-row { display: flex; align-items: center; justify-content: flex-end; gap: 6px; font-size: 11px; color: var(--text-placeholder); }
+.toggle { width: 28px; height: 16px; background: var(--border-secondary); border-radius: 8px; position: relative; cursor: pointer; flex-shrink: 0; transition: background .2s; }
+.toggle.on { background: var(--primary); }
+.toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; background: #fff; border-radius: 50%; transition: left .15s; }
+.toggle.on::after { left: 14px; }
 
-  /* ─── TOPBAR ─── */
-  .topbar {
-    height: 52px;
-    background: var(--surface-white);
-    border-bottom: 1px solid var(--border-primary);
-    display: flex;
-    align-items: center;
-    padding: 0 16px;
-    gap: 10px;
-    flex-shrink: 0;
-    z-index: 10;
-  }
-  .topbar-logo { display: flex; align-items: center; gap: 7px; text-decoration: none; }
-  .logomark {
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    border: 2px solid var(--primary);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .logomark svg { width: 15px; height: 15px; }
-  .brand-text { line-height: 1; }
-  .brand-name { display: block; font-size: 12px; font-weight: 700; color: var(--primary); letter-spacing: 0.05em; }
-  .brand-sub { display: block; font-size: 7px; font-weight: 600; color: var(--text-placeholder); letter-spacing: 0.10em; text-transform: uppercase; margin-top: 1px; }
+/* ── SECTION LABELS ── */
+.map-section { padding: 10px 15px; }
+.map-section.pb-sm { padding-bottom: 4px; }
+.sub-lbl { font-size: 9px; font-weight: 600; color: var(--text-placeholder); letter-spacing: .07em; text-transform: uppercase; margin-bottom: 7px; }
+.hr { border: none; border-top: 1px solid #f1f5f9; }
 
-  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
-  .badge-icon { position: relative; display: flex; align-items: center; color: var(--text-tertiary); font-size: 18px; }
-  .badge-dot {
-    position: absolute; top: -4px; right: -5px;
-    background: var(--error); color: #fff;
-    font-size: 8px; font-weight: 700;
-    border-radius: 9px; padding: 1px 4px;
-    min-width: 16px; text-align: center;
-    line-height: 1.4;
-  }
-  .avatar {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: #277996; color: #fff;
-    font-size: 10px; font-weight: 600;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .user-label { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+/* ── SAVED STATE (shown when a field is mapped) ── */
+.saved-state { padding: 10px 15px 12px; }
+.saved-chip-row { display: flex; align-items: center; justify-content: space-between; padding: 7px 10px; border: 1px solid var(--success-border); background: var(--success-bg); border-radius: 7px; margin-bottom: 8px; animation: fadeIn .2s ease; }
+.saved-chip-label { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 500; color: var(--success); }
+.saved-chip-label i { font-size: 14px; }
+.saved-chip-content { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 170px; }
+.saved-actions { display: flex; gap: 6px; }
+.btn-remap { background: none; border: 1px solid var(--border-primary); border-radius: 5px; padding: 3px 8px; font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 500; color: var(--text-quaternary); cursor: pointer; transition: border-color .12s, color .12s; }
+.btn-remap:hover { border-color: var(--border-secondary); color: var(--text-secondary); }
+.combine-link { background: none; border: none; font-family: 'Poppins', sans-serif; font-size: 11px; color: var(--primary); cursor: pointer; display: flex; align-items: center; gap: 3px; padding: 0; text-decoration: underline; text-underline-offset: 2px; }
+.combine-link:hover { color: var(--primary-hover); }
 
-  /* ─── MAIN ─── */
-  .main { display: flex; flex: 1; overflow: hidden; }
+/* ── FIELD LIST — default (1-click save) mode ── */
+.field-list-default .f-row { padding: 6px 4px; display: flex; align-items: center; justify-content: space-between; border-radius: 5px; cursor: pointer; transition: background .1s; }
+.field-list-default .f-row:hover { background: #f4f8fb; }
+.field-list-default .f-row:hover .f-row-add { opacity: 1; }
+.f-row-left { display: flex; align-items: center; gap: 7px; }
+.f-name { font-size: 11px; color: var(--text-secondary); }
+.f-key  { font-size: 10px; color: #94a3b8; font-style: italic; }
+.f-row-add { opacity: 0; width: 18px; height: 18px; border-radius: 4px; background: var(--primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; flex-shrink: 0; transition: opacity .12s; }
 
-  /* ─── SIDEBAR ─── */
-  .sidebar {
-    width: 48px;
-    background: var(--surface-white);
-    border-right: 1px solid var(--border-primary);
-    display: flex; flex-direction: column;
-    align-items: center;
-    padding: 12px 0;
-    gap: 4px;
-    flex-shrink: 0;
-  }
-  .nav-item {
-    width: 34px; height: 34px;
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--text-placeholder);
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-    font-size: 17px;
-  }
-  .nav-item:hover { background: var(--surface-base); color: var(--text-secondary); }
-  .nav-item.active { background: var(--primary-subtle); color: var(--primary); }
+/* ── COMBINE MODE — field list with checkboxes ── */
+.combine-mode-banner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 7px 10px; background: rgba(39,121,150,0.07);
+  border: 1px solid var(--primary-border); border-radius: 6px;
+  margin-bottom: 8px; animation: fadeIn .15s ease;
+}
+.combine-mode-label { font-size: 11px; font-weight: 600; color: var(--primary); display: flex; align-items: center; gap: 5px; }
+.combine-mode-cancel { background: none; border: none; font-family: 'Poppins', sans-serif; font-size: 11px; color: var(--text-placeholder); cursor: pointer; padding: 0; }
+.combine-mode-cancel:hover { color: var(--warning); }
 
-  /* ─── CONTENT AREA ─── */
-  .content { flex: 1; padding: 18px 22px; overflow-y: auto; }
+/* composer (token row) in combine mode */
+.composer-zone { padding: 8px 15px; border-bottom: 1px solid #f1f5f9; background: var(--surface-faint); display: none; }
+.composer-zone.visible { display: block; }
+.composer-label { font-size: 9px; font-weight: 600; color: var(--text-placeholder); letter-spacing: .07em; text-transform: uppercase; margin-bottom: 6px; }
+.composer-tokens { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; min-height: 26px; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.token { display: inline-flex; align-items: center; gap: 3px; padding: 3px 7px; border-radius: 5px; font-size: 11px; font-weight: 500; animation: fadeIn .15s ease; }
+.token-field  { background: var(--primary-subtle); border: 1px solid var(--primary-border); color: var(--primary); }
+.token-static { background: rgba(100,116,139,.09); border: 1px dashed #b5c3d4; color: var(--text-tertiary); }
+.tok-sep { font-size: 11px; font-weight: 700; color: var(--text-disabled); user-select: none; }
+.token-rm { width: 13px; height: 13px; border-radius: 3px; cursor: pointer; opacity: .55; display: flex; align-items: center; justify-content: center; font-size: 11px; border: none; background: none; color: inherit; transition: opacity .12s; }
+.token-rm:hover { opacity: 1; background: rgba(0,0,0,.09); }
 
-  .page-header {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 16px;
-  }
-  .back-btn {
-    display: flex; align-items: center; gap: 3px;
-    font-size: 11px; color: var(--text-quaternary);
-    cursor: pointer; background: none; border: none;
-    font-family: 'Poppins', sans-serif;
-    padding: 0;
-    transition: color 0.15s;
-  }
-  .back-btn:hover { color: var(--text-secondary); }
-  .page-title { font-size: 16px; font-weight: 600; color: var(--text-secondary); }
+/* field rows with checkbox in combine mode */
+.field-list-combine .f-row { padding: 6px 4px; display: flex; align-items: center; justify-content: space-between; border-radius: 5px; cursor: pointer; transition: background .1s; }
+.field-list-combine .f-row:hover  { background: #f4f8fb; }
+.field-list-combine .f-row.sel-row { background: rgba(39,121,150,.06); }
+.chk { width: 14px; height: 14px; border-radius: 3px; border: 1.5px solid var(--border-secondary); background: var(--surface-white); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all .12s; }
+.chk.on { background: var(--primary); border-color: var(--primary); }
 
-  .progress-wrap { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-  .progress-track {
-    width: 170px; height: 5px;
-    background: var(--border-primary);
-    border-radius: 4px; overflow: hidden;
-  }
-  .progress-fill {
-    height: 100%;
-    background: var(--primary);
-    border-radius: 4px;
-    transition: width 0.35s ease;
-  }
-  .progress-pct { font-size: 11px; font-weight: 600; color: var(--text-secondary); min-width: 30px; }
+/* static value in combine mode */
+.static-zone { padding: 8px 15px 10px; border-top: 1px solid #f1f5f9; display: none; }
+.static-zone.visible { display: block; }
+.static-row { display: flex; align-items: center; gap: 6px; }
+.static-inp { flex: 1; border: 1px solid var(--border-primary); border-radius: 6px; padding: 6px 9px; font-family: 'Poppins', sans-serif; font-size: 12px; color: var(--text-secondary); outline: none; background: var(--surface-white); transition: border-color .15s; }
+.static-inp:focus { border-color: var(--primary); }
+.static-inp::placeholder { color: var(--text-disabled); }
+.add-static-btn { height: 30px; padding: 0 10px; background: var(--surface-base); color: var(--text-tertiary); border: 1px solid var(--border-primary); border-radius: 6px; font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 3px; white-space: nowrap; transition: background .15s; }
+.add-static-btn:hover { background: var(--border-primary); }
+.static-hint { font-size: 10px; color: #94a3b8; margin-top: 5px; line-height: 1.4; }
 
-  /* ─── TWO COLUMN LAYOUT ─── */
-  .two-col {
-    display: grid;
-    grid-template-columns: 300px 1fr;
-    gap: 14px;
-    align-items: start;
-  }
+/* search */
+.search-box { display: flex; align-items: center; gap: 6px; border: 1px solid var(--border-primary); border-radius: 6px; padding: 6px 10px; margin-bottom: 8px; transition: border-color .15s; }
+.search-box:focus-within { border-color: var(--primary); }
+.search-box input { border: none; outline: none; font-family: 'Poppins', sans-serif; font-size: 12px; color: var(--text-secondary); background: transparent; width: 100%; }
+.search-box input::placeholder { color: var(--text-disabled); }
+.search-box i { color: var(--text-placeholder); font-size: 14px; flex-shrink: 0; }
 
-  /* ─── PANEL BASE ─── */
-  .panel {
-    background: var(--surface-white);
-    border-radius: 8px;
-    border: 1px solid var(--border-primary);
-  }
+/* ── SAVE FOOTER (always at bottom) ── */
+.save-footer { padding: 10px 15px; border-top: 1px solid var(--border-primary); display: none; align-items: center; gap: 8px; background: var(--surface-white); border-radius: 0 0 8px 8px; flex-shrink: 0; }
+.save-footer.visible { display: flex; }
+.btn-save { flex: 1; height: 34px; background: var(--primary); color: #fff; border: none; border-radius: 7px; font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; transition: background .15s; }
+.btn-save:hover:not(:disabled) { background: var(--primary-hover); }
+.btn-save:disabled { opacity: .4; cursor: not-allowed; }
+.btn-cancel-combine { height: 34px; padding: 0 12px; background: none; color: var(--text-quaternary); border: 1px solid var(--border-primary); border-radius: 7px; font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; transition: border-color .15s, color .15s; }
+.btn-cancel-combine:hover { color: var(--text-secondary); border-color: var(--border-secondary); }
+@keyframes savedPulse { 0% { background: #1a8962; } 50% { background: #22aa7a; } 100% { background: var(--primary); } }
+.btn-save.saving { animation: savedPulse .5s ease; }
 
-  /* ─── LEFT MAPPING PANEL ─── */
-  .map-header { padding: 13px 15px 11px; border-bottom: 1px solid var(--border-primary); }
-  .map-header-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 7px; }
-  .map-field-name { font-size: 14px; font-weight: 600; color: var(--text-primary); }
-
-  .badge {
-    font-size: 11px; font-weight: 500;
-    padding: 2px 8px; border-radius: 4px;
-    transition: background 0.2s, color 0.2s;
-  }
-  .badge-unmapped { background: var(--warning-bg); color: var(--warning); }
-  .badge-mapped { background: var(--success-bg); color: var(--success); }
-
-  .req-row {
-    display: flex; align-items: center;
-    justify-content: flex-end;
-    gap: 6px; font-size: 11px; color: var(--text-placeholder);
-  }
-  .toggle {
-    width: 28px; height: 16px;
-    background: var(--border-secondary);
-    border-radius: 8px; position: relative;
-    cursor: pointer; flex-shrink: 0;
-    transition: background 0.2s;
-  }
-  .toggle.on { background: var(--primary); }
-  .toggle::after {
-    content: '';
-    position: absolute; top: 2px; left: 2px;
-    width: 12px; height: 12px;
-    background: #fff; border-radius: 50%;
-    transition: left 0.15s;
-  }
-  .toggle.on::after { left: 14px; }
-
-  /* ─── COMPOSER ZONE ─── */
-  .composer-zone {
-    padding: 10px 15px;
-    border-bottom: 1px solid #f1f5f9;
-    background: var(--surface-faint);
-  }
-  .zone-label {
-    font-size: 9px; font-weight: 600;
-    color: var(--text-placeholder);
-    letter-spacing: 0.07em; text-transform: uppercase;
-    margin-bottom: 7px;
-  }
-  .composer-tokens {
-    display: flex; flex-wrap: wrap;
-    align-items: center; gap: 5px;
-    min-height: 28px;
-  }
-  .empty-hint { font-size: 11px; color: var(--text-disabled); font-style: italic; }
-
-  .token {
-    display: inline-flex; align-items: center; gap: 3px;
-    padding: 3px 7px; border-radius: 5px;
-    font-size: 11px; font-weight: 500;
-    animation: tokenIn 0.15s ease;
-  }
-  @keyframes tokenIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-  .token-field { background: var(--primary-subtle); border: 1px solid var(--primary-border); color: var(--primary); }
-  .token-static { background: rgba(100,116,139,0.09); border: 1px dashed #b5c3d4; color: var(--text-tertiary); }
-  .tok-sep { font-size: 11px; font-weight: 600; color: var(--text-disabled); user-select: none; }
-  .token-rm {
-    width: 13px; height: 13px; border-radius: 3px;
-    cursor: pointer; opacity: 0.55;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 11px; transition: opacity 0.12s, background 0.12s;
-  }
-  .token-rm:hover { opacity: 1; background: rgba(0,0,0,0.09); }
-
-  /* ─── PREVIEW STRIP ─── */
-  .preview-strip {
-    padding: 7px 15px;
-    border-bottom: 1px solid #f1f5f9;
-    display: flex; align-items: center; gap: 8px;
-  }
-  .prev-lbl {
-    font-size: 9px; font-weight: 600;
-    color: var(--text-placeholder);
-    letter-spacing: 0.06em; text-transform: uppercase;
-    flex-shrink: 0;
-  }
-  .prev-val {
-    font-size: 11px; font-weight: 500; color: var(--primary);
-    background: rgba(39,121,150,0.07);
-    border: 1px solid rgba(39,121,150,0.15);
-    border-radius: 4px; padding: 2px 8px;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    transition: all 0.2s;
-  }
-  .prev-empty { font-size: 11px; color: var(--text-disabled); font-style: italic; }
-
-  /* ─── MAP SECTION ─── */
-  .map-section { padding: 10px 15px; }
-  .map-section.pb-sm { padding-bottom: 4px; }
-  .sub-lbl {
-    font-size: 9px; font-weight: 600;
-    color: var(--text-placeholder);
-    letter-spacing: 0.07em; text-transform: uppercase;
-    margin-bottom: 7px;
-  }
-
-  .suggest-btn {
-    width: 100%; display: flex; align-items: center; justify-content: space-between;
-    border: 1px solid var(--border-primary);
-    border-radius: 6px; padding: 7px 10px;
-    background: var(--surface-white);
-    cursor: pointer;
-    font-family: 'Poppins', sans-serif; font-size: 12px; color: var(--text-secondary);
-    transition: border-color 0.15s, background 0.15s;
-    text-align: left;
-  }
-  .suggest-btn:hover { border-color: var(--primary-border-active); background: rgba(39,121,150,0.04); }
-  .suggest-btn.sel { border-color: var(--primary); background: var(--primary-subtle); }
-
-  .add-ic {
-    width: 20px; height: 20px; border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; font-size: 13px; transition: all 0.15s;
-  }
-  .add-ic.plus { background: var(--primary); color: #fff; }
-  .add-ic.check { background: var(--primary-subtle); color: var(--primary); }
-
-  .hr { border: none; border-top: 1px solid #f1f5f9; }
-
-  /* ─── SEARCH BOX ─── */
-  .search-box {
-    display: flex; align-items: center; gap: 6px;
-    border: 1px solid var(--border-primary);
-    border-radius: 6px; padding: 6px 10px;
-    margin-bottom: 8px;
-    transition: border-color 0.15s;
-  }
-  .search-box:focus-within { border-color: var(--primary); }
-  .search-box input {
-    border: none; outline: none;
-    font-family: 'Poppins', sans-serif; font-size: 12px;
-    color: var(--text-secondary); background: transparent; width: 100%;
-  }
-  .search-box input::placeholder { color: var(--text-disabled); }
-  .search-box i { color: var(--text-placeholder); font-size: 14px; flex-shrink: 0; }
-
-  /* ─── FIELD LIST ─── */
-  .f-list { display: flex; flex-direction: column; }
-  .f-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 6px 4px; border-radius: 5px;
-    cursor: pointer; transition: background 0.1s;
-  }
-  .f-row:hover { background: #f8fafc; }
-  .f-row.sel-row { background: rgba(39,121,150,0.06); }
-  .f-row-l { display: flex; align-items: center; gap: 8px; }
-  .chk {
-    width: 14px; height: 14px; border-radius: 3px;
-    border: 1.5px solid var(--border-secondary);
-    background: var(--surface-white);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; transition: all 0.12s;
-  }
-  .chk.on { background: var(--primary); border-color: var(--primary); }
-  .f-name { font-size: 11px; color: var(--text-secondary); }
-  .f-key { font-size: 10px; color: #94a3b8; font-style: italic; }
-
-  /* ─── STATIC ZONE ─── */
-  .static-zone { padding: 9px 15px 14px; border-top: 1px solid #f1f5f9; }
-  .static-row { display: flex; align-items: center; gap: 6px; }
-  .static-inp {
-    flex: 1; border: 1px solid var(--border-primary);
-    border-radius: 6px; padding: 6px 10px;
-    font-family: 'Poppins', sans-serif; font-size: 12px;
-    color: var(--text-secondary); outline: none;
-    background: var(--surface-white);
-    transition: border-color 0.15s;
-  }
-  .static-inp:focus { border-color: var(--primary); }
-  .static-inp::placeholder { color: var(--text-disabled); }
-  .add-static-btn {
-    height: 30px; padding: 0 11px;
-    background: var(--primary); color: #fff;
-    border: none; border-radius: 6px;
-    font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 600;
-    cursor: pointer; display: flex; align-items: center; gap: 3px;
-    white-space: nowrap; transition: background 0.15s;
-  }
-  .add-static-btn:hover { background: var(--primary-hover); }
-  .static-hint { font-size: 10px; color: #94a3b8; margin-top: 5px; line-height: 1.4; }
-
-  /* ─── RIGHT PREVIEW PANEL ─── */
-  .preview-panel {
-    background: var(--surface-white);
-    border-radius: 8px;
-    border: 1px solid var(--border-primary);
-    padding: 18px 22px;
-  }
-  .prev-doc-header {
-    text-align: center;
-    margin-bottom: 16px; padding-bottom: 12px;
-    border-bottom: 1px solid var(--border-primary);
-  }
-  .prev-doc-lbl { font-size: 10px; color: var(--text-placeholder); margin-bottom: 3px; }
-  .prev-doc-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
-
-  .doc-section { margin-bottom: 18px; }
-  .doc-sec-title { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; }
-
-  .chip-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  .chip-wrap {}
-  .chip-field-lbl {
-    font-size: 9px; color: var(--text-placeholder);
-    margin-bottom: 3px; display: block;
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-  }
-  .chip {
-    border-radius: 5px; padding: 5px 8px;
-    font-size: 11px; font-weight: 500;
-    transition: all 0.25s;
-  }
-  .chip-green { background: var(--success-bg); border: 1px solid var(--success-border); color: var(--success); }
-  .chip-orange { background: var(--warning-bg); border: 1px solid var(--warning-border); color: var(--warning); }
-  .chip-gray { background: var(--gray-bg); border: 1px solid var(--gray-border); color: var(--text-tertiary); }
-  .chip-active { background: var(--primary-subtle); border: 1px solid var(--primary-border-active); color: var(--primary); }
-  .chip-content { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
-
-  .doc-divider { border: none; border-top: 1px solid var(--border-primary); margin: 14px 0; }
-  .doc-footer { font-size: 10px; color: var(--text-placeholder); font-style: italic; margin-top: 8px; }
-
-  /* ─── SAVE FOOTER ─── */
-  .save-footer {
-    padding: 11px 15px;
-    border-top: 1px solid var(--border-primary);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--surface-white);
-    border-radius: 0 0 8px 8px;
-  }
-  .btn-save {
-    flex: 1;
-    height: 34px;
-    background: var(--primary);
-    color: #fff;
-    border: none;
-    border-radius: 7px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    transition: background 0.15s, opacity 0.15s;
-  }
-  .btn-save:hover:not(:disabled) { background: var(--primary-hover); }
-  .btn-save:disabled { opacity: 0.4; cursor: not-allowed; }
-  .btn-clear {
-    height: 34px;
-    padding: 0 12px;
-    background: none;
-    color: var(--text-quaternary);
-    border: 1px solid var(--border-primary);
-    border-radius: 7px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: border-color 0.15s, color 0.15s;
-    white-space: nowrap;
-  }
-  .btn-clear:hover { border-color: var(--border-secondary); color: var(--text-secondary); }
-  .btn-clear:disabled { opacity: 0.35; cursor: not-allowed; }
-
-  /* saved flash */
-  @keyframes savedPulse {
-    0%   { background: #1a8962; }
-    50%  { background: #22aa7a; }
-    100% { background: var(--primary); }
-  }
-  .btn-save.saving { animation: savedPulse 0.5s ease; }
-
-  /* ─── CHIP SAVED (multi-label) ─── */
-  .chip-saved {
-    background: var(--primary-subtle);
-    border: 1px solid var(--primary-border-active);
-    color: var(--primary);
-  }
-  .chip-saved .chip-content {
-    white-space: normal;
-    word-break: break-word;
-    line-height: 1.35;
-  }
-  .chip-saved-sep {
-    color: rgba(32,102,126,0.5);
-    font-weight: 600;
-    margin: 0 1px;
-  }
+/* ── PREVIEW PANEL (right) ── */
+.preview-panel { background: var(--surface-white); border-radius: 8px; border: 1px solid var(--border-primary); padding: 18px 22px; }
+.prev-doc-header { text-align: center; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-primary); }
+.prev-doc-lbl   { font-size: 10px; color: var(--text-placeholder); margin-bottom: 3px; }
+.prev-doc-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); }
+.doc-section    { margin-bottom: 18px; }
+.doc-sec-title  { font-size: 12px; font-weight: 600; color: var(--text-secondary); margin-bottom: 10px; }
+.chip-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+.chip-field-lbl { font-size: 9px; color: var(--text-placeholder); margin-bottom: 3px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.chip { border-radius: 5px; padding: 5px 8px; font-size: 11px; font-weight: 500; cursor: pointer; transition: all .2s; }
+.chip:hover { filter: brightness(.97); }
+.chip-green  { background: var(--success-bg);  border: 1px solid var(--success-border); color: var(--success); }
+.chip-orange { background: var(--warning-bg);  border: 1px solid var(--warning-border); color: var(--warning); }
+.chip-gray   { background: rgba(30,41,59,.05); border: 1px solid var(--border-primary); color: var(--text-tertiary); }
+.chip-active { background: var(--primary-subtle); border: 1px solid var(--primary-border-act); color: var(--primary); }
+.chip-content { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block; }
+.chip-active .chip-content { white-space: normal; word-break: break-word; line-height: 1.35; }
+.chip-active-sep { color: rgba(32,102,126,.45); font-weight: 700; }
+.doc-divider { border: none; border-top: 1px solid var(--border-primary); margin: 14px 0; }
+.doc-footer  { font-size: 10px; color: var(--text-placeholder); font-style: italic; margin-top: 8px; }
 </style>
 </head>
 <body>
-
 <div class="app">
 
   <!-- TOPBAR -->
   <header class="topbar">
     <a class="topbar-logo" href="#">
       <div class="logomark">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="10" stroke="#20667e" stroke-width="1.5"/>
-          <path d="M7 14L9 9L12 13L15 9L17 14" stroke="#20667e" stroke-width="1.5" stroke-linejoin="round" fill="none"/>
-          <path d="M5 15Q12 18 19 15" stroke="#20667e" stroke-width="1" fill="none"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#20667e" stroke-width="1.5"/><path d="M7 14L9 9L12 13L15 9L17 14" stroke="#20667e" stroke-width="1.5" stroke-linejoin="round" fill="none"/><path d="M5 15Q12 18 19 15" stroke="#20667e" stroke-width="1" fill="none"/></svg>
       </div>
-      <div class="brand-text">
-        <span class="brand-name">BOATYARD</span>
-        <span class="brand-sub">SALES</span>
-      </div>
+      <div><span class="brand-name">BOATYARD</span><span class="brand-sub">SALES</span></div>
     </a>
     <div class="topbar-right">
-      <div class="badge-icon">
-        <i class="ti ti-checkbox" aria-hidden="true"></i>
-        <span class="badge-dot">14</span>
-      </div>
+      <div class="badge-icon"><i class="ti ti-checkbox"></i><span class="badge-dot">14</span></div>
       <div class="avatar">JS</div>
       <span class="user-label">James Smith</span>
-      <i class="ti ti-chevron-down" aria-hidden="true" style="font-size:12px;color:#7b8ba3;"></i>
+      <i class="ti ti-chevron-down" style="font-size:12px;color:#7b8ba3;"></i>
     </div>
   </header>
 
   <div class="main">
-
     <!-- SIDEBAR -->
-    <nav class="sidebar" aria-label="Main navigation">
-      <div class="nav-item" title="Dashboard"><i class="ti ti-layout-dashboard" aria-hidden="true"></i></div>
-      <div class="nav-item" title="Inventory"><i class="ti ti-sailboat" aria-hidden="true"></i></div>
-      <div class="nav-item" title="Sales"><i class="ti ti-currency-dollar" aria-hidden="true"></i></div>
-      <div class="nav-item" title="Reports"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
-      <div class="nav-item" title="Companies"><i class="ti ti-building" aria-hidden="true"></i></div>
-      <div class="nav-item" title="Costing"><i class="ti ti-building-store" aria-hidden="true"></i></div>
-      <div class="nav-item" title="Messages"><i class="ti ti-message" aria-hidden="true"></i></div>
-      <div class="nav-item active" title="Documents"><i class="ti ti-file-text" aria-hidden="true"></i></div>
+    <nav class="sidebar">
+      <div class="nav-item" title="Dashboard"><i class="ti ti-layout-dashboard"></i></div>
+      <div class="nav-item" title="Inventory"><i class="ti ti-sailboat"></i></div>
+      <div class="nav-item" title="Sales"><i class="ti ti-currency-dollar"></i></div>
+      <div class="nav-item" title="Reports"><i class="ti ti-chart-bar"></i></div>
+      <div class="nav-item" title="Companies"><i class="ti ti-building"></i></div>
+      <div class="nav-item" title="Costing"><i class="ti ti-building-store"></i></div>
+      <div class="nav-item" title="Messages"><i class="ti ti-message"></i></div>
+      <div class="nav-item active" title="Documents"><i class="ti ti-file-text"></i></div>
     </nav>
 
     <!-- CONTENT -->
     <main class="content">
-
       <div class="page-header">
-        <button class="back-btn" onclick="history.back()">
-          <i class="ti ti-arrow-left" aria-hidden="true"></i> Back
-        </button>
+        <button class="back-btn"><i class="ti ti-arrow-left"></i> Back</button>
         <h1 class="page-title">Bill of Sale — HSMV 82050</h1>
         <div class="progress-wrap">
-          <div class="progress-track">
-            <div class="progress-fill" id="progressBar" style="width:40%"></div>
-          </div>
+          <div class="progress-track"><div class="progress-fill" id="progressBar" style="width:40%"></div></div>
           <span class="progress-pct" id="progressPct">40%</span>
         </div>
       </div>
@@ -538,131 +262,142 @@
       <div class="two-col">
 
         <!-- ── LEFT: FIELD MAPPING PANEL ── -->
-        <div class="panel" role="region" aria-label="Field mapping">
+        <div class="panel-sticky" role="region" aria-label="Field mapping">
+          <div class="panel-scroll">
 
-          <div class="map-header">
-            <div class="map-header-top">
-              <span class="map-field-name">Make/Manufacturer</span>
-              <span class="badge badge-unmapped" id="mappedBadge">Unmapped</span>
+            <!-- Header -->
+            <div class="map-header">
+              <div class="map-header-top">
+                <span class="map-field-name" id="activeFieldName">Make / Manufacturer</span>
+                <span class="badge badge-unmapped" id="mappedBadge">Unmapped</span>
+              </div>
+              <div class="req-row">
+                <span>Required</span>
+                <div class="toggle on" role="switch" aria-checked="true" onclick="this.classList.toggle('on');this.setAttribute('aria-checked',this.classList.contains('on'))"></div>
+              </div>
             </div>
-            <div class="req-row">
-              <span>Required</span>
-              <div class="toggle on" id="reqToggle" role="switch" aria-checked="true"
-                   onclick="this.classList.toggle('on'); this.setAttribute('aria-checked', this.classList.contains('on'))"></div>
-            </div>
-          </div>
 
-          <!-- COMPOSER -->
-          <div class="composer-zone">
-            <div class="zone-label">Mapped as</div>
-            <div class="composer-tokens" id="composerTokens" role="list" aria-label="Selected fields">
-              
-            </div>
-          </div>
-
-          <!-- PREVIEW STRIP -->
-          <div class="preview-strip">
-            <span class="prev-lbl">Preview</span>
-            <span class="prev-empty" id="prevValue">—</span>
-          </div>
-
-          <!-- SUGGESTED MATCH -->
-          <div class="map-section">
-            <div class="sub-lbl">Suggested match</div>
-            <button class="suggest-btn" id="suggestBtn" onclick="toggleSuggested()"
-                    aria-pressed="false" aria-label="Add Unit Brand Name as suggested match">
-              <span>Unit Brand Name</span>
-              <span class="add-ic plus" id="suggestIc" aria-hidden="true">
-                <i class="ti ti-plus"></i>
-              </span>
-            </button>
-          </div>
-
-          <hr class="hr">
-
-          <!-- ALL DATA FIELDS -->
-          <div class="map-section pb-sm">
-            <div class="sub-lbl">All data fields</div>
-            <div class="search-box">
-              <i class="ti ti-search" aria-hidden="true"></i>
-              <input type="text" placeholder="Search..." id="srch"
-                     oninput="filterFields()" aria-label="Search data fields"/>
-            </div>
-            <div class="f-list" id="fList" role="list" aria-label="Available data fields"></div>
-          </div>
-
-          <!-- STATIC VALUE -->
-          <div class="static-zone">
-            <div class="sub-lbl">Or add static value</div>
-            <div class="static-row">
-              <input type="text" class="static-inp" id="statInp"
-                     placeholder='e.g. " " or "Inc."'
-                     aria-label="Static value to add"
-                     onkeydown="if(event.key==='Enter') addStatic()"/>
-              <button class="add-static-btn" onclick="addStatic()">
-                <i class="ti ti-plus" aria-hidden="true"></i> Add
+            <!-- ── STATE A: SAVED (shown after a field is mapped) ── -->
+            <div class="saved-state" id="savedState" style="display:none;">
+              <div class="saved-chip-row">
+                <span class="saved-chip-label">
+                  <i class="ti ti-check"></i>
+                  <span class="saved-chip-content" id="savedChipContent">—</span>
+                </span>
+                <div class="saved-actions">
+                  <button class="btn-remap" onclick="remapField()">Change</button>
+                </div>
+              </div>
+              <!-- "Want to combine with more fields?" nudge -->
+              <button class="combine-link" onclick="enterCombineMode(true)" id="combineNudge">
+                <i class="ti ti-plus"></i> Add more fields to combine
               </button>
             </div>
-            <p class="static-hint">Static text appears literally in the output (e.g. a space between First + Last name)</p>
-          </div>
 
-          <!-- SAVE FOOTER -->
-          <div class="save-footer">
-            <button class="btn-clear" id="btnClear" onclick="clearAll()" disabled>
-              Clear
-            </button>
-            <button class="btn-save" id="btnSave" onclick="saveMapping()" disabled>
-              <i class="ti ti-device-floppy" aria-hidden="true"></i>
-              Save mapping
+            <!-- ── STATE B: DEFAULT — field list, 1-click saves ── -->
+            <div id="defaultState">
+              <div class="map-section pb-sm">
+                <div class="sub-lbl">All data fields <span style="font-weight:400;color:var(--text-disabled);font-style:italic;">— click to map</span></div>
+                <div class="search-box">
+                  <i class="ti ti-search"></i>
+                  <input type="text" placeholder="Search..." id="srch" oninput="filterFields()" aria-label="Search fields"/>
+                </div>
+                <div class="f-list field-list-default" id="fList"></div>
+              </div>
+              <!-- Combine mode entry point -->
+              <div style="padding: 0 15px 14px;">
+                <button class="combine-link" onclick="enterCombineMode(false)">
+                  <i class="ti ti-layout-columns"></i> Combine multiple fields
+                </button>
+              </div>
+            </div>
+
+            <!-- ── STATE C: COMBINE MODE ── -->
+            <div id="combineState" style="display:none;">
+
+              <!-- Composer (token preview) -->
+              <div class="composer-zone visible" id="composerZone">
+                <div class="composer-label">Combined value</div>
+                <div class="composer-tokens" id="composerTokens"></div>
+              </div>
+
+              <div class="map-section pb-sm">
+                <div class="combine-mode-banner">
+                  <span class="combine-mode-label"><i class="ti ti-layout-columns"></i> Combine mode — select fields to merge</span>
+                  <button class="combine-mode-cancel" onclick="exitCombineMode()">Cancel</button>
+                </div>
+                <div class="search-box">
+                  <i class="ti ti-search"></i>
+                  <input type="text" placeholder="Search..." id="srchCombine" oninput="filterFieldsCombine()" aria-label="Search fields"/>
+                </div>
+                <div class="f-list field-list-combine" id="fListCombine"></div>
+              </div>
+
+              <!-- Static value input -->
+              <div class="static-zone visible">
+                <div class="sub-lbl">Add static text</div>
+                <div class="static-row">
+                  <input type="text" class="static-inp" id="statInp" placeholder='e.g. " " or ", "' onkeydown="if(event.key==='Enter')addStatic()"/>
+                  <button class="add-static-btn" onclick="addStatic()"><i class="ti ti-plus"></i> Add</button>
+                </div>
+                <p class="static-hint">Appears literally — e.g. a space between First + Last name</p>
+              </div>
+            </div>
+
+          </div><!-- /.panel-scroll -->
+
+          <!-- FOOTER — only visible in combine mode -->
+          <div class="save-footer" id="saveFooter">
+            <button class="btn-cancel-combine" onclick="exitCombineMode()">Cancel</button>
+            <button class="btn-save" id="btnSave" onclick="saveCombined()" disabled>
+              <i class="ti ti-device-floppy"></i> Save mapping
             </button>
           </div>
-
         </div>
 
-        <!-- ── RIGHT: DOCUMENT PREVIEW PANEL ── -->
+        <!-- ── RIGHT: DOCUMENT PREVIEW ── -->
         <div class="preview-panel" role="region" aria-label="Document preview">
-
           <div class="prev-doc-header">
             <div class="prev-doc-lbl">Document Preview</div>
             <div class="prev-doc-title">Bill of Sale — HSMV 82050</div>
           </div>
 
-          <!-- VEHICLE / VESSEL DESCRIPTION -->
+          <!-- Vehicle / Vessel Description -->
           <div class="doc-section">
-            <div class="doc-sec-title">Vehicle/Vessel Description</div>
+            <div class="doc-sec-title">Vehicle / Vessel Description</div>
             <div class="chip-grid">
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Year*</span>
                 <div class="chip chip-green"><div class="chip-content">Year (unit.year)</div></div>
               </div>
-              <div class="chip-wrap">
-                <span class="chip-field-lbl">Make/Manufacturer*</span>
+              <div>
+                <span class="chip-field-lbl">Make / Manufacturer*</span>
                 <div class="chip chip-orange" id="docMakeChip">
                   <div class="chip-content" id="docMakeVal">Unmapped</div>
                 </div>
               </div>
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Body Type*</span>
                 <div class="chip chip-gray"><div class="chip-content">Body (unit.body)</div></div>
               </div>
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Model*</span>
                 <div class="chip chip-green"><div class="chip-content">Model (unit.model)</div></div>
               </div>
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Color*</span>
                 <div class="chip chip-green"><div class="chip-content">Color (unit.color)</div></div>
               </div>
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Certificate of Title #*</span>
                 <div class="chip chip-gray"><div class="chip-content">Body (unit.body)</div></div>
               </div>
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Current Title Issue Date*</span>
                 <div class="chip chip-gray"><div class="chip-content">Body (unit.body)</div></div>
               </div>
-              <div class="chip-wrap">
-                <span class="chip-field-lbl">Vehicle/Vessel ID #*</span>
+              <div>
+                <span class="chip-field-lbl">Vehicle / Vessel ID #*</span>
                 <div class="chip chip-orange"><div class="chip-content">Model (unit.model)</div></div>
               </div>
             </div>
@@ -670,357 +405,380 @@
 
           <hr class="doc-divider">
 
-          <!-- PURCHASER INFORMATION -->
+          <!-- Purchaser Information -->
           <div class="doc-section">
             <div class="doc-sec-title">Purchaser Information</div>
             <div class="chip-grid">
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Name(s) of Purchaser(s)*</span>
                 <div class="chip chip-orange"><div class="chip-content">Name (buyer.name)</div></div>
               </div>
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Purchaser Address*</span>
                 <div class="chip chip-orange"><div class="chip-content">Address (buyer.ad...)</div></div>
               </div>
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Purchaser City*</span>
                 <div class="chip chip-gray"><div class="chip-content">City (buyer.city)</div></div>
               </div>
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Purchaser State*</span>
                 <div class="chip chip-green"><div class="chip-content">State (buyer.state)</div></div>
               </div>
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Color*</span>
                 <div class="chip chip-green"><div class="chip-content">Year (unit.year)</div></div>
               </div>
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Certificate of Title #*</span>
                 <div class="chip chip-orange"><div class="chip-content">Make (unit.make)</div></div>
               </div>
-              <div class="chip-wrap">
+              <div>
                 <span class="chip-field-lbl">Current Title Issue Date*</span>
                 <div class="chip chip-gray"><div class="chip-content">Body (unit.body)</div></div>
               </div>
-              <div class="chip-wrap">
-                <span class="chip-field-lbl">Vehicle/Vessel ID #*</span>
+              <div>
+                <span class="chip-field-lbl">Vehicle / Vessel ID #*</span>
                 <div class="chip chip-gray"><div class="chip-content">Model (unit.model)</div></div>
               </div>
             </div>
             <p class="doc-footer">This document is legally binding once signed by all parties.</p>
           </div>
-
         </div>
-      </div>
+
+      </div><!-- /.two-col -->
     </main>
   </div>
 </div>
 
 <script>
-  const FIELDS = [
+  /* ───────────────────────────────────────────────
+     DATA
+  ─────────────────────────────────────────────── */
+  var FIELDS = [
     { name: 'Unit Brand Name',   key: 'unit.brand',       val: 'Yamaha'      },
     { name: 'Unit Stock Number', key: 'unit.stock_no',    val: 'STK-00421'   },
-    { name: 'Unit Title',        key: 'unit.title',       val: 'Yamaha AR195' },
+    { name: 'Unit Title',        key: 'unit.title',       val: 'Yamaha AR195'},
     { name: 'Unit Condition',    key: 'unit.condition',   val: 'New'         },
     { name: 'Unit Year',         key: 'unit.year',        val: '2024'        },
     { name: 'Unit Model',        key: 'unit.model',       val: 'AR195'       },
     { name: 'Unit Price',        key: 'unit.price',       val: '$42,500'     },
     { name: 'Buyer First Name',  key: 'buyer.first_name', val: 'John'        },
-    { name: 'Buyer Last Name',   key: 'buyer.last_name',  val: 'Doe'         },
+    { name: 'Buyer Last Name',   key: 'buyer.last_name',  val: 'Doe'        },
     { name: 'Buyer Full Name',   key: 'buyer.full_name',  val: 'John Doe'    },
   ];
 
-  let selected = [];
-  let suggestedActive = false;
-  let savedMapping = null;
+  /* ───────────────────────────────────────────────
+     STATE
+  ─────────────────────────────────────────────── */
+  var savedTokens   = null;   // null = unmapped | array = saved mapping
+  var combineTokens = [];     // working set in combine mode
+  var combineMode   = false;
 
-  /* ── HTML ESCAPE ── */
-  function esc(str) {
-    return String(str)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+  /* ───────────────────────────────────────────────
+     UTILS
+  ─────────────────────────────────────────────── */
+  function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  /* ── RENDER COMPOSER + PREVIEW STRIP ── */
-  function renderAll() {
-    const container = document.getElementById('composerTokens');
-    const badge     = document.getElementById('mappedBadge');
-    const prevEl    = document.getElementById('prevValue');
+  function labelFor(tokens) {
+    // "Unit Brand Name + Unit Model" style label
+    return tokens.map(function(t) {
+      return t.type === 'static' ? '"' + t.name + '"' : t.name;
+    }).join(' + ');
+  }
 
-    // Clear composer
+  /* ───────────────────────────────────────────────
+     PANEL STATE TRANSITIONS
+  ─────────────────────────────────────────────── */
+
+  // Show the default (1-click) state
+  function showDefaultState() {
+    document.getElementById('savedState').style.display   = 'none';
+    document.getElementById('defaultState').style.display = '';
+    document.getElementById('combineState').style.display = 'none';
+    document.getElementById('saveFooter').classList.remove('visible');
+    combineMode = false;
+    combineTokens = [];
+    syncCombineCheckboxes();
+  }
+
+  // Show the saved state
+  function showSavedState(tokens) {
+    savedTokens = tokens;
+    document.getElementById('savedState').style.display   = '';
+    document.getElementById('defaultState').style.display = 'none';
+    document.getElementById('combineState').style.display = 'none';
+    document.getElementById('saveFooter').classList.remove('visible');
+
+    // Update left panel label
+    document.getElementById('savedChipContent').textContent = labelFor(tokens);
+    document.getElementById('mappedBadge').className = 'badge badge-mapped';
+    document.getElementById('mappedBadge').textContent =
+      tokens.length === 1 ? '1 field' : tokens.length + ' fields';
+
+    // Show "add more" nudge only if it's a single field
+    document.getElementById('combineNudge').style.display =
+      tokens.length === 1 ? '' : 'none';
+
+    // Update doc chip
+    updateDocChip(tokens);
+    updateProgress(true);
+  }
+
+  // Enter combine mode (optionally pre-seed with saved tokens)
+  function enterCombineMode(prefill) {
+    combineMode   = true;
+    combineTokens = (prefill && savedTokens) ? savedTokens.map(function(t){ return Object.assign({},t); }) : [];
+
+    document.getElementById('savedState').style.display   = 'none';
+    document.getElementById('defaultState').style.display = 'none';
+    document.getElementById('combineState').style.display = '';
+    document.getElementById('saveFooter').classList.add('visible');
+
+    syncCombineCheckboxes();
+    renderComposer();
+    updateSaveBtn();
+  }
+
+  function exitCombineMode() {
+    combineMode   = false;
+    combineTokens = [];
+    if (savedTokens) {
+      showSavedState(savedTokens);
+    } else {
+      showDefaultState();
+    }
+  }
+
+  // "Change" button — go back to default to pick a different field
+  function remapField() {
+    savedTokens = null;
+    updateDocChipEmpty();
+    updateProgress(false);
+    document.getElementById('mappedBadge').className  = 'badge badge-unmapped';
+    document.getElementById('mappedBadge').textContent = 'Unmapped';
+    showDefaultState();
+  }
+
+  /* ───────────────────────────────────────────────
+     1-CLICK SAVE (default mode)
+  ─────────────────────────────────────────────── */
+  function saveOneField(key) {
+    var f = FIELDS.find(function(f){ return f.key === key; });
+    if (!f) return;
+    showSavedState([{ id: Date.now(), type: 'field', name: f.name, key: f.key, val: f.val }]);
+  }
+
+  /* ───────────────────────────────────────────────
+     COMBINE MODE — multi-select + save
+  ─────────────────────────────────────────────── */
+  function toggleCombineField(key) {
+    var f = FIELDS.find(function(f){ return f.key === key; });
+    if (!f) return;
+    var idx = combineTokens.findIndex(function(t){ return t.key === key && t.type === 'field'; });
+    if (idx > -1) {
+      combineTokens.splice(idx, 1);
+    } else {
+      combineTokens.push({ id: Date.now(), type: 'field', name: f.name, key: f.key, val: f.val });
+    }
+    syncCombineCheckboxes();
+    renderComposer();
+    updateSaveBtn();
+  }
+
+  function addStatic() {
+    var inp = document.getElementById('statInp');
+    var v   = inp.value.trim();
+    if (!v) return;
+    combineTokens.push({ id: Date.now(), type: 'static', name: v, val: v });
+    inp.value = '';
+    renderComposer();
+    updateSaveBtn();
+  }
+
+  function removeToken(id) {
+    combineTokens = combineTokens.filter(function(t){ return t.id !== id; });
+    syncCombineCheckboxes();
+    renderComposer();
+    updateSaveBtn();
+  }
+
+  function saveCombined() {
+    if (combineTokens.length === 0) return;
+    var snapshot = combineTokens.map(function(t){ return Object.assign({},t); });
+
+    // Flash save button
+    var btn = document.getElementById('btnSave');
+    btn.classList.add('saving');
+    btn.innerHTML = '<i class="ti ti-check"></i> Saved!';
+    setTimeout(function(){
+      btn.classList.remove('saving');
+      btn.innerHTML = '<i class="ti ti-device-floppy"></i> Save mapping';
+      showSavedState(snapshot);
+    }, 600);
+  }
+
+  /* ───────────────────────────────────────────────
+     RENDER HELPERS
+  ─────────────────────────────────────────────── */
+  function renderComposer() {
+    var container = document.getElementById('composerTokens');
     container.innerHTML = '';
 
-    if (selected.length === 0) {
-      container.innerHTML = '<span class="empty-hint">No fields selected yet</span>';
-      badge.className   = 'badge badge-unmapped';
-      badge.textContent = 'Unmapped';
-      prevEl.className  = 'prev-empty';
-      prevEl.textContent = '\u2014';
-      // Only reset doc chip if nothing is saved
-      if (!savedMapping) updateDocChip('', false);
-      updateProgress();
-      updateButtons();
+    if (combineTokens.length === 0) {
+      container.innerHTML = '<span style="font-size:11px;color:var(--text-disabled);font-style:italic;">Select fields below…</span>';
       return;
     }
 
-    badge.className   = 'badge badge-mapped';
-    badge.textContent = selected.length === 1 ? '1 field' : selected.length + ' fields';
-
-    selected.forEach(function(item, i) {
+    combineTokens.forEach(function(item, i) {
       if (i > 0) {
         var sep = document.createElement('span');
-        sep.className = 'tok-sep';
-        sep.textContent = '+';
-        sep.setAttribute('aria-hidden', 'true');
+        sep.className = 'tok-sep'; sep.textContent = '+';
         container.appendChild(sep);
       }
-
       var tok = document.createElement('span');
-      tok.className   = item.type === 'static' ? 'token token-static' : 'token token-field';
-      tok.setAttribute('role', 'listitem');
+      tok.className = item.type === 'static' ? 'token token-static' : 'token token-field';
 
       var lbl = document.createElement('span');
       lbl.textContent = item.type === 'static' ? '"' + item.name + '"' : item.name;
 
       var rm = document.createElement('button');
-      rm.className = 'token-rm';
+      rm.className = 'token-rm'; rm.type = 'button';
+      rm.innerHTML = '<i class="ti ti-x"></i>';
       rm.setAttribute('aria-label', 'Remove ' + item.name);
-      rm.type = 'button';
-      rm.innerHTML = '<i class="ti ti-x" aria-hidden="true"></i>';
-      (function(id) { rm.onclick = function() { removeToken(id); }; })(item.id);
+      (function(id){ rm.onclick = function(){ removeToken(id); }; })(item.id);
 
-      tok.appendChild(lbl);
-      tok.appendChild(rm);
+      tok.appendChild(lbl); tok.appendChild(rm);
       container.appendChild(tok);
     });
-
-    var previewText = selected.map(function(s) {
-      return s.type === 'static' ? s.name : s.val;
-    }).join('');
-
-    prevEl.className  = 'prev-val';
-    prevEl.textContent = previewText;
-
-    // Only update doc chip in live mode (not saved yet, or was cleared)
-    if (!savedMapping) {
-      updateDocChip(previewText, true);
-    }
-
-    updateProgress();
-    updateButtons();
   }
 
-  /* ── DOC CHIP — live preview ── */
-  function updateDocChip(val, mapped) {
-    var chip    = document.getElementById('docMakeChip');
-    var chipVal = document.getElementById('docMakeVal');
-    if (mapped) {
-      chip.className      = 'chip chip-active';
-      chipVal.textContent = val || '\u2026';
-    } else {
-      chip.className      = 'chip chip-orange';
-      chipVal.textContent = 'Unmapped';
-    }
-  }
-
-  /* ── DOC CHIP — saved (shows field names) ── */
-  function updateDocChipSaved(tokens) {
-    var chip    = document.getElementById('docMakeChip');
-    var chipVal = document.getElementById('docMakeVal');
-    chip.className = 'chip chip-saved';
-
-    var parts = tokens.map(function(s) {
-      if (s.type === 'static') {
-        return '<span class="chip-saved-sep">&ldquo;' + esc(s.name) + '&rdquo;</span>';
+  function syncCombineCheckboxes() {
+    var rows = document.querySelectorAll('#fListCombine .f-row');
+    rows.forEach(function(row) {
+      var key = row.dataset.key;
+      var sel = combineTokens.some(function(t){ return t.key === key && t.type === 'field'; });
+      var box = row.querySelector('.chk');
+      if (!box) return;
+      if (sel) {
+        row.classList.add('sel-row');
+        box.classList.add('on');
+        box.innerHTML = '<i class="ti ti-check" style="font-size:10px;color:#fff;"></i>';
+      } else {
+        row.classList.remove('sel-row');
+        box.classList.remove('on');
+        box.innerHTML = '';
       }
-      return esc(s.name);
     });
-    chipVal.innerHTML = parts.join('<span class="chip-saved-sep"> + </span>');
   }
 
-  /* ── PROGRESS BAR ── */
-  function updateProgress() {
-    var alreadyMapped = 6;
-    var total         = 16;
-    var thisMapped    = (selected.length > 0 || savedMapping) ? 1 : 0;
-    var pct = Math.round(((alreadyMapped + thisMapped) / total) * 100);
+  function updateSaveBtn() {
+    document.getElementById('btnSave').disabled = combineTokens.length === 0;
+  }
+
+  /* ───────────────────────────────────────────────
+     DOC CHIP
+  ─────────────────────────────────────────────── */
+  function updateDocChip(tokens) {
+    var chip    = document.getElementById('docMakeChip');
+    var chipVal = document.getElementById('docMakeVal');
+    chip.className = 'chip chip-active';
+    // show field names separated by " + "
+    var parts = tokens.map(function(t){
+      return t.type === 'static'
+        ? '<span class="chip-active-sep">&ldquo;' + esc(t.name) + '&rdquo;</span>'
+        : esc(t.name);
+    });
+    chipVal.innerHTML = parts.join('<span class="chip-active-sep"> + </span>');
+  }
+
+  function updateDocChipEmpty() {
+    var chip    = document.getElementById('docMakeChip');
+    var chipVal = document.getElementById('docMakeVal');
+    chip.className = 'chip chip-orange';
+    chipVal.textContent = 'Unmapped';
+  }
+
+  /* ───────────────────────────────────────────────
+     PROGRESS
+  ─────────────────────────────────────────────── */
+  function updateProgress(mapped) {
+    var pct = Math.round(((6 + (mapped ? 1 : 0)) / 16) * 100);
     document.getElementById('progressBar').style.width = pct + '%';
     document.getElementById('progressPct').textContent = pct + '%';
   }
 
-  /* ── SAVE / CLEAR BUTTONS STATE ── */
-  function updateButtons() {
-    var hasSel = selected.length > 0;
-    document.getElementById('btnSave').disabled  = !hasSel;
-    document.getElementById('btnClear').disabled = !hasSel && !savedMapping;
-  }
-
-  /* ── SAVE MAPPING ── */
-  function saveMapping() {
-    if (selected.length === 0) return;
-    savedMapping = selected.map(function(s) { return Object.assign({}, s); });
-
-    var btn = document.getElementById('btnSave');
-    btn.classList.add('saving');
-    btn.innerHTML = '<i class="ti ti-check" aria-hidden="true"></i> Saved!';
-    setTimeout(function() {
-      btn.classList.remove('saving');
-      btn.innerHTML = '<i class="ti ti-device-floppy" aria-hidden="true"></i> Save mapping';
-    }, 1400);
-
-    updateDocChipSaved(savedMapping);
-    updateProgress();
-    updateButtons();
-  }
-
-  /* ── CLEAR ALL ── */
-  function clearAll() {
-    selected       = [];
-    savedMapping   = null;
-    suggestedActive = false;
-    setSugBtn(false);
-
-    document.querySelectorAll('.f-row.sel-row').forEach(function(r) {
-      r.classList.remove('sel-row');
-      var box = r.querySelector('.chk');
-      if (box) { box.classList.remove('on'); box.innerHTML = ''; }
-    });
-
-    updateDocChip('', false);
-    renderAll();
-  }
-
-  /* ── REMOVE TOKEN ── */
-  function removeToken(id) {
-    var item = selected.find(function(s) { return s.id === id; });
-    if (!item) return;
-    selected = selected.filter(function(s) { return s.id !== id; });
-    if (item.type === 'field') {
-      setRowCheck(item.key, false);
-      if (item.name === 'Unit Brand Name') { suggestedActive = false; setSugBtn(false); }
-    }
-    renderAll();
-  }
-
-  /* ── TOGGLE SUGGESTED ── */
-  function toggleSuggested() {
-    if (!suggestedActive) {
-      suggestedActive = true;
-      setSugBtn(true);
-      if (!selected.find(function(s) { return s.key === 'unit.brand'; })) {
-        selected.push({ id: Date.now(), type: 'field', name: 'Unit Brand Name', key: 'unit.brand', val: 'Yamaha' });
-        setRowCheck('unit.brand', true);
-      }
-    } else {
-      suggestedActive = false;
-      setSugBtn(false);
-      selected = selected.filter(function(s) { return s.key !== 'unit.brand'; });
-      setRowCheck('unit.brand', false);
-    }
-    renderAll();
-  }
-
-  function setSugBtn(on) {
-    var btn = document.getElementById('suggestBtn');
-    var ic  = document.getElementById('suggestIc');
-    if (!btn || !ic) return;
-    btn.setAttribute('aria-pressed', String(on));
-    if (on) {
-      btn.classList.add('sel');
-      ic.className = 'add-ic check';
-      ic.innerHTML = '<i class="ti ti-check" aria-hidden="true"></i>';
-    } else {
-      btn.classList.remove('sel');
-      ic.className = 'add-ic plus';
-      ic.innerHTML = '<i class="ti ti-plus" aria-hidden="true"></i>';
-    }
-  }
-
-  /* ── ROW CHECKBOX ── */
-  function setRowCheck(key, on) {
-    var row = document.querySelector('[data-key="' + key + '"]');
-    if (!row) return;
-    var box = row.querySelector('.chk');
-    if (!box) return;
-    if (on) {
-      row.classList.add('sel-row');
-      box.classList.add('on');
-      box.innerHTML = '<i class="ti ti-check" style="font-size:10px;color:#fff;" aria-hidden="true"></i>';
-    } else {
-      row.classList.remove('sel-row');
-      box.classList.remove('on');
-      box.innerHTML = '';
-    }
-  }
-
-  /* ── TOGGLE FIELD ── */
-  function toggleField(key) {
-    var f = FIELDS.find(function(f) { return f.key === key; });
-    if (!f) return;
-    var idx = selected.findIndex(function(s) { return s.key === key && s.type === 'field'; });
-    if (idx > -1) {
-      selected.splice(idx, 1);
-      setRowCheck(key, false);
-      if (f.name === 'Unit Brand Name') { suggestedActive = false; setSugBtn(false); }
-    } else {
-      selected.push({ id: Date.now(), type: 'field', name: f.name, key: f.key, val: f.val });
-      setRowCheck(key, true);
-      if (f.name === 'Unit Brand Name') { suggestedActive = true; setSugBtn(true); }
-    }
-    renderAll();
-  }
-
-  /* ── ADD STATIC ── */
-  function addStatic() {
-    var inp = document.getElementById('statInp');
-    var v   = inp.value.trim();
-    if (!v) return;
-    selected.push({ id: Date.now(), type: 'static', name: v, val: v });
-    inp.value = '';
-    renderAll();
-  }
-
-  /* ── SEARCH FILTER ── */
+  /* ───────────────────────────────────────────────
+     SEARCH
+  ─────────────────────────────────────────────── */
   function filterFields() {
     var q = document.getElementById('srch').value.toLowerCase();
-    document.querySelectorAll('.f-row').forEach(function(row) {
-      row.style.display = row.dataset.name.toLowerCase().indexOf(q) > -1 ? '' : 'none';
+    document.querySelectorAll('#fList .f-row').forEach(function(r){
+      r.style.display = r.dataset.name.toLowerCase().indexOf(q) > -1 ? '' : 'none';
+    });
+  }
+  function filterFieldsCombine() {
+    var q = document.getElementById('srchCombine').value.toLowerCase();
+    document.querySelectorAll('#fListCombine .f-row').forEach(function(r){
+      r.style.display = r.dataset.name.toLowerCase().indexOf(q) > -1 ? '' : 'none';
     });
   }
 
-  /* ── BUILD FIELD LIST ── */
-  function buildFieldList() {
-    var list = document.getElementById('fList');
+  /* ───────────────────────────────────────────────
+     BUILD FIELD LISTS
+  ─────────────────────────────────────────────── */
+  function buildFieldLists() {
+    var listDefault = document.getElementById('fList');
+    var listCombine = document.getElementById('fListCombine');
+
     FIELDS.forEach(function(f) {
-      var row = document.createElement('div');
-      row.className = 'f-row';
-      row.dataset.key  = f.key;
-      row.dataset.name = f.name;
-      row.setAttribute('role', 'listitem');
-      row.setAttribute('tabindex', '0');
-      row.setAttribute('aria-label', f.name + ' \u2014 ' + f.key);
-      (function(key) {
-        row.onclick   = function() { toggleField(key); };
-        row.onkeydown = function(e) {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleField(key); }
-        };
+      // ── Default list row (1-click save) ──
+      var rowD = document.createElement('div');
+      rowD.className   = 'f-row';
+      rowD.dataset.key  = f.key;
+      rowD.dataset.name = f.name;
+      rowD.setAttribute('tabindex', '0');
+      rowD.setAttribute('aria-label', f.name);
+      rowD.innerHTML =
+        '<div class="f-row-left">' +
+          '<span class="f-name">' + esc(f.name) + '</span>' +
+        '</div>' +
+        '<span class="f-key">' + esc(f.key) + '</span>' +
+        '<span class="f-row-add" aria-hidden="true"><i class="ti ti-check"></i></span>';
+      (function(key){
+        rowD.onclick   = function(){ saveOneField(key); };
+        rowD.onkeydown = function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); saveOneField(key); } };
       })(f.key);
-      row.innerHTML =
-        '<div class="f-row-l">' +
+      listDefault.appendChild(rowD);
+
+      // ── Combine list row (checkbox) ──
+      var rowC = document.createElement('div');
+      rowC.className   = 'f-row';
+      rowC.dataset.key  = f.key;
+      rowC.dataset.name = f.name;
+      rowC.setAttribute('tabindex', '0');
+      rowC.setAttribute('aria-label', f.name);
+      rowC.innerHTML =
+        '<div class="f-row-left">' +
           '<div class="chk" aria-hidden="true"></div>' +
           '<span class="f-name">' + esc(f.name) + '</span>' +
         '</div>' +
         '<span class="f-key">' + esc(f.key) + '</span>';
-      list.appendChild(row);
+      (function(key){
+        rowC.onclick   = function(){ toggleCombineField(key); };
+        rowC.onkeydown = function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggleCombineField(key); } };
+      })(f.key);
+      listCombine.appendChild(rowC);
     });
   }
 
-  /* ── INIT ── */
-  buildFieldList();
-  renderAll();
+  /* ───────────────────────────────────────────────
+     INIT
+  ─────────────────────────────────────────────── */
+  buildFieldLists();
+  showDefaultState();
 </script>
-
 </body>
 </html>
