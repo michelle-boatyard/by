@@ -6103,39 +6103,20 @@
 
 <!-- ── MODAL: Draft saved, document processing ── -->
 <div class="modal-overlay" id="modal-doc-processing" style="display:none" onclick="if(event.target===this)closeDocModal()">
-  <div class="modal" style="width:440px">
-    <div class="modal-header" style="border-bottom:none;padding-bottom:8px">
-      <div style="display:flex;align-items:flex-start;gap:14px">
-        <div style="width:44px;height:44px;border-radius:10px;background:var(--surface-primary-subtle);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px">
-          <i class="ti ti-bell-ringing" style="font-size:22px;color:var(--text-info)"></i>
+  <div class="modal" style="width:360px">
+    <div class="modal-header" style="border-bottom:none;padding-bottom:4px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:38px;height:38px;border-radius:9px;background:var(--alpha-green-15);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <i class="ti ti-circle-check" style="font-size:20px;color:var(--text-success)"></i>
         </div>
-        <div>
-          <div class="modal-title">Draft saved!</div>
-          <div class="modal-desc">Your boat has been saved as a draft.</div>
-        </div>
+        <div class="modal-title" style="font-size:16px">Draft saved</div>
       </div>
-      <button class="modal-close" onclick="closeDocModal()"><i class="ti ti-x"></i></button>
     </div>
-    <div class="modal-body" style="padding:0 24px 24px">
-      <div style="display:flex;align-items:flex-start;gap:10px;padding:14px 16px;background:var(--surface-primary-subtle);border:1px solid var(--alpha-blue-12);border-radius:8px;margin-bottom:16px">
-        <span class="dpb-spinner-sm" style="flex-shrink:0;margin-top:2px"></span>
-        <div>
-          <div style="font-size:12px;font-weight:600;color:var(--text-secondary);margin-bottom:3px">Document still processing…</div>
-          <div style="font-size:11px;color:var(--text-tertiary);line-height:1.6">Our AI is still extracting data from your document. Once it finishes, we'll send you a notification so you can come back and complete the boat details.</div>
-        </div>
-      </div>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
-        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text-quaternary)">
-          <i class="ti ti-anchor" style="font-size:13px;color:var(--text-placeholder);margin-top:1px;flex-shrink:0"></i>
-          The boat is visible in your <strong style="color:var(--text-secondary)">Boats list</strong> with status <span class="tag tag-draft" style="font-size:10px;padding:1px 7px">Draft</span>.
-        </div>
-        <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--text-quaternary)">
-          <i class="ti ti-clock" style="font-size:13px;color:var(--text-placeholder);margin-top:1px;flex-shrink:0"></i>
-          Processing runs in the background — no need to stay on this screen.
-        </div>
-      </div>
-      <div style="display:flex;justify-content:flex-end;gap:8px">
-        <button class="btn btn-ghost btn-sm" onclick="closeDocModal()">Close</button>
+    <div class="modal-body" style="padding:8px 24px 24px">
+      <p style="font-size:13px;color:var(--text-quaternary);margin:0 0 20px;line-height:1.6">
+        Processing continues in the background. You can keep using Boatyard — we'll let you know when it's ready.
+      </p>
+      <div style="display:flex;justify-content:flex-end">
         <button class="btn btn-primary btn-sm" onclick="closeDocModal();showPage('boats')">
           <i class="ti ti-anchor"></i> Back to Boats
         </button>
