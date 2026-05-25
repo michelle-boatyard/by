@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Boatyard — Notifications Sidebar</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f1f5f9;
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 24px;
+      gap: 32px;
+    }
+
+    /* ─── Panel ────────────────────────────────────────────────── */
+    .nb-panel {
+      width: 360px;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2ebf3;
+      box-shadow: 0 4px 24px rgba(30, 41, 59, 0.10);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    /* Header */
+    .nb-header {
+      padding: 16px 20px 14px;
+      border-bottom: 1px solid #e2ebf3;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    .nb-header h2 {
+      font-size: 15px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 2px;
+      line-height: 1.3;
+    }
+    .nb-header p {
+      font-size: 12px;
+      color: #7b8ba3;
+      font-weight: 400;
+    }
+    .nb-header-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .nb-mark-all {
+      font-size: 11px;
+      color: #20667e;
+      font-weight: 500;
+      cursor: pointer;
+      white-space: nowrap;
+      background: none;
+      border: none;
+      font-family: inherit;
+    }
+    .nb-close {
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      cursor: pointer;
+      color: #7b8ba3;
+      background: none;
+      border: none;
+    }
+    .nb-close:hover { background: #f1f5f9; }
+
+    /* Section label */
+    .nb-section-label {
+      padding: 9px 20px 5px;
+      font-size: 10px;
+      font-weight: 600;
+      color: #7b8ba3;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      background: #f8f9fb;
+      border-bottom: 1px solid #e2ebf3;
+    }
+
+    /* Notification item */
+    .nb-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 20px;
+      border-bottom: 1px solid #f1f5f9;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .nb-item:hover { background: #f8f9fb; }
+    .nb-item.unread { background: rgba(39, 121, 150, 0.04); }
+    .nb-item.unread:hover { background: rgba(39, 121, 150, 0.08); }
+
+    /* Icon container */
+    .nb-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .nb-icon.lead   { background: rgba(39, 121, 150, 0.10); color: #20667e; }
+    .nb-icon.task   { background: rgba(99, 56, 6, 0.10);    color: #633806; }
+    .nb-icon.intg   { background: rgba(39, 121, 150, 0.10); color: #20667e; }
+    .nb-icon.mkt    { background: rgba(26, 137, 98, 0.10);  color: #1a8962; }
+    .nb-icon.ok     { background: rgba(26, 137, 98, 0.10);  color: #1a8962; }
+
+    /* Content */
+    .nb-content { flex: 1; min-width: 0; }
+
+    .nb-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 2px;
+      gap: 8px;
+    }
+    .nb-actor {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e293b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .nb-time {
+      font-size: 11px;
+      color: #b5c3d4;
+      font-weight: 400;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .nb-message {
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+    .nb-message b { font-weight: 600; color: #1e293b; }
+
+    /* Unread dot */
+    .nb-dot {
+      width: 7px;
+      height: 7px;
+      background: #20667e;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    /* Status tags */
+    .nb-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      margin-top: 5px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .nb-tag.success  { background: rgba(26, 137, 98, 0.10);  color: #1a8962; }
+    .nb-tag.info     { background: rgba(39, 121, 150, 0.10); color: #20667e; }
+    .nb-tag.assigned { background: rgba(99, 56, 6, 0.10);    color: #633806; }
+
+    /* Footer */
+    .nb-footer {
+      padding: 12px 20px;
+      text-align: center;
+      border-top: 1px solid #e2ebf3;
+    }
+    .nb-footer a {
+      font-size: 12px;
+      font-weight: 500;
+      color: #20667e;
+      text-decoration: none;
+    }
+    .nb-footer a:hover { text-decoration: underline; }
+
+    /* ─── Legend ───────────────────────────────────────────────── */
+    .nb-legend {
+      width: 240px;
+      flex-shrink: 0;
+      padding-top: 4px;
+    }
+    .nb-legend h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 12px;
+    }
+    .lg-group {
+      background: #f8f9fb;
+      border: 1px solid #e2ebf3;
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+    }
+    .lg-group-title {
+      font-size: 10px;
+      font-weight: 600;
+      color: #7b8ba3;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .lg-item {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      margin-bottom: 8px;
+    }
+    .lg-item:last-child { margin-bottom: 0; }
+    .lg-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 7px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .lg-item strong {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 1px;
+    }
+    .lg-item span {
+      font-size: 11px;
+      color: #7b8ba3;
+      font-weight: 400;
+    }
+    .lg-divider { height: 1px; background: #e2ebf3; margin: 12px 0; }
+    .lg-note {
+      font-size: 11px;
+      color: #7b8ba3;
+      line-height: 1.7;
+    }
+    .lg-note strong { color: #475569; font-weight: 600; }
+    .color-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      display: inline-block;
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NOTIFICATION PANEL ─────────────────────────────────── -->
+  <div class="nb-panel">
+
+    <div class="nb-header">
+      <div>
+        <h2>Notifications</h2>
+        <p>You have 9 unread notifications</p>
+      </div>
+      <div class="nb-header-right">
+        <button class="nb-mark-all">Mark all as read</button>
+        <button class="nb-close" aria-label="Close">
+          <!-- X icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- AI LISTING & LEAD BOARD ──────────────── -->
+    <div class="nb-section-label">AI Listing &amp; Lead Board</div>
+
+    <!-- Lead created -->
+    <div class="nb-item unread">
+      <div class="nb-icon lead" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      </div>
+      <div class="nb-content">
+        <div class="nb-top-row">
+          <span class="nb-actor">John Miller</span>
+          <span class="nb-time">Just now</span>
+        </div>
+        <div class="nb-message">A new lead was created from the listing <b>2021 Sea Ray Sundancer 320</b></div>
+      </div>
+      <div class="nb-dot" aria-label="Unread"></div>
+    </div>
+
+    <!-- Quote requested -->
+    <div class="nb-item unread">
+      <div class="nb-icon lead" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+      </div>
+      <div class="nb-content">
+        <div class="nb-top-row">
+          <span class="nb-actor">System</span>
+          <span class="nb-time">5 min ago</span>
+        </div>
+        <div class="nb-message">A customer requested a quote for <b>"2022 Yamaha 252SD"</b></div>
+      </div>
+      <div class="nb-dot" aria-label="Unread"></div>
+    </div>
+
+    <!-- New inquiry -->
+    <div class="nb-item unread">
+      <div class="nb-icon lead" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div class="nb-content">
+        <div class="nb-top-row">
+          <span class="nb-actor">System</span>
+          <span class="nb-time">5 min ago</span>
+        </div>
+        <div class="nb-message">A new inquiry has been received.</div>
+      </div>
+      <div class="nb-dot" aria-label="Unread"></div>
+    </div>
+
+    <!-- Lead assigned -->
+    <div class="nb-item unread">
+      <div class="nb-icon lead" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+      </div>
+      <div class="nb-content">
+        <div class="nb-top-row">
+          <span class="nb-actor">System</span>
+          <span class="nb-time">8 min ago</span>
+        </div>
+        <div class="nb-message">A new lead has been assigned to you.</div>
+        <span class="nb-tag assigned">Assigned to you</span>
+      </div>
+      <div class="nb-dot" aria-label="Unread"></div>
+    </div>
+
+    <!-- TASKS ───────────────────────────────────── -->
+    <div class="nb-section-label">Tasks</div>
+
+    <!-- Task assigned -->
+    <div class="nb-item unread">
+      <div class="nb-icon task" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+      </div>
+      <div class="nb-content">
+        <div class="nb-top-row">
+          <span class="nb-actor">James Carter</span>
+          <span class="nb-time">10 min ago</span>
+        </div>
+        <div class="nb-message">Assigned you a new task: <b>Follow up with lead: Daniel Ross</b></div>
+        <span class="nb-tag assigned">Assigned to you</span>
+      </div>
+      <div class="nb-dot" aria-label="Unread"></div>
+    </div>
+
+    <!-- Task updated -->
+    <div class="nb-item unread">
+      <div class="nb-icon task" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+      </div>
+      <div class="nb-content">
+        <div class="nb-top-row">
+          <span class="nb-actor">Maria Lopez</span>
+          <span class="nb-time">10 min ago</span>
+        </div>
+        <div class="nb-message">Updated the task <b>"Schedule sea trial with client"</b></div>
+      </div>
+      <div class="nb-dot" aria-label="Unread"></div>
+    </div>
+
+    <!-- INTEGRATIONS ────────────────────────────── -->
+    <div class="nb-section-label">Integrations</div>
+
+    <!-- Integration request pending -->
+    <div class="nb-item unread">
+      <div class="nb-icon intg" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="m17 7-5-5-5 5"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>
+      </div>
+      <div class="nb-content">
+        <div class="nb-top-row">
+          <span class="nb-actor">Admin</span>
+          <span class="nb-time">10 min ago</span>
+        </div>
+        <div class="nb-message">An integration activation request has been submitted. <b>Integration: HubSpot</b></div>
+        <span class="nb-tag info">Pending</span>
+      </div>
+      <div class="nb-dot" aria-label="Unread"></div>
+    </div>
+
+    <!-- MARKETPLACES ────────────────────────────── -->
+    <div class="nb-section-label">Marketplaces</div>
+
+    <!-- Marketplace request pending -->
+    <div class="nb-item unread">
+      <div class="nb-icon mkt" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div class="nb-content">
+        <div class="nb-top-row">
+          <span class="nb-actor">Admin</span>
+          <span class="nb-time">10 min ago</span>
+        </div>
+        <div class="nb-message">A marketplace activation request has been submitted. <b>Marketplace: YachtWorld</b></div>
+        <span class="nb-tag info">Pending</span>
+      </div>
+      <div class="nb-dot" aria-label="Unread"></div>
+    </div>
+
+    <!-- Marketplace activated -->
+    <div class="nb-item unread">
+      <div class="nb-icon ok" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>
+      <div class="nb-content">
+        <div class="nb-top-row">
+          <span class="nb-actor">System</span>
+          <span class="nb-time">10 min ago</span>
+        </div>
+        <div class="nb-message">The marketplace has been successfully activated. <b>Marketplace: Boat Trader</b></div>
+        <span class="nb-tag success">Activated</span>
+      </div>
+      <div class="nb-dot" aria-label="Unread"></div>
+    </div>
+
+    <div class="nb-footer">
+      <a href="#">View all notifications →</a>
+    </div>
+
+  </div><!-- /nb-panel -->
+
+  <!-- ── LEGEND ─────────────────────────────────────────────── -->
+  <div class="nb-legend">
+    <h3>Icon reference</h3>
+
+    <div class="lg-group">
+      <div class="lg-group-title">AI Listing &amp; Lead Board</div>
+
+      <div class="lg-item">
+        <div class="lg-icon" style="background:rgba(39,121,150,.10)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#20667e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+        </div>
+        <div><strong>Lead created</strong><span>Nuevo lead desde un listing</span></div>
+      </div>
+
+      <div class="lg-item">
+        <div class="lg-icon" style="background:rgba(39,121,150,.10)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#20667e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1z"/><path d="M14 8H8"/><path d="M16 12H8"/><path d="M13 16H8"/></svg>
+        </div>
+        <div><strong>Quote requested</strong><span>Solicitud de cotización</span></div>
+      </div>
+
+      <div class="lg-item">
+        <div class="lg-icon" style="background:rgba(39,121,150,.10)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#20667e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <div><strong>New inquiry</strong><span>Mensaje / consulta entrante</span></div>
+      </div>
+
+      <div class="lg-item">
+        <div class="lg-icon" style="background:rgba(39,121,150,.10)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#20667e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg>
+        </div>
+        <div><strong>Lead assigned</strong><span>Lead asignado a un usuario</span></div>
+      </div>
+    </div>
+
+    <div class="lg-group">
+      <div class="lg-group-title">Tasks</div>
+      <div class="lg-item">
+        <div class="lg-icon" style="background:rgba(99,56,6,.10)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#633806" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="2"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="13" y2="16"/></svg>
+        </div>
+        <div><strong>All task events</strong><span>Assignments &amp; updates</span></div>
+      </div>
+    </div>
+
+    <div class="lg-group">
+      <div class="lg-group-title">Integrations &amp; Marketplaces</div>
+      <div class="lg-item">
+        <div class="lg-icon" style="background:rgba(39,121,150,.10)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#20667e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="m17 7-5-5-5 5"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg>
+        </div>
+        <div><strong>Integration</strong><span>Request o activación</span></div>
+      </div>
+      <div class="lg-item">
+        <div class="lg-icon" style="background:rgba(26,137,98,.10)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1a8962" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div><strong>Marketplace</strong><span>Request o activación</span></div>
+      </div>
+    </div>
+
+    <div class="lg-divider"></div>
+
+    <p class="lg-note">
+      <strong>Color = estado</strong><br>
+      <span class="color-dot" style="background:rgba(39,121,150,.40)"></span>
+      <strong style="color:#20667e">Teal</strong> — Pendiente / Info<br>
+      <span class="color-dot" style="background:rgba(26,137,98,.40)"></span>
+      <strong style="color:#1a8962">Verde</strong> — Activado / Éxito<br>
+      <span class="color-dot" style="background:rgba(99,56,6,.30)"></span>
+      <strong style="color:#633806">Ámbar</strong> — Asignado a ti
+    </p>
+  </div><!-- /legend -->
+
+</body>
+</html>
